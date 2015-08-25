@@ -1,4 +1,4 @@
-// Your code goes here...
+// Your code goes here...this is a test wooo!
 
 var config = require('init');
 var populator = require('populator');
