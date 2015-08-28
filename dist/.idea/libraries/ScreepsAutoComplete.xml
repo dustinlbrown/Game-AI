@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="ScreepsAutoComplete" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/../../ScreepsAutocomplete-master" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../ScreepsAutocomplete-master" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

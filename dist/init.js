@@ -1,10 +1,11 @@
 module.exports = {
     
     actions: {
+
         'upgrader': require('upgrader'),
         'forager': require('forager'),
         'scv': require('scv'),
-        'miner': require('miner')
+        'harvester':require('miner')
     },
 
     roles: {
@@ -19,10 +20,6 @@ module.exports = {
         'scv': {
             limit: 4,
             body: [WORK, WORK, CARRY, CARRY, MOVE]
-        },
-        'miner': {
-            limit: 3,
-            body: [WORK, WORK, WORK, WORK, MOVE]
         }
     }
 };
