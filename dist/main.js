@@ -4,12 +4,10 @@ var HelperFunctions = require('HelperFunctions');
 
 var Room = require('Room');
 var RoomHandler = require('RoomHandler');
-var config = require('init');
-var populator = require('populator');
 
-RoomPosition.prototype.hasPathTo = function(target, opts){
-    return this.isNearTo(target) || this.findClosest([target], opts);
-};
+
+
+
 
 // Init rooms
 for(var n in Game.rooms) {
@@ -19,35 +17,53 @@ for(var n in Game.rooms) {
 
 // Load rooms
 var rooms = RoomHandler.getRoomHandlers();
+var safeToClearMem = true;
+
 for(var n in rooms) {
     var room = rooms[n];
+
     room.loadCreeps();
     room.populate();
 
-};
+    var spawns = room.getSpawns();
 
-
-for(var name in Game.creeps){
-    var minion = Game.creeps[name];
-    var role = minion.memory.role;
-
-    if (role) {
-        if(role != 'CreepHarvester' && role != 'CreepCarrier' && role != 'CreepBuilder'){
-            config.actions[role](minion);
+    for (var i in spawns){
+        if(spawns[i].spawning){
+            safeToClearMem= false;
         }
-
     }
 };
 
-for(var name in Game.spawns) {
-    var spawn = Game.spawns[name];
-    for (var role in config.roles){
-        var roleConfig = config.roles[role];
-        populator.makeCreep(spawn,role,roleConfig);
-    };
+if(safeToClearMem){HelperFunctions.garbageCollection();}
+
+
+RoomPosition.prototype.hasPathTo = function(target, opts){
+    return this.isNearTo(target) || this.findClosest([target], opts);
 };
 
-//HelperFunctions.garbageCollection();
+
+//
+//for(var name in Game.creeps){
+//    var minion = Game.creeps[name];
+//    var role = minion.memory.role;
+//
+//    if (role) {
+//        if(role != 'CreepHarvester' && role != 'CreepCarrier' && role != 'CreepBuilder'){
+//            config.actions[role](minion);
+//        }
+//
+//    }
+//};
+
+//for(var name in Game.spawns) {
+//    var spawn = Game.spawns[name];
+//    for (var role in config.roles){
+//        var roleConfig = config.roles[role];
+//        populator.makeCreep(spawn,role,roleConfig);
+//    };
+//};
+
+
 
 // Process the spawns
 //

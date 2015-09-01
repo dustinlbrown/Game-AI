@@ -3,7 +3,7 @@
  */
 function Resources(room, population) {
     this.room = room;
-    this.population = population;
+    this.populationManager = population;
 }
 
 //Resources.prototype.getAvailableSources = function() {
@@ -45,7 +45,7 @@ Resources.prototype.occupantsByRole = function(source, role){
 
 Resources.prototype.getAvailableSource = function(currentSourceId){
     var sources = this.getSources();
-    var bestSourceIndex = 0;//@TODO
+    var bestSourceIndex = 0;
     var bestSourceOccupancy = 99;
     var isCurrentSource = false;
     console.log('current source:' + Game.getObjectById(currentSourceId));

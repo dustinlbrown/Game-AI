@@ -10,23 +10,37 @@ function Population(room) {
                 total: 0,
                 goalPercentage: 0.2,
                 currentPercentage: 0,
-                max: 4,
+                max: 5,
                 minExtensions: 0
             },
-           CreepCarrier: {
-               total: 0,
-               goalPercentage: 0.3,
-               currentPercentage: 0,
-               max: 7,
-               minExtensions: 0
-           },
-           CreepBuilder: {
-               total: 0,
-               goalPercentage: 0.25,
-               currentPercentage: 0,
-               max: 15,
-               minExtensions: 0
-           }
+            CreepCarrier: {
+                total: 0,
+                goalPercentage: 0.3,
+                currentPercentage: 0,
+                max: 1,
+                minExtensions: 0
+            },
+            CreepBuilder: {
+                total: 0,
+                goalPercentage: 0.25,
+                currentPercentage: 0,
+                max: 1,
+                minExtensions: 0
+            },
+            CreepSoldier: {
+                total: 0,
+                goalPercentage: 0.25,
+                currentPercentage: 0,
+                max: 5,
+                minExtensions: 2
+            },
+        CreepShooter: {
+            total: 0,
+            goalPercentage: 0.25,
+            currentPercentage: 0,
+            max: 5,
+            minExtensions: 2
+        }
     };
 
     this.creeps = this.room.find(FIND_MY_CREEPS);

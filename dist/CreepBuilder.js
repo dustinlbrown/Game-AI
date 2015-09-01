@@ -1,13 +1,27 @@
-/**
- * Created by Dustin on 8/26/2015.
- */
+var ACTION = {
+    GET_ENERGY : 1,
+    CONSTRUCTION : 2
+};
+
 var CreepBuilder = function(creep, depositManager) {
     this.creep = creep;
     this.depositManager = depositManager;
 };
 
 CreepBuilder.prototype.init = function() {
+
+
     this.creep.memory.role = 'CreepBuilder';
+
+    if(!this.creep.memory.action) {
+        if (this.creep.carry.energy == this.creep.carryCapacity) {
+            this.creep.memory.action = ACTION.CONSTRUCTION
+        } else {
+            this.creep.memory.action = ACTION.GET_ENERGY;
+        }
+    }
+
+
     //if(!this.remember('srcRoom')) {
     //    this.remember('srcRoom', this.creep.room.name);
     //}
@@ -24,13 +38,16 @@ CreepBuilder.prototype.init = function() {
 };
 
 CreepBuilder.prototype.act = function() {
-    if (this.creep.carry.energy === 0) {
+    if (this.creep.carry.energy === 0 || this.creep.memory.action == ACTION.GET_ENERGY ) {
+        this.creep.memory.action = ACTION.GET_ENERGY;
 
         var linkDeposit = this.creep.pos.findInRange(FIND_MY_STRUCTURES,1, {filter: { structureType: STRUCTURE_LINK }});
         if(linkDeposit.length > 0 && linkDeposit[0].energy > 0){
             linkDeposit[0].transferEnergy(this.creep);
+            if(this.creep.carry.energy == this.creep.carryCapacity){this.creep.memory.action = ACTION.CONSTRUCTION}
             return;
         }
+        //TODO use the deposits!!!
         var extensions = this.creep.room.find(FIND_MY_STRUCTURES, {
             filter: {structureType: STRUCTURE_EXTENSION}
         });
@@ -39,7 +56,6 @@ CreepBuilder.prototype.act = function() {
             return r.energy > 0;
         });
 
-        //console.log(extensions.length);
         if (extensions.length) {
             var target = this.creep.pos.findClosest(extensions);
 
@@ -49,11 +65,13 @@ CreepBuilder.prototype.act = function() {
             } else {
                 this.creep.moveTo(target);
                 target.transferEnergy(this.creep);
+                if(this.creep.carry.energy == this.creep.carryCapacity){this.creep.memory.action = ACTION.CONSTRUCTION};
             }
-
-
-        } else {
-            this.creep.moveTo(Game.flags.timeOut);
+        } else { //no extensions, use spawn
+            var spawn = this.creep.room.find(FIND_MY_SPAWNS)[0];
+            this.creep.moveTo(spawn);
+            spawn.transferEnergy(this.creep);
+            if(this.creep.carry.energy == this.creep.carryCapacity){this.creep.memory.action = ACTION.CONSTRUCTION};
         }
     }
     // find target
@@ -65,14 +83,14 @@ CreepBuilder.prototype.act = function() {
         else {
             to = this.creep.pos.findClosest(FIND_STRUCTURES, {
                 filter: function (structure) {
-                    return (structure.structureType == STRUCTURE_ROAD) && (structure.hits < (structure.hitsMax / 2))
+                    return (structure.structureType == STRUCTURE_ROAD) && (structure.hits < (structure.hitsMax / 5))
                 }
             });
 
             if (to) {
                 (!this.creep.repair(to)) || this.creep.moveTo(to);
             } else {
-                var controller = Game.spawns.VileSpawn.room.controller;
+                var controller = this.creep.room.controller;
                 this.creep.moveTo(controller);
                 this.creep.upgradeController(controller);
             }

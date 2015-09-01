@@ -29,7 +29,7 @@ CreepHarvester.prototype.act = function(){
 
     if(this.creep.carryCapacity == this.creep.carry.energy){
 
-        var linkDeposit = this.creep.pos.findInRange(FIND_MY_STRUCTURES,1, {filter: { structureType: STRUCTURE_LINK }});
+        var linkDeposit = this.creep.pos.findInRange(FIND_MY_STRUCTURES,2, {filter: { structureType: STRUCTURE_LINK }});
         if (linkDeposit.length > 0) {
             if (linkDeposit[0].energy == linkDeposit[0].energyCapacity){
                 this.resourceManager.transferToControllerLink(linkDeposit[0]);
@@ -37,6 +37,11 @@ CreepHarvester.prototype.act = function(){
             if(linkDeposit[0].energy < linkDeposit[0].energyCapacity){
                 this.creep.transferEnergy(linkDeposit[0]);
             }
+        }
+    }else{
+        var myDroppedEnergy = this.creep.pos.findInRange(FIND_DROPPED_ENERGY,0);
+        if(myDroppedEnergy){
+            this.creep.pickup(myDroppedEnergy);
         }
     }
     this.creep.moveTo(Game.getObjectById(this.creep.memory.homeSourceId));

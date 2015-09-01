@@ -3,7 +3,7 @@
  */
 
 var CreepFactory = require('CreepFactory');
-var Population = require('population');
+var PopulationManager = require('population');
 var Resources = require('Resources');
 var Deposits = require('Deposits');
 
@@ -13,20 +13,20 @@ function Room(room, roomHandler) {
     this.creeps = [];
     this.structures = [];
 
-    this.population = new Population(this.room);
+    this.populationManager = new PopulationManager(this.room);
     this.depositManager = new Deposits(this.room);
-    this.resourceManager = new Resources(this.room, this.population);
+    this.resourceManager = new Resources(this.room, this.populationManager);
     //this.constructionManager = new Constructions(this.room);
-    this.population.typeDistribution.CreepBuilder.max = 4;
-    this.population.typeDistribution.CreepHarvester.max = (this.resourceManager.getSources().length+1)*2;
-    this.population.typeDistribution.CreepCarrier.max = this.population.typeDistribution.CreepHarvester.max;
-    this.creepFactory = new CreepFactory(this.depositManager,  this.population, this.resourceManager, this.roomHandler);
+    this.populationManager.typeDistribution.CreepBuilder.max = 4;
+    this.populationManager.typeDistribution.CreepHarvester.max = (this.resourceManager.getSources().length+1)*2;
+    this.populationManager.typeDistribution.CreepCarrier.max = this.populationManager.typeDistribution.CreepHarvester.max;
+    this.creepFactory = new CreepFactory(this.depositManager,  this.populationManager, this.resourceManager, this.roomHandler);
 
     //this.memory.controllerSource = this.findControllerSource();
 }
 
 Room.prototype.populate = function() {
-    //if(this.depositManager.spawns.length == 0 && this.population.getTotalPopulation() < 10) {
+    //if(this.depositManager.spawns.length == 0 && this.populationManager.getTotalPopulation() < 10) {
     //    this.askForReinforcements()
     //}
 
@@ -37,9 +37,9 @@ Room.prototype.populate = function() {
         }
 
         if((this.depositManager.energy() / this.depositManager.energyCapacity()) > 0.2) {
-            var types = this.population.getTypes()
+            var types = this.populationManager.getTypes()
             for(var i = 0; i < types.length; i++) {
-                var ctype = this.population.getType(types[i]);
+                var ctype = this.populationManager.getType(types[i]);
                 if(this.depositManager.deposits.length > ctype.minExtensions) {
                     if((ctype.goalPercentage > ctype.currentPercentage && ctype.total < ctype.max) || ctype.total == 0 || ctype.total < ctype.max*0.75) {
                         this.creepFactory.new(types[i], this.depositManager.getSpawnDeposit());
@@ -51,6 +51,10 @@ Room.prototype.populate = function() {
     }
 
 };
+
+Room.prototype.getSpawns = function(){
+    return this.depositManager.spawns;
+}
 
 Room.prototype.loadCreeps = function() {
     var creeps = this.room.find(FIND_MY_CREEPS);
