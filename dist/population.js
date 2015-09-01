@@ -24,7 +24,7 @@ function Population(room) {
                 total: 0,
                 goalPercentage: 0.25,
                 currentPercentage: 0,
-                max: 1,
+                max: 4,
                 minExtensions: 0
             },
             CreepSoldier: {

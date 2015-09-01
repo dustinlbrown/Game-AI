@@ -4,8 +4,8 @@ function CreepShooter(creep) {
 
 CreepShooter.prototype.init = function() {
     this.creep.memory.role = 'CreepShooter';
-    if(!this.creep.memory.role.srcRoom) {
-        this.creep.memory.role = this.creep.room.name;
+    if(!this.creep.memory.srcRoom) {
+        this.creep.memory.srcRoom = this.creep.room.name;
     }
     //if(this.moveToNewRoom() == true) {
     //    return;
@@ -17,9 +17,15 @@ CreepShooter.prototype.init = function() {
 CreepShooter.prototype.act = function() {
 
 
-    if(this.attackHostiles()) { return; }
-    if(this.attackSpawns()) { return; }
-    console.log('not getting here');
+    if(this.attackHostiles()) {
+        console.log('attackHostiles');
+        return;
+    }
+    if(this.attackSpawns()) {
+        console.log('attackSpawns');
+        return;
+    }
+
     this.creep.moveTo(25,25);
 }
 CreepShooter.prototype.attackHostiles = function() {

@@ -76,7 +76,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
     // HEAL           200
 
     //MAX Creep Energy at level 5 controller: 1550
-    console.log('creepType: ' + creepType  + ' | level: ' + level + ' | extension count: ' + extensionCount);
+
     switch(creepType) {
         case 'CreepHarvester':
 
@@ -126,7 +126,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
                 abilities = [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE];
             } else
             if(level <= 4) {
-                abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+                abilities = [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE];
             } else
             if(level <= 5) {
                 abilities = [WORK, WORK, WORK, WORK, WORK, CARRY,CARRY, CARRY, MOVE, MOVE, MOVE];
@@ -158,7 +158,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
                 abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
             } else
             if(level <= 4) {
-                abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
+                abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
             } else
             if(level <= 5) {
                 abilities = [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
@@ -256,7 +256,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
 
         return;
     }
-
+    console.log('creepType: ' + creepType  + ' | level: ' + level + ' | extension count: ' + extensionCount);
     spawn.createCreep(abilities, creepType + '-' + level + '-' + id, {role: creepType});
 };
 
