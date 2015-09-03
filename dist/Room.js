@@ -17,8 +17,9 @@ function Room(room, roomHandler) {
     this.depositManager = new Deposits(this.room);
     this.resourceManager = new Resources(this.room, this.populationManager);
     //this.constructionManager = new Constructions(this.room);
-    this.populationManager.typeDistribution.CreepBuilder.max = 4;
-    this.populationManager.typeDistribution.CreepHarvester.max = (this.resourceManager.getSources().length+1)*2;
+    this.populationManager.typeDistribution.CreepBuilder.max = 3;
+    this.populationManager.typeDistribution.CreepCourier.max = 3;
+    this.populationManager.typeDistribution.CreepHarvester.max = ((this.resourceManager.getSources().length+1)*2) - 1;
     this.populationManager.typeDistribution.CreepCarrier.max = this.populationManager.typeDistribution.CreepHarvester.max;
     this.creepFactory = new CreepFactory(this.depositManager,  this.populationManager, this.resourceManager, this.roomHandler);
 

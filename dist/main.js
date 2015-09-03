@@ -1,5 +1,17 @@
 // Your code goes here...this is a test wooo!
-
+/*
+* [20:38] <Hernanduer> just make the room keep track of how many are at each instead of searching for who's where every time
+ [20:38] <mistamadd001> ok, well that could be a good start, when you first create a new room you can do a find
+                        and store the id's in an array, you could also store the source id's as arrays and store
+                        creep names in the array when they are assigned to that source,
+ [20:39] <mistamadd001> then do a check for living creeps
+ [20:41] <Dustin_> so do you guys have the room remember all the structures?
+ [20:41] <mistamadd001> just iterate through your source arrays and look if(!Game.creeps[i]){delete bla}
+ [20:42] <Dustin_> okay
+ [20:42] <Dustin_> I can handle that
+*
+*
+* */
 var HelperFunctions = require('HelperFunctions');
 
 var Room = require('Room');
@@ -7,6 +19,13 @@ var RoomHandler = require('RoomHandler');
 
 
 
+Creep.prototype.setRole = function(role){
+    this.memory.role = role;
+}
+
+Creep.prototype.getRole = function(){
+    return this.memory.role;
+}
 
 
 // Init rooms

@@ -21,6 +21,10 @@ CreepBuilder.prototype.init = function() {
         }
     }
 
+    if(!this.creep.memory.server){
+        this.creep.memory.server = null;
+    }
+
 
     //if(!this.remember('srcRoom')) {
     //    this.remember('srcRoom', this.creep.room.name);
@@ -101,7 +105,7 @@ CreepBuilder.prototype.act = function() {
         });
 
         var filter = _.filter(walls, function (r) {
-            return r.hits < 100000 && r.hitsMax != 1;
+            return r.hits < 50000 && r.hitsMax != 1;
         });
 
         if (filter.length) {
@@ -126,35 +130,36 @@ CreepBuilder.prototype.act = function() {
             return r.hits < (r.hitsMax / 20);
         });
 
-        if (!filter.length) {
-            filter = _.filter(sites, function (r) {
-                return r.hits < (r.hitsMax / 15);
-            });
-        }
+        //if (!filter.length) {
+        //    filter = _.filter(sites, function (r) {
+        //        return r.hits < (r.hitsMax / 15);
+        //    });
+        //}
 
-        if (!filter.length) {
-            filter = _.filter(sites, function (r) {
-                return r.hits < (r.hitsMax / 10);
-            });
-        }
-
-        if (!filter.length) {
-            filter = _.filter(sites, function (r) {
-                return r.hits < (r.hitsMax / 5);
-            });
-        }
-
-        if (!filter.length) {
-            filter = _.filter(sites, function (r) {
-                return r.hits < (r.hitsMax / 2);
-            });
-        }
-
-        if (!filter.length) {
-            filter = _.filter(sites, function (r) {
-                return r.hits < (r.hitsMax * 0.9);
-            });
-        }
+        //TODO@ Temp to get stuff done!
+        //if (!filter.length) {
+        //    filter = _.filter(sites, function (r) {
+        //        return r.hits < (r.hitsMax / 10);
+        //    });
+        //}
+        //
+        //if (!filter.length) {
+        //    filter = _.filter(sites, function (r) {
+        //        return r.hits < (r.hitsMax / 5);
+        //    });
+        //}
+        //
+        //if (!filter.length) {
+        //    filter = _.filter(sites, function (r) {
+        //        return r.hits < (r.hitsMax / 2);
+        //    });
+        //}
+        //
+        //if (!filter.length) {
+        //    filter = _.filter(sites, function (r) {
+        //        return r.hits < (r.hitsMax * 0.9);
+        //    });
+        //}
 
         if (filter.length) {
             var target = this.creep.pos.findClosest(filter);

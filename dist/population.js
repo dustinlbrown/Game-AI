@@ -31,16 +31,23 @@ function Population(room) {
                 total: 0,
                 goalPercentage: 0.25,
                 currentPercentage: 0,
-                max: 5,
-                minExtensions: 2
+                max: 4,
+                minExtensions: 15
             },
-        CreepShooter: {
-            total: 0,
-            goalPercentage: 0.25,
-            currentPercentage: 0,
-            max: 5,
-            minExtensions: 2
-        }
+            CreepShooter: {
+                total: 0,
+                goalPercentage: 0.25,
+                currentPercentage: 0,
+                max: 5,
+                minExtensions: 15
+            },
+            CreepCourier:{
+                total: 0,
+                goalPercentage: 0.2,
+                currentPercentage: 0,
+                max: 4,
+                minExtensions: 2
+            }
     };
 
     this.creeps = this.room.find(FIND_MY_CREEPS);
