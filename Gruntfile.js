@@ -18,7 +18,7 @@ module.exports = function(grunt) {
             options: {
                 email: 'dustinman@gmail.com',
                 password: 'online4U',
-                branch: 'default'
+                branch: 'Dev'
             },
             dist: {
                 src: ['dist/*.js']

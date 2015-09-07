@@ -31,39 +31,11 @@ CreepCarrier.prototype.act = function() {
                 isTargetStorage = true;
             }
             this.findEnergy(isTargetStorage);
-
         }else{
             this.creep.moveTo(target);
             this.creep.transferEnergy(target);
         }
     }
-
-
-
-
-
-
-
-    //else{
-        //console.log('searching for creeps')
-        //var creepsNear = this.creep.room.find(FIND_MY_CREEPS, {filter : {memory: {role: 'CreepBuilder'}}});
-        //if(creepsNear.length){
-        //    while(creepsNear.length){
-        //        if(creepsNear[0].carry.energy < creepsNear[0].carryCapacity){
-        //            this.creep.moveTo(creepsNear[0]);
-        //            this.creep.transferEnergy(creepsNear[0]);
-        //        }else {
-        //            creepsNear.shift();
-        //        }
-        //    }
-        //}
-    //}
-
-
-
-
-
-    return;
 };
 
 CreepCarrier.prototype.findEnergy = function(isTargetStorage){
@@ -124,7 +96,7 @@ CreepCarrier.prototype.getTargetStructure = function() {
     });
 
     if (spawns.length) {
-        target = this.creep.pos.findClosest(spawns);
+        target = this.creep.pos.findClosestByRange(spawns);
         return target;
     }
 
@@ -138,7 +110,7 @@ CreepCarrier.prototype.getTargetStructure = function() {
     });
 
     if (extensions.length) {
-        target = this.creep.pos.findClosest(extensions);
+        target = this.creep.pos.findClosestByPath(extensions);
         return target;
     }
 
@@ -152,7 +124,7 @@ CreepCarrier.prototype.getTargetStructure = function() {
     });
 
     if (links.length) {
-        target = this.creep.pos.findClosest(links);
+        target = this.creep.pos.findClosestByPath(links);
         return target;
     }
 

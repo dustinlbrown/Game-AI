@@ -15,9 +15,9 @@ function CreepHarvester(creep,resources){
 
 CreepHarvester.prototype.init = function() {
     this.creep.memory.role = 'CreepHarvester';
-    if(!this.creep.memory.hasOwnProperty('homeSourceId')){
-        this.creep.memory.homeSourceId = this.resourceManager.getAvailableSource(this.creep.memory.homeSourceId);
-        console.log(this.creep.name + ' ' + Game.getObjectById(this.creep.memory.homeSourceId));
+    if(!this.creep.memory.hasOwnProperty('targetSourceId')){
+        this.creep.memory.targetSourceId = this.resourceManager.assignSourceOccupant(this.creep);
+        console.log(this.creep.name + ' ' + Game.getObjectById(this.creep.memory.targetSourceId));
     }
 
     this.act();
@@ -27,25 +27,9 @@ CreepHarvester.prototype.init = function() {
 
 CreepHarvester.prototype.act = function(){
 
-    if(this.creep.carryCapacity == this.creep.carry.energy){
 
-        var linkDeposit = this.creep.pos.findInRange(FIND_MY_STRUCTURES,2, {filter: { structureType: STRUCTURE_LINK }});
-        if (linkDeposit.length > 0) {
-            if (linkDeposit[0].energy == linkDeposit[0].energyCapacity){
-                this.resourceManager.transferToControllerLink(linkDeposit[0]);
-            }
-            if(linkDeposit[0].energy < linkDeposit[0].energyCapacity){
-                this.creep.transferEnergy(linkDeposit[0]);
-            }
-        }
-    }else{
-        var myDroppedEnergy = this.creep.pos.findInRange(FIND_DROPPED_ENERGY,0);
-        if(myDroppedEnergy){
-            this.creep.pickup(myDroppedEnergy);
-        }
-    }
-    this.creep.moveTo(Game.getObjectById(this.creep.memory.homeSourceId));
-    this.creep.harvest(Game.getObjectById(this.creep.memory.homeSourceId));
+    this.creep.moveTo(Game.getObjectById(this.creep.memory.targetSourceId));
+    this.creep.harvest(Game.getObjectById(this.creep.memory.targetSourceId));
 
 }
 

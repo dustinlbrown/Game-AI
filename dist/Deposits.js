@@ -25,18 +25,6 @@ Deposits.prototype.getMaxEnergyCapacity = function(){
     return (this.deposits.length * 50) + (this.spawns.length * 300);
 }
 
-Deposits.prototype.getCurrentEnergyLevel = function(){
-    var energyLevel = 0 ;
-    for (var i in this.deposits){
-        energyLevel += this.deposits[i].energy;
-    }
-
-    for (var i in this.spawns){
-        energyLevel += this.spawns[i];
-    }
-
-    return energyLevel;
-}
 
 Deposits.prototype.getSpawnDeposit = function() {
     if(this.spawns.length != 0) {
@@ -81,7 +69,7 @@ Deposits.prototype.getClosestEmptyDeposit = function(creep) {
     var resources = this.getEmptyDeposits();
     var resource = false;
     if(resources.length != 0) {
-        resource = creep.pos.findClosest(resources);
+        resource = creep.pos.findClosestByPath(resources);
     }
     if(!resource) {
         resource = this.getSpawnDeposit();

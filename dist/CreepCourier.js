@@ -1,5 +1,5 @@
 var ACTIONS = {
-    COLLECT: 1,
+    WITHDRAW: 1,
     DELIVER: 2
 };
 
@@ -11,62 +11,85 @@ CreepCourier.prototype.init = function() {
 
     this.creep.setRole('CreepCourier');
 
+
+    if(typeof this.creep.memory.action === 'undefined') {
+        this.creep.memory.action = ACTIONS.WITHDRAW;
+        if (this.creep.carry.energy >= (this.creep.carryCapacity *.75) ) {
+            this.creep.memory.action = ACTIONS.DELIVER;
+        } else {
+            this.creep.memory.action = ACTIONS.WITHDRAW;
+        }
+    }
+
+
     this.act();
 };
 
 CreepCourier.prototype.act = function() {
-
-
-    //TODO add some roles so it uses all its energy before it gets more
-    if(this.retrieveEnergy()) {
-        return;
+    if(this.creep.carry.energy === 0){
+        this.creep.memory.action = ACTIONS.WITHDRAW;
+    }else if (this.creep.carry.energy == this.creep.carryCapacity){
+        this.creep.memory.action = ACTIONS.DELIVER;
     }
+    //TODO add some roles so it uses all its energy before it gets more
 
-    this.deliverEnergy();
 
-
+    if(this.creep.memory.action == ACTIONS.WITHDRAW) this.retrieveEnergy();
+    if(this.creep.memory.action == ACTIONS.DELIVER) this.deliverEnergy();
 }
 
 CreepCourier.prototype.retrieveEnergy = function(){
 
+    this.creep.withdrawEnergy();
 
-    if (this.creep.carry.energy == this.creep.carryCapacity){
-        return false;
-    }
+    //
+    //if (this.creep.carry.energy == this.creep.carryCapacity){
+    //    return false;
+    //}
+    //
+    //var extension = this.creep.pos.findClosestByPath(FIND_MY_STRUCTURES,  {
+    //    filter: function(object) {
+    //        if (object.structureType == STRUCTURE_EXTENSION) {
+    //            if (object.energy == object.energyCapacity) {
+    //                return true;
+    //            }
+    //        }
+    //        return false;
+    //    }
+    //});
+    //
+    //if(extension){
+    //    this.collectEnergy(extension);
+    //    if(this.creep.carry.energy >= this.creep.carryCapacity*.9 ) {
+    //        this.creep.memory.action = ACTIONS.DELIVER;
+    //    }
+    //    return true;
+    //}
+    //
+    //var spawn = this.creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+    //    filter: function(object){
+    //        if(object.structureType == STRUCTURE_SPAWN) {
+    //            if (object.energy == object.energyCapacity ) {
+    //                return true;
+    //            }
+    //        }
+    //    }
+    //})
+    //
+    //if(spawn){
+    //    this.collectEnergy(spawn);
+    //    if(this.creep.carry.energy >= this.creep.carryCapacity*.5 ) {
+    //        this.creep.memory.action = ACTIONS.DELIVER;
+    //    }
+    //    return true;
+    //}
 
-    var extension = this.creep.pos.findClosest(FIND_MY_STRUCTURES,  {
-        filter: function(object) {
-            if (object.structureType == STRUCTURE_EXTENSION) {
-                if (object.energy == object.energyCapacity) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    });
 
-    if(extension){
-        this.collectEnergy(extension);
-        return true;
-    }
-
-    var spawn = this.creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-        filter: function(object){
-            if(object.structureType == STRUCTURE_SPAWN) {
-                if (object.energy == object.energyCapacity ) {
-                    return true;
-                }
-            }
-        }
-    })
-
-    if(spawn){
-        this.collectEnergy(spawn);
-        return true;
-    }
 }
 
+
 CreepCourier.prototype.deliverEnergy = function(){
+
     var creep = this.creep;
     var builder = this.creep.room.find(FIND_MY_CREEPS,  {
         filter: function(object) {
@@ -75,7 +98,6 @@ CreepCourier.prototype.deliverEnergy = function(){
             }
         }
     });
-
 
     if (builder.length == 0) {
         builder = this.findExistingBuilder(this.creep);
@@ -87,6 +109,7 @@ CreepCourier.prototype.deliverEnergy = function(){
         if (this.creep.transferEnergy(myBuilder) == 0) {
             myBuilder.memory.server = null;
         }
+
     }
 
 

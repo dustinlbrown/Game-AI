@@ -14,14 +14,14 @@ function Resources(room, population) {
 //    return srcs[srcIndex];
 //};
 
-Resources.prototype.isControllerSource = function(room, source) {
-    var closestSource = this.room.controller.pos.findClosest(this.getSources());
-    if (closestSource == source){
-        return true;
-    }
-    return false;
-
-}
+//Resources.prototype.isControllerSource = function(room, source) {
+//    var closestSource = this.room.controller.pos.findClosest(this.getSources());
+//    if (closestSource == source){
+//        return true;
+//    }
+//    return false;
+//
+//}
 
 Resources.prototype.transferToControllerLink = function (link) {
     this.link = link;
@@ -35,55 +35,90 @@ Resources.prototype.transferToControllerLink = function (link) {
 
 }
 
-Resources.prototype.occupantsByRole = function(source, role){
-    var occupants = source.pos.findInRange(FIND_MY_CREEPS, 1);
-    //var occupants = source.pos.findInRange(FIND_MY_CREEPS, 3, { filter: { memory: {role: role}} });
+//Resources.prototype.occupantsByRole = function(source, role){
+//    var occupants = source.pos.findInRange(FIND_MY_CREEPS, 1);
+//    //var occupants = source.pos.findInRange(FIND_MY_CREEPS, 3, { filter: { memory: {role: role}} });
+//
+//    return occupants.length;
+//
+//}
 
-    return occupants.length;
-
-}
-
-Resources.prototype.getAvailableSource = function(currentSourceId){
+Resources.prototype.assignSourceOccupant = function(creep){
     var sources = this.getSources();
     var bestSourceIndex = 0;
     var bestSourceOccupancy = 99;
-    var isCurrentSource = false;
-    console.log('current source:' + Game.getObjectById(currentSourceId));
-    currentSourceId = currentSourceId || sources[0].id
 
-    var currentSourceOccupants = this.occupantsByRole(Game.getObjectById(currentSourceId),'CreepHarvester');
+
     if (sources.length > 0){
-        for (var i = 0 ; i < sources.length;i++){
-            if (currentSourceId == sources[i].id){
-                isCurrentSource = true;
-            }
-            var sourceOccupants = this.occupantsByRole(sources[i],'CreepHarvester');
-            if (sourceOccupants < bestSourceOccupancy && sourceOccupants < currentSourceOccupants ){
+        for (var i in sources){
+            var sourceOccupants = this.getSourceOccupants(sources[i].id);
+            console.log('sourceOccupants.length: ' + sourceOccupants.length);
+            if(sourceOccupants && sourceOccupants.length < bestSourceOccupancy){
                 bestSourceIndex = i;
-                bestSourceOccupancy = sourceOccupants;
+                bestSourceOccupancy = sourceOccupants.length;
             }
-
         }
-        return sources[bestSourceIndex].id;
+        return this.setSourceOccupant(sources[bestSourceIndex].id, creep)
     }else{
         return ERR_NOT_FOUND;
     }
 }
 
-Resources.prototype.getSources = function(room) {
-    return this.room.find(FIND_SOURCES);
-        //FIND_SOURCES, {
-        //    filter: function(src) {
-        //        var targets = src.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
-        //        if(targets.length == 0) {
-        //            return true;
-        //        }
-        //
-        //        return false;
-        //    }
-        //}
-        //);
+Resources.prototype.getSources = function() {
+    if(!this.room.memory.sources){
+        this.room.memory.sources = [];
+        var roomSources = this.room.find(FIND_SOURCES)
+        for(var i in roomSources){
+            this.room.memory.sources.push(roomSources[i])
+        }
 
+    }
+
+    return this.room.memory.sources;
 };
+
+Resources.prototype.setSourceOccupant = function(sourceId, creep){
+    for (var i in this.room.memory.sources){
+        if (this.room.memory.sources[i].id == sourceId) {
+
+            if(!this.room.memory.sources[i].occupantIds){
+                this.room.memory.sources[i].occupantIds = [];
+            }
+            this.room.memory.sources[i].occupantIds.push(creep.id);
+            break;
+        }
+    }
+
+
+    return sourceId;
+}
+
+Resources.prototype.getSourceOccupants = function(sourceId){
+    this.clearDeadCreeps();
+
+    for (var i in this.room.memory.sources){
+        if (this.room.memory.sources[i].id != sourceId) {
+            continue;
+        } else {
+            if (!this.room.memory.sources[i].occupantIds){
+                this.room.memory.sources[i].occupantIds = [];
+            }
+            return this.room.memory.sources[i].occupantIds;
+        }
+    }
+    console.log(this.room.memory.sources[i]);
+
+}
+
+Resources.prototype.clearDeadCreeps = function(){
+    for(var i in this.room.memory.sources){
+        for(var j in this.room.memory.sources[i].occupantIds){
+            if(Game.getObjectById(this.room.memory.sources[i].occupantIds[j]) == null){
+                console.log('deleting: ' +  this.room.memory.sources[i].occupantIds[j]);
+                this.room.memory.sources[i].occupantIds.splice(j,1);
+            }
+        }
+    }
+}
 
 module.exports = Resources;

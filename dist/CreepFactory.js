@@ -1,7 +1,6 @@
 /**
  * Created by Dustin on 8/25/2015.
  */
-var CreepPrototype = require('CreepPrototype');
 
 var CreepBuilder = require('CreepBuilder');
 var CreepCarrier = require('CreepCarrier');
@@ -9,11 +8,14 @@ var CreepHarvester = require('CreepHarvester');
 var CreepSoldier = require('CreepSoldier');
 var CreepShooter = require('CreepShooter');
 var CreepCourier = require('CreepCourier');
+var CreepRemoteHarvester = require('CreepRemoteHarvester');
+var CreepRemoteCarrier = require('CreepRemoteCarrier');
+var CreepBase = require('CreepBase');
 
 function CreepFactory(depositManager, populationManager, resourceManager, roomManager){
     this.populationManager = populationManager;
     this.resourceManager = resourceManager;
-    this.roomManager = roomManager;
+    this.room = roomManager;
     this.depositManager = depositManager;
 };
 
@@ -27,7 +29,7 @@ CreepFactory.prototype.load = function(creep){
 
     switch(role){
         case 'CreepHarvester':
-            loadedCreep = new CreepHarvester(creep, this.resourceManager, this.roomManager);
+            loadedCreep = new CreepHarvester(creep, this.resourceManager, this.room);
             break;
         case 'CreepCarrier':
             loadedCreep = new CreepCarrier(creep);
@@ -44,13 +46,21 @@ CreepFactory.prototype.load = function(creep){
         case 'CreepShooter':
             loadedCreep = new CreepShooter(creep);
             break;
+        case 'CreepRemoteHarvester':
+            loadedCreep = new CreepRemoteHarvester(creep, this.resourceManager, this.room);
+            break;
+        case 'CreepRemoteCarrier':
+            loadedCreep = new CreepRemoteCarrier(creep);
+            break;
     }
 
     if(!loadedCreep){
         return false;
     }
 
+
     loadedCreep.init();
+
 }
 
 CreepFactory.prototype.new = function(creepType, spawn) {
@@ -60,8 +70,8 @@ CreepFactory.prototype.new = function(creepType, spawn) {
     var resourceLevel = this.depositManager.getFullDeposits().length / 5;
     var level = Math.floor(creepLevel + resourceLevel);
 
-    var maxEnergyLevel =this.depositManager.getMaxEnergyCapacity();
-    var currentEnergyLevel = this.depositManager.getCurrentEnergyLevel();
+    var maxEnergyLevel =this.room.energyCapacityAvailable;
+    var currentEnergyLevel = this.room.energyAvailable;
     var goalEnergyLevel = maxEnergyLevel * .75;
     var extensionCount = this.depositManager.deposits.length;
 
@@ -131,7 +141,7 @@ CreepFactory.prototype.new = function(creepType, spawn) {
                 abilities = [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE];
             } else
             if(level <= 4) {
-                abilities = [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE];
+                abilities = [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
             } else
             if(level <= 5) {
                 abilities = [WORK, WORK, WORK, WORK, WORK, CARRY,CARRY, CARRY, MOVE, MOVE, MOVE];
@@ -265,5 +275,6 @@ CreepFactory.prototype.new = function(creepType, spawn) {
     console.log('creepType: ' + creepType  + ' | level: ' + level + ' | extension count: ' + extensionCount);
     spawn.createCreep(abilities, creepType + '-' + level + '-' + id, {role: creepType});
 };
+
 
 module.exports = CreepFactory;
