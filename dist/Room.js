@@ -104,7 +104,7 @@ Room.prototype.loadCreeps = function() {
 Room.prototype.getRemoteMiningFlags = function(){
     var miningFlags = _.filter(Game.flags, {color: COLOR_BLUE});
     return miningFlags;
-}
+};
 
 
 module.exports = Room;

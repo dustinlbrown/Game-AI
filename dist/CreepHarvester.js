@@ -23,7 +23,7 @@ CreepHarvester.prototype.init = function() {
     this.act();
 
 
-}
+};
 
 CreepHarvester.prototype.act = function(){
 
@@ -31,6 +31,6 @@ CreepHarvester.prototype.act = function(){
     this.creep.moveTo(Game.getObjectById(this.creep.memory.targetSourceId));
     this.creep.harvest(Game.getObjectById(this.creep.memory.targetSourceId));
 
-}
+};
 
 module.exports = CreepHarvester;

@@ -27,7 +27,8 @@ CreepShooter.prototype.act = function() {
     }
 
     this.creep.moveTo(25,25);
-}
+};
+
 CreepShooter.prototype.attackHostiles = function() {
     var targets = this.creep.room.find(FIND_HOSTILE_CREEPS);
     if(targets.length) {
@@ -42,6 +43,7 @@ CreepShooter.prototype.attackHostiles = function() {
         return true;
     }
 }
+
 CreepShooter.prototype.attackSpawns = function() {
     var targets = this.creep.room.find(FIND_HOSTILE_SPAWNS);
     if(targets.length) {
@@ -53,7 +55,10 @@ CreepShooter.prototype.attackSpawns = function() {
 
         this.creep.moveTo(targets[0]);
         return true;
-    };
+    }
 }
+
+
+
 
 module.exports = CreepShooter;

@@ -21,5 +21,5 @@ HelperFunctions.garbageCollection = function() {
             counter++;
         }
     }
-}
+};
 module.exports = HelperFunctions;

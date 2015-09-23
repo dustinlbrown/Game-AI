@@ -9,7 +9,7 @@ var ACTIONS = {
 var DEPOSIT_FOR = {
     CONSTRUCTION: 1,
     POPULATION: 2
-}
+};
 
 function CreepCarrier(creep) {
     this.creep = creep;
@@ -46,7 +46,7 @@ CreepCarrier.prototype.findEnergy = function(isTargetStorage){
         if (energy) {
             energy.sort(function (a, b) {
                 return b.energy - a.energy
-            })
+            });
 
             //Check if the first 3 energy objects are close (within 8)
             var targetEnergyIndex = false;
@@ -148,7 +148,7 @@ CreepCarrier.prototype.getTargetStructure = function() {
 
     return null;
 
-}
+};
 
 
 module.exports = CreepCarrier;

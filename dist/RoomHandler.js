@@ -16,11 +16,9 @@ RoomHandler.get = function(name) {
 };
 
 RoomHandler.isOurRoom = function(name) {
-    if(rooms.indexOf(name) == -1) {
-        return false;
-    }
+    return rooms.indexOf(name) != -1;
 
-    return true;
+
 };
 
 RoomHandler.getRoomHandlers = function() {
@@ -36,6 +34,6 @@ RoomHandler.requestReinforcement = function(room) {
         }
 
     }
-}
+};
 
 module.exports = RoomHandler;

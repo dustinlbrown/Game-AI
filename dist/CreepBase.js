@@ -1,11 +1,19 @@
+var global = require('global');
+
 //Energy Related Functions
 
 //TODO 
 //
+Creep.prototype.setRole = function(role){
+    this.memory.role = role;
+};
 
+Creep.prototype.getRole = function(){
+    return this.memory.role;
+};
 Creep.prototype.onAgeOut = function(){
 
-}
+};
 
 Creep.prototype.moveToTargetRoomIfSet = function() {
     if (this.memory.targetRoom != undefined && this.memory.targetRoom != this.room.name && !this.spawning) {
@@ -24,7 +32,7 @@ Creep.prototype.moveToHomeRoomIfSet = function() {
             this.moveMeTo(exit[0]);
         }
     }
-},
+};
 
 Creep.prototype.moveMeTo = function(object, opts) {
     var ret = this.moveTo(object, opts);
@@ -34,7 +42,7 @@ Creep.prototype.moveMeTo = function(object, opts) {
             filter: function (c) { return ( c.memory.role=='CreepBuilder' || c.memory.role=='CreepCourier'); }
         });
         if (builders.length > 0) {
-            var builder = Math.floor(Math.random()*builders.length)
+            var builder = Math.floor(Math.random()*builders.length);
             //console.log(this.name + " moving builder " + builders[0]);
             var builderPos = builders[builder].pos;
             builders[builder].moveTo(this.pos.x, this.pos.y);
@@ -43,6 +51,11 @@ Creep.prototype.moveMeTo = function(object, opts) {
     }
     return ret;
 };
+
+Creep.prototype.getNearestSpawn = function() {
+    return this.pos.findClosestByRange(FIND_MY_SPAWNS);
+};
+
 
 Creep.prototype.setTargetRoom = function(room) {
     this.memory.targetRoom = room;
@@ -129,26 +142,20 @@ Creep.prototype.assignMine = function (roomName) {
     console.log("Unable to assign " + this.name +", not enough mines");
     return false;
 };
-
-Creep.prototype.unassignMine = function () {
-    global.initMineAssignments(this.memory.homeRoom);
-    console.log("Unassigned " + this.name +" from mine " + this.memory.assignedMine);
-    Memory.assignedMines[this.memory.homeRoom][this.memory.assignedMine] = undefined;
-    this.memory.assignedMine = undefined;
-
-};
-
-Creep.prototype.getAssignedMine = function () {
-    return Game.getObjectById(this.memory.assignedMine);
-};
-
-
-
 Creep.prototype.withdrawEnergy = function() {
 	var structures = this.room.find(FIND_MY_STRUCTURES);
-    var storage = _.filter(structures,{structureType: STRUCTURE_STORAGE});
     var target; //undefined
+    var link = _.filter(structures,{structureType: STRUCTURE_LINK});
+    if (link.length){
+        for (var i in link){
+            if (this.pos.inRangeTo(link,1)){
+                target = link[i];
+                break;
+            }
+        }
+    }
 
+    var storage = _.filter(structures,{structureType: STRUCTURE_STORAGE});
 
     if (storage.length) {
         storage = _.filter(storage, function (r) {
@@ -173,7 +180,12 @@ Creep.prototype.withdrawEnergy = function() {
     }
     //if we still don't have a target and we don't have too many extensions, we'll borrow from the spawn
     if (target === undefined && extensions.length < 5) {
-        target = this.depositManager.spawns[0];  //first spawn is fine as we'll never take from it by the time we have 2
+        var spawns = _.filter(structures, {structureType: STRUCTURE_SPAWN});
+        if (spawns.length){
+            target = spawns[0];
+        }
+
+           //first spawn is fine as we'll never take from it by the time we have 2
     }
 
     if (typeof target !== 'undefined') { //todo figure out why we move to a target we don't have....
@@ -183,7 +195,6 @@ Creep.prototype.withdrawEnergy = function() {
         if(this.carry.energy === this.carryCapacity){this.memory.action = ACTION.CONSTRUCTION;}
     }
 };
-
 Creep.prototype.depositEnergy = function() {
 	var target;
 
@@ -256,7 +267,7 @@ Creep.prototype.findEnergy = function(isTargetStorage){
     if (energy) {
         energy.sort(function (a, b) {
             return b.energy - a.energy
-        })
+        });
 
         //Check if the first 3 energy objects are close (within 8)
         var targetEnergyIndex = false;
@@ -293,4 +304,43 @@ Creep.prototype.findEnergy = function(isTargetStorage){
         }
     }
     //}
+};
+
+Creep.prototype.getRoleId = function(){
+    if (this.memory.roleId === undefined){
+        console.log('Creep RoleId: ' + this.name.substr(this.name.length - 1));
+        this.memory.roleId = Number(this.name.substr(this.name.length - 1));
+    }
+    return this.memory.roleId;
+};
+
+Creep.prototype.assignStructure = function (structureClass, structure) {
+    //console.log('assignStructure ' + structure);
+    var structureId = (typeof structure == 'object') ? structure.id : structure;
+    global.initStructureAssignments(structureClass);
+    this.unassignCreep(structureClass);
+    Memory.assignedStructures[structureClass][structureId] = this.getRoleId();
+    //console.log("assigned " + this.memory.roleId + " to " +structure.id);
+    return structureId;
+};
+
+Creep.prototype.getStructureAssignedToCreep = function (structureClass) {
+    global.initStructureAssignments(structureClass);
+    //console.log(structureClass);
+    for (var i in Memory.assignedStructures[structureClass]) {
+        if (Memory.assignedStructures[structureClass][i] === this.getRoleId()){
+            return Game.getObjectById(i);
+        }
+    }
+    return undefined;
+};
+
+Creep.prototype.unassignCreep = function (structureClass) {
+    global.initStructureAssignments(structureClass);
+    for (var i in Memory.assignedStructures[structureClass]) {
+        if (Memory.assignedStructures[structureClass][i] === this.getRoleId()){
+            Memory.assignedStructures[structureClass][i] = undefined;
+        }
+    }
+    return undefined;
 };

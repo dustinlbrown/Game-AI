@@ -12,7 +12,7 @@ var ACTIONS = {
 var DEPOSIT_FOR = {
     CONSTRUCTION: 1,
     POPULATION: 2
-}
+};
 function CreepRemoteCarrier(creep){
     this.creep = creep;
 
@@ -28,7 +28,7 @@ CreepRemoteCarrier.prototype.init = function() {
     this.act();
 
 
-}
+};
 
 CreepRemoteCarrier.prototype.act = function(){
 
@@ -49,7 +49,7 @@ CreepRemoteCarrier.prototype.act = function(){
         }
     }
 
-}
+};
 
 
 
