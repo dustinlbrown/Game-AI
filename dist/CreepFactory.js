@@ -10,7 +10,9 @@ var CreepShooter = require('CreepShooter');
 var CreepCourier = require('CreepCourier');
 var CreepRemoteHarvester = require('CreepRemoteHarvester');
 var CreepRemoteCarrier = require('CreepRemoteCarrier');
+var CreepRoadMaintainer = require('CreepRoadMaintainer');
 var CreepBase = require('CreepBase');
+var globalStructure = require('globalStructure');
 
 function CreepFactory(depositManager, populationManager, resourceManager, roomManager){
     this.populationManager = populationManager;
@@ -52,6 +54,9 @@ CreepFactory.prototype.load = function(creep){
         case 'CreepRemoteCarrier':
             loadedCreep = new CreepRemoteCarrier(creep);
             break;
+        case 'CreepRoadMaintainer':
+            loadedCreep = new CreepRoadMaintainer(creep, this.depositManager);
+            break;
     }
 
     if(!loadedCreep){
@@ -61,7 +66,7 @@ CreepFactory.prototype.load = function(creep){
 
     loadedCreep.init();
 
-}
+};
 
 CreepFactory.prototype.new = function(creepType, spawn) {
     var abilities = [];

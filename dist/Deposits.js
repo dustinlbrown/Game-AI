@@ -23,7 +23,7 @@ function Deposits(room) {
 Deposits.prototype.getMaxEnergyCapacity = function(){
     //todo make this better....
     return (this.deposits.length * 50) + (this.spawns.length * 300);
-}
+};
 
 
 Deposits.prototype.getSpawnDeposit = function() {
@@ -48,11 +48,9 @@ Deposits.prototype.getEmptyDeposits = function() {
 };
 
 Deposits.prototype.isEmptyDeposit = function(deposit) {
-    if(deposit.energy / deposit.energyCapacity < CONSTS.EMPTY_LEVEL) {
-        return true;
-    }
+    return deposit.energy / deposit.energyCapacity < CONSTS.EMPTY_LEVEL;
 
-    return false;
+
 };
 
 Deposits.prototype.getEmptyDepositOnId = function(id) {

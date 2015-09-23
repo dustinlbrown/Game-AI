@@ -33,7 +33,7 @@ Resources.prototype.transferToControllerLink = function (link) {
         this.link.transferEnergy(Game.getObjectById(controllerLink.id));
     }
 
-}
+};
 
 //Resources.prototype.occupantsByRole = function(source, role){
 //    var occupants = source.pos.findInRange(FIND_MY_CREEPS, 1);
@@ -43,8 +43,11 @@ Resources.prototype.transferToControllerLink = function (link) {
 //
 //}
 
-Resources.prototype.assignSourceOccupant = function(creep){
-    var sources = this.getSources();
+Resources.prototype.assignSourceOccupant = function(creep, room){
+    if (typeof room === 'undefined'){
+        room = this.room;
+    }
+    var sources = this.getSources(room);
     var bestSourceIndex = 0;
     var bestSourceOccupancy = 99;
 
@@ -62,19 +65,35 @@ Resources.prototype.assignSourceOccupant = function(creep){
     }else{
         return ERR_NOT_FOUND;
     }
-}
+};
 
-Resources.prototype.getSources = function() {
-    if(!this.room.memory.sources){
-        this.room.memory.sources = [];
-        var roomSources = this.room.find(FIND_SOURCES)
+Resources.prototype.getSources = function(room) {
+    if (typeof room === 'undefined'){
+        room = this.room;
+    }
+
+    if(!room.memory.sources){
+        room.memory.sources = [];
+        var roomSources = room.find(FIND_SOURCES);
         for(var i in roomSources){
-            this.room.memory.sources.push(roomSources[i])
+            room.memory.sources.push(roomSources[i])
         }
 
     }
 
-    return this.room.memory.sources;
+    return room.memory.sources;
+};
+
+Resources.prototype.getRemoteSources = function(room){
+    if(!room.memory.source){
+        this.room.memory.sources = [];
+        var roomSources = room.find(FIND_SOURCES);
+        for(var i in roomSources){
+            this.room.memory.sources.push(roomSources[i])
+        }
+    }
+
+    return room.memory.sources;
 };
 
 Resources.prototype.setSourceOccupant = function(sourceId, creep){
@@ -91,7 +110,7 @@ Resources.prototype.setSourceOccupant = function(sourceId, creep){
 
 
     return sourceId;
-}
+};
 
 Resources.prototype.getSourceOccupants = function(sourceId){
     this.clearDeadCreeps();
@@ -108,7 +127,7 @@ Resources.prototype.getSourceOccupants = function(sourceId){
     }
     console.log(this.room.memory.sources[i]);
 
-}
+};
 
 Resources.prototype.clearDeadCreeps = function(){
     for(var i in this.room.memory.sources){
@@ -119,6 +138,6 @@ Resources.prototype.clearDeadCreeps = function(){
             }
         }
     }
-}
+};
 
 module.exports = Resources;

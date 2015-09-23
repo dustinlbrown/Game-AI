@@ -2,3 +2,4 @@ node_modules/
 sync/
 test/
 dist/.idea/
+dist/.idea/workspace.xml

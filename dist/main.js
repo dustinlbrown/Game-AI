@@ -17,38 +17,45 @@
 var HelperFunctions = require('HelperFunctions');
 var Room = require('Room');
 var RoomHandler = require('RoomHandler');
+require('globalStructure');
 
-if(safeToClearMem){HelperFunctions.garbageCollection();}
 
-Creep.prototype.setRole = function(role){
-    this.memory.role = role;
-}
-
-Creep.prototype.getRole = function(){
-    return this.memory.role;
-}
 
 
 // Init rooms
+
 for(var n in Game.rooms) {
     var roomHandler = new Room(Game.rooms[n], RoomHandler);
     RoomHandler.set(Game.rooms[n].name, roomHandler);
-};
+}
 
 // Load rooms
 var rooms = RoomHandler.getRoomHandlers();
 var safeToClearMem = true;
 
+for (var name in Memory.creeps) {
+    //console.log(Memory.creeps[name]);
+    if (!Game.creeps[name]) {
+        delete Memory.creeps[name];
+        console.log('Creep ' + name + ' memory deleted');
+    }
+}
+
 for(var n in rooms) {
 
     var room = rooms[n];
+    //var spawns = room.room.find(FIND_MY_SPAWNS);
+    //for (var i in spawns){
+    //    if(spawns[i].spawning){
+    //        //console.log('spawner spawning - don\'t clear memory');
+    //        safeToClearMem = false;
+    //    }
+    //}
 
     room.loadCreeps();
     room.populate();
 
-};
-
-
+}
 
 //
 //RoomPosition.prototype.hasPathTo = function(target, opts){

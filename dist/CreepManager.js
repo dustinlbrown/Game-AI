@@ -29,18 +29,18 @@ Spawn.prototype.getCreepDefinition = function (role) {
         initDefinitions();
     }
     return Memory.unitDictionary[role];
-}
+};
 
 Spawn.prototype.getUnitRoles = function () {
     if (typeof Memory.unitDictionary === 'undefined') {
         initDefinitions();
     }
     return Object.keys(Memory.unitDictionary);
-}
+};
 
 function getCreepCount(workingRoomName, creepRole) {
     if (Game.rooms[workingRoomName] === undefined){
-        console.log('getCreepCount: workingRoom is undefined')
+        console.log('getCreepCount: workingRoom is undefined');
         return 0;
     }
     var myCreepArray = Game.rooms[workingRoomName].find(FIND_MY_CREEPS, {filter:{memory:{role: creepRole}}});
@@ -53,7 +53,7 @@ exports.getNumOfNeededCreep = function (workingRoom, creepRole) {
     var creepTarget = Memory.unitDictionary[creepRole].targetCount;
 
     return Math.max(creepTarget - creepCount, 0);
-}
+};
 
 exports.getCreepCount = getCreepCount;
 
@@ -84,10 +84,19 @@ Spawn.prototype.spawnCreep = function (spawner, role) {
     }
 
     console.log('SPAWNING ' + definition.options.role + ' in ' + spawner.room.name);
-    var name = new Date().getTime();
-    name = definition.options.role + '-' + name;
-    spawner.createCreep(body, name, {role: definition.options.role, homeRoom: spawner.room.name});
-}
+
+    var nameCount = 0;
+    var name = null;
+    while (name == null)
+    {
+        nameCount++;
+        var tryName = definition.options.role + nameCount;
+        if (Game.creeps[tryName] == undefined)
+            name = tryName;
+    }
+
+    spawner.createCreep(body, name, {role: definition.options.role, roleId: nameCount, homeRoom: spawner.room.name});
+};
 
 
 function getBestBody(workingRoom, bodiesArray) {
@@ -110,7 +119,7 @@ function getBestBody(workingRoom, bodiesArray) {
             if (i == bodiesArray.length - 1) { //if the max body is affordable we select that one
                 return bodiesArray[i];
             }
-            continue;
+
         }
 
     }

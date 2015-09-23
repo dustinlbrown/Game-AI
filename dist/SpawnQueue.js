@@ -7,7 +7,7 @@ Spawn.prototype.getCreepDefinition = function(role)
     }
 
     return this.memory.creepDefinitions[role];
-}
+};
 
 Spawn.prototype.addToSpawnQueue = function(body, options)
 {
@@ -17,7 +17,7 @@ Spawn.prototype.addToSpawnQueue = function(body, options)
     }
 
     this.memory.spawnQueue.push({body: body, options: options});
-}
+};
 
 Spawn.prototype.addToFrontOfSpawnQueue = function(body, options)
 {
@@ -27,14 +27,14 @@ Spawn.prototype.addToFrontOfSpawnQueue = function(body, options)
     }
 
     this.memory.spawnQueue.unshift({body: body, options: options});
-}
+};
 
 //ADD TO QUEUE FROM DICTIONARY
 
 Spawn.prototype.clearSpawnQueue = function()
 {
     this.memory.spawnQueue = [];
-}
+};
 
 Spawn.prototype.processQueue = function()
 {
@@ -59,7 +59,7 @@ Spawn.prototype.processQueue = function()
         this.createCreep(creepToSpawn.body, null, creepToSpawn.options);
         this.memory.spawnQueue.shift();
     }
-}
+};
 
 Spawn.prototype.getQueueCreepCount = function(role)
 {
@@ -86,7 +86,7 @@ Spawn.prototype.getQueueCreepCount = function(role)
     }
 
     return count;
-}
+};
 
 exports.getHomeRoomCreepCount = function(role, roomName)
 {
@@ -103,4 +103,4 @@ exports.getHomeRoomCreepCount = function(role, roomName)
     }
 
     return count;
-}
+};

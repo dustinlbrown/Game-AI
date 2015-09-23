@@ -36,56 +36,13 @@ CreepCourier.prototype.act = function() {
 
     if(this.creep.memory.action == ACTIONS.WITHDRAW) this.retrieveEnergy();
     if(this.creep.memory.action == ACTIONS.DELIVER) this.deliverEnergy();
-}
+};
 
 CreepCourier.prototype.retrieveEnergy = function(){
 
     this.creep.withdrawEnergy();
 
-    //
-    //if (this.creep.carry.energy == this.creep.carryCapacity){
-    //    return false;
-    //}
-    //
-    //var extension = this.creep.pos.findClosestByPath(FIND_MY_STRUCTURES,  {
-    //    filter: function(object) {
-    //        if (object.structureType == STRUCTURE_EXTENSION) {
-    //            if (object.energy == object.energyCapacity) {
-    //                return true;
-    //            }
-    //        }
-    //        return false;
-    //    }
-    //});
-    //
-    //if(extension){
-    //    this.collectEnergy(extension);
-    //    if(this.creep.carry.energy >= this.creep.carryCapacity*.9 ) {
-    //        this.creep.memory.action = ACTIONS.DELIVER;
-    //    }
-    //    return true;
-    //}
-    //
-    //var spawn = this.creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-    //    filter: function(object){
-    //        if(object.structureType == STRUCTURE_SPAWN) {
-    //            if (object.energy == object.energyCapacity ) {
-    //                return true;
-    //            }
-    //        }
-    //    }
-    //})
-    //
-    //if(spawn){
-    //    this.collectEnergy(spawn);
-    //    if(this.creep.carry.energy >= this.creep.carryCapacity*.5 ) {
-    //        this.creep.memory.action = ACTIONS.DELIVER;
-    //    }
-    //    return true;
-    //}
-
-
-}
+};
 
 
 CreepCourier.prototype.deliverEnergy = function(){
@@ -113,20 +70,20 @@ CreepCourier.prototype.deliverEnergy = function(){
     }
 
 
-}
+};
 
 //handles creep behaviour for retrieving energy
 CreepCourier.prototype.collectEnergy = function(target) {
     this.creep.moveTo(target);
     target.transferEnergy(this.creep);
-}
+};
 
 CreepCourier.prototype.findExistingBuilder = function() {
     var builder = this.creep.room.find(FIND_MY_CREEPS, {
         filter: function (object) {
 
-            if (object.carry.energy == object.carryCapacity) {
-                object.memory.server == null;
+            if (object.carry.energy === object.carryCapacity) {
+                object.memory.server = null;
                 return false;
             }
             if (object.getRole() == 'CreepBuilder' && object.carry.energy < object.carryCapacity && object.memory.server == null) {
@@ -135,7 +92,7 @@ CreepCourier.prototype.findExistingBuilder = function() {
         }
     });
     return builder;
-}
+};
 
 module.exports = CreepCourier;
 

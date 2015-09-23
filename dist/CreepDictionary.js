@@ -31,7 +31,8 @@ defineUnit("CreepHarvester", 4,
         [WORK, WORK, WORK, WORK, CARRY, MOVE], //500
         [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE], //550 (or a spawn and 5 extensions)
         [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], //800
-        [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] //850 - Biggest harvester we'll need
+        [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], //850 - Biggest harvester we'll need
+        [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] //1050 - Biggest harvester we'll need
     ],
     {
         role: 'CreepHarvester',
@@ -49,7 +50,8 @@ defineUnit("CreepCarrier", 4,
         [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], //550
         [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], //800 (10 extensions)
         [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], //1050 (15 extensions)
-        [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] //1300 (20 extensions)
+        [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], //1300 (20 extensions)
+        [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] //30 parts
     ],
     {
         role: 'CreepCarrier',
@@ -66,8 +68,10 @@ defineUnit("CreepBuilder", 4,
         [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE],//500
         [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],//550
         [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],//800
-        [WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]//1050
-        //1300
+        [WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],//1050
+        [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],//1500
+        [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]//1800 + 25 parts
+
     ],
     {
         role: 'CreepBuilder',
@@ -125,6 +129,26 @@ defineUnit("CreepRemoteCarrier", 4,
     {
         role: 'CreepRemoteCarrier',
         priority: 6
+    }
+);
+
+defineUnit("CreepRoadMaintainer", 1,
+    [
+        [WORK, CARRY, MOVE], //200 (startup creep)
+        [WORK, WORK, CARRY, MOVE], //300
+        [WORK, WORK, CARRY, MOVE, MOVE], //350
+        [WORK, WORK, CARRY, CARRY, MOVE, MOVE],//400
+        [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE],//500
+        [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],//550
+        [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],//800
+        [WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],//1050
+        [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],//1500
+        [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]//1800 + 25 parts
+
+    ],
+    {
+        role: 'CreepRoadMaintainer',
+        priority: 7
     }
 );
 
