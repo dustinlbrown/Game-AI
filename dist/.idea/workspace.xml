@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/CreepRemoteHarvester.js" line="46" />
+    <bookmark url="file://$PROJECT_DIR$/CreepRemoteMiner.js" line="49" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8163e5b7-ddc0-44bf-a771-cc059334df55" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CreepRoadMaintainer.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/global.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/globalStructure.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.gitignore" afterPath="$PROJECT_DIR$/../.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CreepMiner.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CreepRemoteMiner.js" />
+      <change type="DELETED" beforePath="G:\Documents\GitHub\Screeps\dist\CreepHarvester.js" afterPath="" />
+      <change type="DELETED" beforePath="G:\Documents\GitHub\Screeps\dist\CreepRemoteHarvester.js" afterPath="" />
+      <change type="DELETED" beforePath="G:\Documents\GitHub\Screeps\dist\_CreepActions.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepBase.js" afterPath="$PROJECT_DIR$/CreepBase.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepBuilder.js" afterPath="$PROJECT_DIR$/CreepBuilder.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepCarrier.js" afterPath="$PROJECT_DIR$/CreepCarrier.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepCourier.js" afterPath="$PROJECT_DIR$/CreepCourier.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepDictionary.js" afterPath="$PROJECT_DIR$/CreepDictionary.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepFactory.js" afterPath="$PROJECT_DIR$/CreepFactory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepHarvester.js" afterPath="$PROJECT_DIR$/CreepHarvester.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepManager.js" afterPath="$PROJECT_DIR$/CreepManager.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepRemoteCarrier.js" afterPath="$PROJECT_DIR$/CreepRemoteCarrier.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepRemoteHarvester.js" afterPath="$PROJECT_DIR$/CreepRemoteHarvester.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepShooter.js" afterPath="$PROJECT_DIR$/CreepShooter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreepRoadMaintainer.js" afterPath="$PROJECT_DIR$/CreepRoadMaintainer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Deposits.js" afterPath="$PROJECT_DIR$/Deposits.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HelperFunctions.js" afterPath="$PROJECT_DIR$/HelperFunctions.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Resources.js" afterPath="$PROJECT_DIR$/Resources.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Room.js" afterPath="$PROJECT_DIR$/Room.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RoomHandler.js" afterPath="$PROJECT_DIR$/RoomHandler.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SpawnQueue.js" afterPath="$PROJECT_DIR$/SpawnQueue.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/global.js" afterPath="$PROJECT_DIR$/global.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/globalStructure.js" afterPath="$PROJECT_DIR$/globalStructure.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.js" afterPath="$PROJECT_DIR$/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/population.js" afterPath="$PROJECT_DIR$/population.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dist.iws" />
@@ -48,41 +50,61 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CreepBuilder.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CreepBuilder.js">
+      <file leaf-file-name="Room.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Room.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="222" column="20" selection-start-line="222" selection-start-column="20" selection-end-line="222" selection-end-column="20" />
+              <caret line="113" column="22" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CreepRemoteHarvester.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/CreepRemoteHarvester.js">
+      <file leaf-file-name="RoomHandler.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RoomHandler.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.88439304">
-              <caret line="51" column="51" selection-start-line="51" selection-start-column="51" selection-end-line="51" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="38" column="29" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CreepHarvester.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CreepHarvester.js">
+      <file leaf-file-name="SpawnQueue.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SpawnQueue.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="76" selection-start-line="18" selection-start-column="76" selection-end-line="18" selection-end-column="76" />
+              <caret line="105" column="2" selection-start-line="105" selection-start-column="2" selection-end-line="105" selection-end-column="2" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Resources.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Resources.js">
+      <file leaf-file-name="global.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/global.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="40" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="40" />
+              <caret line="10" column="2" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="globalStructure.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/globalStructure.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="population.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/population.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.95898676">
+              <caret line="117" column="2" selection-start-line="117" selection-start-column="2" selection-end-line="117" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -104,34 +126,34 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/init.js" />
-        <option value="$PROJECT_DIR$/role_harvester.js" />
+        <option value="$PROJECT_DIR$/role_miner.js" />
         <option value="$PROJECT_DIR$/CreepPrototype.js" />
         <option value="$PROJECT_DIR$/profiler.js" />
         <option value="$PROJECT_DIR$/CreepActions.js" />
-        <option value="$PROJECT_DIR$/population.js" />
         <option value="$PROJECT_DIR$/CreepSoldier.js" />
         <option value="$PROJECT_DIR$/../../ScreepsAutocomplete-master/RoomPosition.js" />
-        <option value="$PROJECT_DIR$/CreepCarrier.js" />
-        <option value="$PROJECT_DIR$/CreepHarvester.js" />
-        <option value="$PROJECT_DIR$/CreepRemoteCarrier.js" />
-        <option value="$PROJECT_DIR$/HelperFunctions.js" />
-        <option value="$PROJECT_DIR$/SpawnQueue.js" />
-        <option value="$PROJECT_DIR$/Deposits.js" />
-        <option value="$PROJECT_DIR$/RoomHandler.js" />
-        <option value="$PROJECT_DIR$/Room.js" />
-        <option value="$PROJECT_DIR$/CreepCourier.js" />
+        <option value="$PROJECT_DIR$/CreepMiner.js" />
         <option value="$PROJECT_DIR$/CreepShooter.js" />
-        <option value="$PROJECT_DIR$/CreepManager.js" />
         <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/CreepCarrier.js" />
+        <option value="$PROJECT_DIR$/CreepBuilder.js" />
+        <option value="$PROJECT_DIR$/CreepBase.js" />
+        <option value="$PROJECT_DIR$/CreepCourier.js" />
+        <option value="$PROJECT_DIR$/CreepDictionary.js" />
+        <option value="$PROJECT_DIR$/CreepFactory.js" />
+        <option value="$PROJECT_DIR$/CreepManager.js" />
+        <option value="$PROJECT_DIR$/CreepRemoteCarrier.js" />
+        <option value="$PROJECT_DIR$/CreepRemoteMiner.js" />
+        <option value="$PROJECT_DIR$/CreepRoadMaintainer.js" />
+        <option value="$PROJECT_DIR$/Deposits.js" />
+        <option value="$PROJECT_DIR$/HelperFunctions.js" />
+        <option value="$PROJECT_DIR$/Resources.js" />
+        <option value="$PROJECT_DIR$/Room.js" />
+        <option value="$PROJECT_DIR$/RoomHandler.js" />
+        <option value="$PROJECT_DIR$/SpawnQueue.js" />
         <option value="$PROJECT_DIR$/global.js" />
         <option value="$PROJECT_DIR$/globalStructure.js" />
-        <option value="$PROJECT_DIR$/CreepFactory.js" />
-        <option value="$PROJECT_DIR$/CreepDictionary.js" />
-        <option value="$PROJECT_DIR$/CreepRoadMaintainer.js" />
-        <option value="$PROJECT_DIR$/CreepBase.js" />
-        <option value="$PROJECT_DIR$/CreepBuilder.js" />
-        <option value="$PROJECT_DIR$/Resources.js" />
-        <option value="$PROJECT_DIR$/CreepRemoteHarvester.js" />
+        <option value="$PROJECT_DIR$/population.js" />
       </list>
     </option>
   </component>
@@ -193,6 +215,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -214,7 +237,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -298,26 +320,26 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="2" width="1292" height="989" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.215311" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.07234539" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32996634" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15985997" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15967366" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39976957" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3990665" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33525345" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -345,7 +367,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="22" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -368,7 +389,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -398,7 +418,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -416,7 +435,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CreepHarvester.js">
+    <entry file="file://$PROJECT_DIR$/CreepMiner.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="47" selection-start-line="43" selection-start-column="47" selection-end-line="43" selection-end-column="47" />
@@ -442,7 +461,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="117" column="60" selection-start-line="117" selection-start-column="60" selection-end-line="117" selection-end-column="60" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -458,11 +476,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="34" column="86" selection-start-line="34" selection-start-column="86" selection-end-line="34" selection-end-column="86" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CreepHarvester.js">
+    <entry file="file://$PROJECT_DIR$/CreepMiner.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="31" column="75" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="118" />
@@ -512,13 +529,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_CreepActions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="42" selection-start-line="3" selection-start-column="42" selection-end-line="3" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../ScreepsAutocomplete-master/Spawn.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -530,13 +540,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/population.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.0640113">
-          <caret line="3" column="24" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -561,44 +564,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CreepRemoteCarrier.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="2" selection-start-line="51" selection-start-column="2" selection-end-line="51" selection-end-column="2" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SpawnQueue.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="105" column="2" selection-start-line="105" selection-start-column="2" selection-end-line="105" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Deposits.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RoomHandler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Room.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="105" column="23" selection-start-line="105" selection-start-column="23" selection-end-line="105" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CreepShooter.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16073969">
@@ -606,49 +571,147 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CreepCourier.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51635844">
-          <caret line="84" column="38" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreepBuilder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="228" column="30" selection-start-line="228" selection-start-column="30" selection-end-line="228" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/globalStructure.js">
+    <entry file="file://$PROJECT_DIR$/CreepBase.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09672831">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="21" selection-end-column="2" />
+        <state vertical-scroll-proportion="0.8769602">
+          <caret line="428" column="0" selection-start-line="428" selection-start-column="0" selection-end-line="428" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CreepCarrier.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="132" column="34" selection-start-line="132" selection-start-column="34" selection-end-line="132" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.8769602">
+          <caret line="153" column="30" selection-start-line="153" selection-start-column="30" selection-end-line="153" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CreepManager.js">
+    <entry file="file://$PROJECT_DIR$/CreepCourier.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51635844">
-          <caret line="97" column="42" selection-start-line="97" selection-start-column="42" selection-end-line="97" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.8769602">
+          <caret line="96" column="30" selection-start-line="96" selection-start-column="30" selection-end-line="96" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CreepDictionary.js">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.95898676">
+          <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreepFactory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4306393">
+          <caret line="121" column="30" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreepManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.5838358">
+          <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreepMiner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26658624">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HelperFunctions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.51266587">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Deposits.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.95898676">
+          <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreepRoadMaintainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.95898676">
+          <caret line="132" column="37" selection-start-line="132" selection-start-column="37" selection-end-line="132" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreepRemoteMiner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8769602">
+          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreepRemoteCarrier.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48733413">
+          <caret line="104" column="28" selection-start-line="104" selection-start-column="28" selection-end-line="104" selection-end-column="28" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.95898676">
+          <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Room.js">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="107" selection-start-line="34" selection-start-column="107" selection-end-line="34" selection-end-column="107" />
+          <caret line="113" column="22" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RoomHandler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="29" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SpawnQueue.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="105" column="2" selection-start-line="105" selection-start-column="2" selection-end-line="105" selection-end-column="2" />
           <folding />
         </state>
       </provider>
@@ -656,71 +719,23 @@
     <entry file="file://$PROJECT_DIR$/global.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="4" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
+          <caret line="10" column="2" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Resources.js">
+    <entry file="file://$PROJECT_DIR$/globalStructure.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="40" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="40" />
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CreepHarvester.js">
+    <entry file="file://$PROJECT_DIR$/population.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="76" selection-start-line="18" selection-start-column="76" selection-end-line="18" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CreepBase.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33236995">
-          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CreepFactory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="57" selection-start-line="12" selection-start-column="57" selection-end-line="12" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CreepRoadMaintainer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HelperFunctions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34393063">
-          <caret line="14" column="22" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CreepBuilder.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="222" column="20" selection-start-line="222" selection-start-column="20" selection-end-line="222" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CreepRemoteHarvester.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.88439304">
-          <caret line="51" column="51" selection-start-line="51" selection-start-column="51" selection-end-line="51" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.95898676">
+          <caret line="117" column="2" selection-start-line="117" selection-start-column="2" selection-end-line="117" selection-end-column="2" />
           <folding />
         </state>
       </provider>

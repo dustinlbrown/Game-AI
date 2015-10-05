@@ -6,15 +6,15 @@
  * var mod = require('miner'); // -> 'a thing'
  */
 
-function CreepHarvester(creep,resources){
+function CreepMiner(creep,resources){
     this.creep = creep;
     this.resourceManager = resources;
 
 
 }
 
-CreepHarvester.prototype.init = function() {
-    this.creep.memory.role = 'CreepHarvester';
+CreepMiner.prototype.init = function() {
+    this.creep.memory.role = 'CreepMiner';
     if(!this.creep.memory.hasOwnProperty('targetSourceId')){
         this.creep.memory.targetSourceId = this.resourceManager.assignSourceOccupant(this.creep);
         console.log(this.creep.name + ' ' + Game.getObjectById(this.creep.memory.targetSourceId));
@@ -25,12 +25,12 @@ CreepHarvester.prototype.init = function() {
 
 };
 
-CreepHarvester.prototype.act = function(){
+CreepMiner.prototype.act = function(){
 
-
+    //console.log(this.creep.memory.targetSourceId);
     this.creep.moveTo(Game.getObjectById(this.creep.memory.targetSourceId));
     this.creep.harvest(Game.getObjectById(this.creep.memory.targetSourceId));
 
 };
 
-module.exports = CreepHarvester;
+module.exports = CreepMiner;

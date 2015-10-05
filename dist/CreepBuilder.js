@@ -9,10 +9,10 @@ var ACTIONS = {
 };
 
 var CONST = {
-    RAMPART_MAX: 3000000,
-    RAMPART_FIX: 1500000,
-    WALL_FIX: 1,
-    WALL_MAX: 1
+    RAMPART_MAX: 500000,
+    RAMPART_FIX: 250000,
+    WALL_FIX: 10000,
+    WALL_MAX: 50000
 };
 
 var CreepBuilder = function (creep, depositManager) {
@@ -116,7 +116,7 @@ function repairStructures(creep) {
         else {
             creep.moveTo(site);
             creep.repair(site);
-           console.log(creep.name + " repairing " + site + " ("+site.hits+"/"+site.hitsMax+")");
+            console.log(creep.name + " repairing " + site + " ("+site.hits+"/"+site.hitsMax+")");
             return true;
         }
     }
@@ -133,7 +133,7 @@ function buildStructures(creep) {
 
             // Jitter the site based on roleId, within the first 3 results
             var siteChoice = (creep.getRoleId() % 3) % sites.length;
-           // console.log(creep.getRoleId());
+            // console.log(creep.getRoleId());
             // If there has not been any progress, pick the closest target and assign to this creep
             creep.memory.buildSite = sites[siteChoice].id;
         }
@@ -159,17 +159,17 @@ function buildStructures(creep) {
 
 function upgradeController(creep) {
     //if (creep.getRoleId() % 3 == 2) {
-        // If there are no constructions, upgrade the controller
-        var controller = creep.room.find(FIND_MY_STRUCTURES, {
-            filter: {structureType: STRUCTURE_CONTROLLER}
-        });
+    // If there are no constructions, upgrade the controller
+    var controller = creep.room.find(FIND_MY_STRUCTURES, {
+        filter: {structureType: STRUCTURE_CONTROLLER}
+    });
 
-        if (controller[0].level <= 7) {
-            creep.moveTo(controller[0]);
-            creep.upgradeController(controller[0]);
-            return true;
-        }
-        else return false;
+    if (controller[0].level <= 7) {
+        creep.moveTo(controller[0]);
+        creep.upgradeController(controller[0]);
+        return true;
+    }
+    else return false;
     //}
     return false;
 }

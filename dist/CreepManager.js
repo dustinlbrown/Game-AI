@@ -1,7 +1,7 @@
 /**
  * Created by Dustin on 9/3/2015.
  */
-//TODO Find a way to reduce the number of Harvesters to one per source once their WORK hits 5x
+//TODO Find a way to reduce the number of Miners to one per source once their WORK hits 5x
 //creep manager will be called from Room
 
 
@@ -40,7 +40,7 @@ Spawn.prototype.getUnitRoles = function () {
 
 function getCreepCount(workingRoomName, creepRole) {
     if (Game.rooms[workingRoomName] === undefined){
-        console.log('getCreepCount: workingRoom is undefined');
+        //console.log('getCreepCount: workingRoom is undefined');
         return 0;
     }
     var myCreepArray = Game.rooms[workingRoomName].find(FIND_MY_CREEPS, {filter:{memory:{role: creepRole}}});

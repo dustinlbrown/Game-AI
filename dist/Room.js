@@ -20,8 +20,8 @@ function Room(room, roomHandler) {
     //this.constructionManager = new Constructions(this.room);
     this.populationManager.typeDistribution.CreepBuilder.max = 3;
     this.populationManager.typeDistribution.CreepCourier.max = 3;
-    this.populationManager.typeDistribution.CreepHarvester.max = ((this.resourceManager.getSources().length+1)*2) - 1;
-    this.populationManager.typeDistribution.CreepCarrier.max = this.populationManager.typeDistribution.CreepHarvester.max;
+    this.populationManager.typeDistribution.CreepMiner.max = ((this.resourceManager.getSources().length+1)*2) - 1;
+    this.populationManager.typeDistribution.CreepCarrier.max = this.populationManager.typeDistribution.CreepMiner.max;
     this.creepFactory = new CreepFactory(this.depositManager,  this.populationManager, this.resourceManager, this.roomHandler);
 
     this.creepManager = CreepManager;
@@ -44,7 +44,7 @@ Room.prototype.populate = function() {
         for(var i in unitRoles){
             var getNumOfNeededCreeps = this.creepManager.getNumOfNeededCreep(this.room,unitRoles[i]);
 
-            if(unitRoles[i] === 'CreepRemoteHarvester' || unitRoles[i] === 'CreepRemoteCarrier'){
+            if(unitRoles[i] === 'CreepRemoteMiner' || unitRoles[i] === 'CreepRemoteCarrier'){
                 //TODO make this work better for more remote mining rooms
                 var remoteMiningCreepCount = 0;
                 var flags = this.getRemoteMiningFlags();
@@ -53,6 +53,10 @@ Room.prototype.populate = function() {
                     remoteMiningCreepCount += this.creepManager.getCreepCount(flags[j].pos.roomName,unitRoles[i]);
                 }
                 getNumOfNeededCreeps = this.creepManager.getNumOfNeededCreep(this.room,unitRoles[i]) - remoteMiningCreepCount;
+
+                if(this.room.controller.level < 3){
+                    getNumOfNeededCreeps = 0;
+                }
             }
 
             if (getNumOfNeededCreeps > 0) {
