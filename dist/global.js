@@ -7,5 +7,8 @@ module.exports = {
     initMineAssignments: function (room) {
         if (Memory.assignedMines === undefined) Memory.assignedMines = {};
         if (Memory.assignedMines[room] === undefined) Memory.assignedMines[room] = {};
+    },
+    getRemoteMiningFlags: function(){
+    return _.filter(Game.flags, {color: COLOR_BLUE});
     }
 };

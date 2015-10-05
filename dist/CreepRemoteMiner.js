@@ -6,11 +6,10 @@
  * var mod = require('miner'); // -> 'a thing'
  */
 
-function CreepRemoteMiner(creep,resources){
+function CreepRemoteMiner(creep,resources, room){
     this.creep = creep;
     this.resourceManager = resources;
-
-
+    this.room = room;
 }
 
 CreepRemoteMiner.prototype.init = function() {
@@ -59,25 +58,26 @@ function setTargetRoom(creep, resourcemgr){
 
         var sources = resourcemgr.getRemoteSources(room);
 
-
         for (var i in sources){
-            if(sources[i].minerIds === undefined){
+            if(sources[i].CreepRemoteMinerId === undefined){
                 //creep.setTargetRoom(room.roomname);
                 bestSourceCount = 0;
                 break;
             }else{
-                var occupancy = resourcemgr.getSourceOccupants(sources[i].id);
-                console.log(resourcemgr.getSourceOccupants(sources[i].id));
+                //console.log(creep.getSourceOccupants(sources[i].id, room, 'CreepRemoteMiner'));
+                var occupancy = creep.getSourceOccupants(sources[i].id, room, 'CreepRemoteMiner').length;
+                //console.log(resourcemgr.getSourceOccupants(sources[i].id));
                 if (occupancy < bestSourceCount){
                     bestSourceCount = occupancy;
                 }
             }
 
         }
-
+    //console.log(bestRoomName)
         if (bestSourceCount < bestRoomCount){
             bestRoomCount = bestSourceCount;
             bestRoomName = room.name;
+            //console.log(bestSourceCount + bestRoomName);
         }
     }
 

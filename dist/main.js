@@ -27,14 +27,10 @@ module.exports.loop = function() {
         }
     }
 
-    for(var n in rooms) {
-
-        var room = rooms[n];
-
-
+    for(var i in rooms) {
+        var room = rooms[i];
         room.loadCreeps();
         room.populate();
-
     }
     //console.log('loop end');
 };

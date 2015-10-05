@@ -70,6 +70,10 @@ Creep.prototype.setSourceOccupant = function(sourceId){
     return sourceId;
 };
 
+Creep.prototype.getRemoteMiningFlags = function(){
+    return global.getRemoteMiningFlags();
+};
+
 Creep.prototype.transferToControllerLink = function (link) {
     var controllerLink = this.room.controller.pos.findClosestByRange(FIND_MY_STRUCTURES, {
         filter: {structureType: STRUCTURE_LINK}
@@ -176,55 +180,6 @@ Creep.prototype.hasCarryCapacity = function() {
     return this.carryCapacity > this.carry.energy;
 };
 
-//miner specifics
-Creep.prototype.assignMine = function (roomName) {
-    global.initMineAssignments(roomName);
-
-    // See if this creep is already assigned
-    for (var i in Memory.assignedMines[roomName]){
-        if (Memory.assignedMines[roomName][i] == this.memory.roleId) {
-            console.log(this.name + " Already assigned to mine");
-            this.memory.assignedMine = i;
-            return true;
-        }
-    }
-
-    var initialRoom = Game.rooms[roomName];
-    var roomsToCheck = [roomName];
-    // Look for mining flags in the room to find other rooms to check
-    if (this.memory.assignedMine == undefined) {
-        var flags = initialRoom.find(FIND_FLAGS, {filter: {color:COLOR_YELLOW}});
-        for (var i in flags) {
-            var adjacentRoomName = flags[i].name;
-            roomsToCheck.push(adjacentRoomName);
-        }
-    }
-
-    // @TODO - Big problem here.. Can't get room data unless we have a creep in the room...
-    // Out of all rooms to check, find an open source
-    var assignedInRoom = undefined;
-    for (var roomIndex in roomsToCheck) {
-        var checkRoom = Game.rooms[roomsToCheck[roomIndex]];
-        //console.log(checkRoom + " - " + roomsToCheck[roomIndex] + " -  " + roomIndex);
-        if (checkRoom == undefined) {
-            console.log("Could not look up room data from "+roomsToCheck[roomIndex] + ", unable to assign miner "+this.name);
-            return false;
-        }
-
-        var sources = checkRoom.find(FIND_SOURCES);
-        for (var i in sources) {
-            if (Memory.assignedMines[roomName][sources[i].id] == undefined) {
-                Memory.assignedMines[roomName][sources[i].id] = this.memory.roleId;
-                this.memory.assignedMine = sources[i].id;
-                console.log("Assigned " + this.name + " to mine " +this.memory.assignedMine + " in room " + checkRoom.name);
-                return true;
-            }
-
-        }
-    }
-    console.log("Unable to assign " + this.name +", not enough mines");
-    return false;
-};
 
 Creep.prototype.withdrawEnergy = function() {
     var structures = this.room.find(FIND_MY_STRUCTURES);
@@ -257,11 +212,11 @@ Creep.prototype.withdrawEnergy = function() {
     if (typeof target === 'undefined') {
         var extensions = _.filter(structures, {structureType: STRUCTURE_EXTENSION});
 
-        extensions = _.filter(extensions, function (r) {
+        var filledExtensions = _.filter(extensions, function (r) {
             return r.energy > 0;
         });
-        if (extensions.length) {
-            target = this.pos.findClosestByRange(extensions);
+        if (filledExtensions.length) {
+            target = this.pos.findClosestByRange(filledExtensions);
         }
     }
     //if we still don't have a target and we don't have too many extensions, we'll borrow from the spawn
@@ -342,18 +297,23 @@ Creep.prototype.depositEnergy = function() {
 
     //We hopefully have a target, now lets get it!
     if (typeof target !== 'undefined'){
-        this.moveTo(target);
+        this.moveMeTo(target);
         this.transferEnergy(target);
         //this.memory.withdrawalSource = undefined;
     }
 };
 
-Creep.prototype.findEnergy = function(isTargetStorage){
+Creep.prototype.findEnergy = function(isTargetStorage, room){
+    //console.log(room);
+    if(room === undefined){
+        room = this.room;
+    }
 
-    var energy = this.room.find(FIND_DROPPED_ENERGY);
+    //console.log(this.name);
+    var energy = room.find(FIND_DROPPED_ENERGY);
     // collect
 
-    if (energy) {
+    if (energy !== undefined) {
         energy.sort(function (a, b) {
             return b.energy - a.energy
         });
@@ -368,23 +328,28 @@ Creep.prototype.findEnergy = function(isTargetStorage){
             }
         }
 
+        var target = undefined;
+
         if (targetEnergyIndex === true) {
-            this.moveTo(energy[targetEnergyIndex]);
-            this.pickup(energy[targetEnergyIndex]);
-            return;
+            target = energy[targetEnergyIndex]
+        }else{
+            target = energy[0];
         }
 
         //var closestEnergy = this.pos.findClosestByRange(FIND_DROPPED_ENERGY);
-        this.moveTo(energy[0]);
-        this.pickup(energy[0]);
+
+        this.moveTo(target);
+        this.pickup(target);
+        return target;
 
     } else{
         isTargetStorage = isTargetStorage || false;
         if(isTargetStorage === false){
-            var target = this.room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_STORAGE}});
+            var target = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_STORAGE}});
             if (target.length && target[0].store.energy > 0){
                 this.moveTo(target[0]);
                 target[0].transferEnergy(this);
+                return target[0];
             }else{
                 //Storage has not yet  been built, or is empty.
             }

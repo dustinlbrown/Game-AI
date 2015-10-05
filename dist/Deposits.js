@@ -20,62 +20,6 @@ function Deposits(room) {
     }
 };
 
-Deposits.prototype.getMaxEnergyCapacity = function(){
-    //todo make this better....
-    return (this.deposits.length * 50) + (this.spawns.length * 300);
-};
-
-
-Deposits.prototype.getSpawnDeposit = function() {
-    if(this.spawns.length != 0) {
-        return this.spawns[0];
-    }
-
-    return false;
-};
-
-Deposits.prototype.getEmptyDeposits = function() {
-
-    var empty = [];
-    var len = this.deposits.length;
-    for(var i = 0; i < len; i++) {
-        var res = this.deposits[i];
-        if(this.isEmptyDeposit(res)) {
-            empty.push(res);
-        }
-    }
-
-};
-
-Deposits.prototype.isEmptyDeposit = function(deposit) {
-    return deposit.energy / deposit.energyCapacity < CONSTS.EMPTY_LEVEL;
-
-
-};
-
-Deposits.prototype.getEmptyDepositOnId = function(id) {
-    var resource = Game.getObjectById(id);
-
-    if(resource && this.isEmptyDeposit(resource)) {
-        return resource;
-    }
-
-    return false;
-};
-
-Deposits.prototype.getClosestEmptyDeposit = function(creep) {
-    var resources = this.getEmptyDeposits();
-    var resource = false;
-    if(resources.length != 0) {
-        resource = creep.pos.findClosestByPath(resources);
-    }
-    if(!resource) {
-        resource = this.getSpawnDeposit();
-    }
-
-    return resource;
-};
-
 Deposits.prototype.energy = function() {
     var energy = 0;
     var resources = this.deposits;
@@ -106,20 +50,6 @@ Deposits.prototype.energyCapacity = function() {
     }
 
     return energyCapacity;
-
-};
-
-Deposits.prototype.getFullDeposits = function() {
-
-    var full = [];
-    var deposits = this.deposits;
-    for(var i = 0; i < deposits.length; i++) {
-        var deposit = deposits[i];
-        if(deposit.energy == deposit.energyCapacity) {
-            full.push(deposit);
-        }
-    }
-    return full;
 
 };
 

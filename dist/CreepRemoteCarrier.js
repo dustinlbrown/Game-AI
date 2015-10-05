@@ -13,41 +13,43 @@ var DEPOSIT_FOR = {
     CONSTRUCTION: 1,
     POPULATION: 2
 };
-function CreepRemoteCarrier(creep, resourceMgr){
+function CreepRemoteCarrier(creep, resourceMgr) {
     this.creep = creep;
     this.resourceMgr = resourceMgr
 
 }
 
-CreepRemoteCarrier.prototype.init = function() {
+CreepRemoteCarrier.prototype.init = function () {
     this.creep.memory.role = 'CreepRemoteCarrier';
     //console.log(this.creep.getTargetRoom());
-    if (this.creep.getTargetRoom() === undefined){
-        setTargetRoom(this.creep, this.resourceMgr);
-    }
 
 
+//TODO Write some code to find the closest exit, and store it in memory!
 
     this.act();
 
 
 };
 
-CreepRemoteCarrier.prototype.act = function(){
+CreepRemoteCarrier.prototype.act = function () {
 
-    if(this.creep.carry.energy === this.creep.carryCapacity || this.creep.memory.action === ACTIONS.DEPOSIT){
+    if (this.creep.carry.energy === this.creep.carryCapacity || this.creep.memory.action === ACTIONS.DEPOSIT) {
         this.creep.memory.action = ACTIONS.DEPOSIT;
+        this.creep.setTargetRoom(undefined); //set it to undefined so it picks a new one!
         this.creep.moveToHomeRoomIfSet();
-        if (this.creep.room.name === this.creep.getHomeRoom() && this.creep.memory.action === ACTIONS.DEPOSIT){
+        if (this.creep.room.name === this.creep.getHomeRoom() && this.creep.memory.action === ACTIONS.DEPOSIT) {
             this.creep.depositEnergy();
         }
     }
 
-    if (this.creep.carry.energy < 50 || this.creep.memory.action === ACTIONS.HARVEST){
+    if (this.creep.carry.energy < 50 || this.creep.memory.action === ACTIONS.HARVEST) {
         this.creep.memory.action = ACTIONS.HARVEST;
+        if (this.creep.getTargetRoom() === undefined) {
+            setTargetRoom(this.creep, this.resourceMgr);
+        }
         this.creep.moveToTargetRoomIfSet();
 
-        if(this.creep.room.name === this.creep.getTargetRoom()){
+        if (this.creep.room.name === this.creep.getTargetRoom()) {
             this.creep.findEnergy();
         }
     }
@@ -55,47 +57,23 @@ CreepRemoteCarrier.prototype.act = function(){
 };
 
 
-
 //TODO clean this up so it'll work for multiple rooms
-function setTargetRoom(creep, resourceMgr){
-    var miningFlags = _.filter(Game.flags, {color: COLOR_BLUE});
+function setTargetRoom(creep, resourceMgr) {
+    var miningFlags = creep.getRemoteMiningFlags();
     //for each flag
-    var bestSourceCount = 99;
-    var bestRoomCount = 99;
+    var bestRoomEnergy = 0;
     var bestRoomName = undefined;
-    for(var flag in miningFlags){
+    for (var flag in miningFlags) {
         var room = Game.rooms[miningFlags[flag].pos.roomName]; //get the room object
-
-        if (room === undefined){ //if we don't have a presence in the room, it will be undefined (aka best room ever).
-            bestRoomName = miningFlags[flag].pos.roomName;
-            break;
+        //console.log(room);
+        if (room === undefined) { //if we don't have a presence in the room, it will be undefined (aka best room ever).
+            continue;
         }
 
-        var sources = resourceMgr.getRemoteSources(room);
 
-        for (var i in sources){
-            //console.log(sources[i].CreepRemoteMinerId);
-            if(sources[i].CreepRemoteMinerId === undefined){ //no need to retrieve from here as we don't have a min
-                //creep.setTargetRoom(room.roomname);
-                continue;
-            }else{
-
-                var occupancy = creep.getSourceOccupants(sources[i].id, room, 'CreepRemoteMiner').length;
-                ////console.log(sources[i].id);
-                //console.log("occupancy  "+creep.getSourceOccupants(sources[i].id, room,'CreepRemoteMiner').length);
-                if (occupancy < bestSourceCount){
-                    //console.log("bestSourceCount " + bestSourceCount + " occupancy " + occupancy );
-                    if (occupancy === undefined){
-                        occupancy = 0;
-                    }
-                    bestSourceCount = occupancy;
-                }
-            }
-
-        }
-
-        if (bestSourceCount < bestRoomCount){
-            bestRoomCount = bestSourceCount;
+        var energy = creep.findEnergy(false, room).energy;
+        if (energy > bestRoomEnergy) {
+            bestRoomEnergy = energy;
             bestRoomName = room.name;
             //console.log("Room " + room.name);
         }
@@ -106,22 +84,4 @@ function setTargetRoom(creep, resourceMgr){
     //find least occupied source.
     creep.setTargetRoom(bestRoomName);
 }
-
-function setTargetSource(creep){
-    var sources = creep.getSources();
-    var bestSourceIndex = 0;
-    var bestSourceOccupancy = 99;
-
-    for (var i in sources){
-        var sourceOccupants = creep.getSourceOccupants(sources[i].id);
-        console.log('sourceOccupants.length: ' + sourceOccupants.length);
-        if(sourceOccupants && sourceOccupants.length < bestSourceOccupancy){
-            bestSourceIndex = i;
-            bestSourceOccupancy = sourceOccupants.length;
-        }
-    }
-    return creep.setSourceOccupant(sources[bestSourceIndex].id, creep);
-
-}
-
 module.exports = CreepRemoteCarrier;

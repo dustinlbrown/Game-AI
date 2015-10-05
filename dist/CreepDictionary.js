@@ -1,12 +1,10 @@
 function defineUnit(unitType, targetCount, body, options)
 {
-    if(Memory.unitDictionary === undefined)
-    {
+    if(Memory.unitDictionary === undefined){
         Memory.unitDictionary = {};
     }
 
-    if(options === undefined)
-    {
+    if(options === undefined){
         console.log('YOU FORGOT TO DEFINE OPTIONS FOR ' + unitType);
         return;
     }

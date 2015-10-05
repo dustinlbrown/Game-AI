@@ -5,7 +5,7 @@
 //creep manager will be called from Room
 
 
-var profiler = require('profiler');
+//var profiler = require('profiler');
 
 
 //function creepDefinition(role, targetCount, body)
@@ -76,6 +76,7 @@ function calculateCost(partArray) {
 }
 
 Spawn.prototype.spawnCreep = function (spawner, role) {
+    //TODO Add Emergency handling: build best body w/ available energy.
     var definition = Memory.unitDictionary[role];
 
     var body = getBestBody(spawner.room, definition.body);

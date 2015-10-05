@@ -14,8 +14,7 @@ var CreepRoadMaintainer = require('CreepRoadMaintainer');
 var CreepBase = require('CreepBase');
 var globalStructure = require('globalStructure');
 
-function CreepFactory(depositManager, populationManager, resourceManager, roomManager){
-    this.populationManager = populationManager;
+function CreepFactory(depositManager,  resourceManager, roomManager){
     this.resourceManager = resourceManager;
     this.room = roomManager;
     this.depositManager = depositManager;
@@ -63,60 +62,9 @@ CreepFactory.prototype.load = function(creep){
         return false;
     }
 
-
     loadedCreep.init();
-
 };
 
-CreepFactory.prototype.new = function(creepType, spawn) {
-    var abilities = [];
-    var id = new Date().getTime();
-    var creepLevel = this.populationManager.getTotalPopulation() / this.populationManager.populationLevelMultiplier;
-    var resourceLevel = this.depositManager.getFullDeposits().length / 5;
-    var level = Math.floor(creepLevel + resourceLevel);
-
-    var maxEnergyLevel =this.room.energyCapacityAvailable;
-    var currentEnergyLevel = this.room.energyAvailable;
-    var goalEnergyLevel = maxEnergyLevel * .75;
-    var extensionCount = this.depositManager.deposits.length;
-
-    if(this.populationManager.getTotalPopulation() < 5){
-        level = 1;
-    }
-
-    if (goalEnergyLevel < 300){
-        goalEnergyLevel = 300;
-    }
-    // TOUGH          10
-    // MOVE           50
-    // CARRY          50
-    // ATTACK         80
-    // WORK           100
-    // RANGED_ATTACK  150
-    // HEAL           200
-
-    //MAX Creep Energy at level 5 controller: 1550
-
-
-    var canBuild = spawn.canCreateCreep(
-        abilities,
-        creepType + '-' + id,
-        {
-            role: creepType
-        }
-    );
-    if(canBuild !== 0) {
-        if (canBuild == -6) {
-            console.log('Not enough resources to create ' + creepType);
-        } else {
-            console.log('Can not build creep: ' + creepType + ' @ ' + level);
-        }
-
-        return;
-    }
-    console.log('creepType: ' + creepType  + ' | level: ' + level + ' | extension count: ' + extensionCount);
-    spawn.createCreep(abilities, creepType + '-' + level + '-' + id, {role: creepType});
-};
 
 
 module.exports = CreepFactory;

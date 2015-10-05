@@ -6,43 +6,6 @@ function Resources(room, population) {
     this.populationManager = population;
 }
 
-//Resources.prototype.getAvailableSources = function() {
-//    // Some kind of unit counter per resource (with Population)
-//    var srcs = this.getSources();
-//    var srcIndex = Math.floor(Math.random()*srcs.length);
-//
-//    return srcs[srcIndex];
-//};
-
-//Resources.prototype.isControllerSource = function(room, source) {
-//    var closestSource = this.room.controller.pos.findClosest(this.getSources());
-//    if (closestSource == source){
-//        return true;
-//    }
-//    return false;
-//
-//}
-
-//Resources.prototype.transferToControllerLink = function (link) {
-//   this.link = link;
-//    var controllerLink = this.room.controller.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-//        filter: {structureType: STRUCTURE_LINK}
-//    });
-
-//if (controllerLink.id != this.link.id && controllerLink.energy < controllerLink.energyCapacity) {
-//   this.link.transferEnergy(Game.getObjectById(controllerLink.id));
-//}
-
-//};
-
-//Resources.prototype.occupantsByRole = function(source, role){
-//    var occupants = source.pos.findInRange(FIND_MY_CREEPS, 1);
-//    //var occupants = source.pos.findInRange(FIND_MY_CREEPS, 3, { filter: { memory: {role: role}} });
-//
-//    return occupants.length;
-//
-//}
-
 Resources.prototype.assignSourceOccupant = function(creep, room){
     if (typeof room === 'undefined'){
         room = this.room;
