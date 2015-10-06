@@ -9,10 +9,8 @@ var ACTIONS = {
 };
 
 var CONST = {
-    RAMPART_MAX: 500000,
-    RAMPART_FIX: 250000,
-    WALL_FIX: 10000,
-    WALL_MAX: 50000
+    RAMPART_MAX: 40000,
+    WALL_MAX: 200000
 };
 
 var CreepBuilder = function (creep, depositManager) {
@@ -54,7 +52,10 @@ CreepBuilder.prototype.init = function () {
 };
 
 CreepBuilder.prototype.act = function () {
-
+    var energyUnderfoot = this.creep.pos.findInRange(FIND_DROPPED_ENERGY, 1);
+    if (this.creep.carry.energy < this.creep.carryCapacity && energyUnderfoot.length > 0) {
+        this.creep.pickup(energyUnderfoot[0]);
+    }
 
     if (this.creep.carry.energy === 0) {
         this.creep.memory.action = ACTIONS.WITHDRAW;
@@ -87,7 +88,7 @@ function repairStructures(creep) {
     // If a structure needs repair, find the one in most need of repair - this takes precedence
     if (creep.memory.repairSite === undefined) {
 
-        var structuresNeedRepair = creep.room.find(FIND_MY_STRUCTURES, {
+        var structuresNeedRepair = creep.room.find(FIND_STRUCTURES, {
             filter: function (i) {
                 return (i.hits / i.hitsMax) < 0.75 && i.structureType !== STRUCTURE_ROAD && i.structureType !== STRUCTURE_WALL && i.structureType != STRUCTURE_RAMPART;
             }
@@ -116,7 +117,7 @@ function repairStructures(creep) {
         else {
             creep.moveTo(site);
             creep.repair(site);
-            console.log(creep.name + " repairing " + site + " ("+site.hits+"/"+site.hitsMax+")");
+            //console.log(creep.name + " repairing " + site + " ("+site.hits+"/"+site.hitsMax+")");
             return true;
         }
     }
@@ -148,7 +149,7 @@ function buildStructures(creep) {
             return buildStructures(creep); // Just finished. Recurse.
         }
         else {
-            creep.moveTo(site);
+            creep.moveMeTo(site);
             creep.build(site);
             //console.log(creep.name + " building " + site + " ("+site.progress+"/"+site.progressTotal+")");
             return true;
@@ -156,24 +157,6 @@ function buildStructures(creep) {
     }
     return false;
 }
-
-function upgradeController(creep) {
-    //if (creep.getRoleId() % 3 == 2) {
-    // If there are no constructions, upgrade the controller
-    var controller = creep.room.find(FIND_MY_STRUCTURES, {
-        filter: {structureType: STRUCTURE_CONTROLLER}
-    });
-
-    if (controller[0].level <= 7) {
-        creep.moveTo(controller[0]);
-        creep.upgradeController(controller[0]);
-        return true;
-    }
-    else return false;
-    //}
-    return false;
-}
-
 function reinforceWalls(creep) {
     var spawn = creep.getNearestSpawn();
     if (spawn === undefined){
@@ -183,13 +166,15 @@ function reinforceWalls(creep) {
 
     var assignedWall = creep.getStructureAssignedToCreep('reinforce');
     // If no wall assigned, assign a wall
-
+    //console.log('Assigned Wall: ' + assignedWall);
     if (typeof assignedWall === 'undefined') {
         // If there is nothing left to do, and the creep isn't designated to upgrade, build up walls
-        var reinforce = spawn.pos.findClosestByPath(FIND_STRUCTURES, {
+        var reinforce = spawn.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: function (s) {
                 if (s.pos.x === 0 || s.pos.x === 49 || s.pos.y === 0 || s.pos.y === 49) return false; // Ignore starter walls
-                return ( (s.structureType === STRUCTURE_RAMPART && (s.hits < Number(CONST.RAMPART_MAX)) ) || ( s.structureType === STRUCTURE_WALL && s.hits < Number(CONST.WALL_MAX)) && !s.structureIsAssigned('reinforce'));
+                return ( (s.structureType === STRUCTURE_RAMPART && (s.hits < Number(CONST.RAMPART_MAX)) )
+                    || ( s.structureType === STRUCTURE_WALL && s.hits < Number(CONST.WALL_MAX))
+                    && !s.structureIsAssigned('reinforce'));
                 //return ( s.structureType == STRUCTURE_RAMPART && (s.hits < s.hitsMax - 25000) ) || ( s.structureType == STRUCTURE_WALL && s.hits < 975000);
             }
         });
@@ -205,7 +190,7 @@ function reinforceWalls(creep) {
         if (assignedWall === null) return false;
         //console.log(creep.name + " reinforcing " + assignedWall);
         if (creep.pos.getRangeTo(assignedWall) > 1) {
-            creep.moveTo(assignedWall);
+            creep.moveMeTo(assignedWall);
         }
 
         creep.repair(assignedWall);
@@ -225,5 +210,25 @@ function reinforceWalls(creep) {
 
     return false;
 }
+
+
+function upgradeController(creep) {
+    //if (creep.getRoleId() % 3 == 2) {
+        // If there are no constructions, upgrade the controller
+        var controller = creep.room.find(FIND_MY_STRUCTURES, {
+            filter: {structureType: STRUCTURE_CONTROLLER}
+        });
+
+        if (controller[0].level <= 7) {
+            creep.moveMeTo(controller[0]);
+            creep.upgradeController(controller[0]);
+            return true;
+        } else {
+            return false;
+        }
+    //}
+    //return false;
+}
+
 
 module.exports = CreepBuilder;

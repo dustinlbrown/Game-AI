@@ -18,8 +18,7 @@ function Deposits(room) {
             this.spawns.push(s);
         }
     }
-};
-
+}
 Deposits.prototype.energy = function() {
     var energy = 0;
     var resources = this.deposits;
@@ -55,11 +54,8 @@ Deposits.prototype.energyCapacity = function() {
 
 // PRIVATE
 function filterExtensions(structure) {
-    if(structure.structureType == STRUCTURE_EXTENSION) {
-        return true;
-    }
 
-    return false;
+    return structure.structureType === STRUCTURE_EXTENSION;
 }
 
 

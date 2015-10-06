@@ -14,8 +14,7 @@ var DEPOSIT_FOR = {
 function CreepCarrier(creep) {
     this.creep = creep;
 
-};
-
+}
 CreepCarrier.prototype.init = function() {
     this.creep.memory.role = 'CreepCarrier';
     this.act();
@@ -51,7 +50,9 @@ CreepCarrier.prototype.findEnergy = function(isTargetStorage){
         //Check if the first 3 energy objects are close (within 8)
         var targetEnergyIndex = false;
         for (var i = 0; i < 2; i++) {
-            if (!energy[i]){continue};
+            if (!energy[i]) {
+                continue
+            }
             if (this.creep.pos.inRangeTo(energy[i], 8)) {
                 targetEnergyIndex = i;
                 break;

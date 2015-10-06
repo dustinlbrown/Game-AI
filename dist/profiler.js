@@ -1,6 +1,6 @@
-var Profiles_open = {}
-var Profiles_start = {}
-var Profiles_total = {}
+var Profiles_open = {};
+var Profiles_start = {};
+var Profiles_total = {};
 
 function openProfile(profileID){
     if(typeof Profiles_open[profileID] === "undefined" ){
@@ -36,7 +36,7 @@ function showProfiles(){
 
 exports.getProfiles = function(){
     return Profiles_total;
-}
+};
 
 module.exports.openProfile = openProfile;
 module.exports.closeProfile = closeProfile;

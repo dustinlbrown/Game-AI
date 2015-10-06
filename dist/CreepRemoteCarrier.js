@@ -58,7 +58,7 @@ CreepRemoteCarrier.prototype.act = function () {
 
 
 //TODO clean this up so it'll work for multiple rooms
-function setTargetRoom(creep, resourceMgr) {
+function setTargetRoom(creep) {
     var miningFlags = creep.getRemoteMiningFlags();
     //for each flag
     var bestRoomEnergy = 0;
@@ -70,12 +70,16 @@ function setTargetRoom(creep, resourceMgr) {
             continue;
         }
 
+        var energy = creep.findEnergy(false, room);
+        if(energy !== undefined){
 
-        var energy = creep.findEnergy(false, room).energy;
-        if (energy > bestRoomEnergy) {
-            bestRoomEnergy = energy;
-            bestRoomName = room.name;
-            //console.log("Room " + room.name);
+
+            if (energy.energy > bestRoomEnergy) {
+                bestRoomEnergy = energy.energy;
+                bestRoomName = room.name;
+                //console.log("Room " + room.name);
+            }
+            //console.log("energy: " + energy);
         }
     }
 

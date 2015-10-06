@@ -18,8 +18,7 @@ function CreepFactory(depositManager,  resourceManager, roomManager){
     this.resourceManager = resourceManager;
     this.room = roomManager;
     this.depositManager = depositManager;
-};
-
+}
 CreepFactory.prototype.load = function(creep){
     var loadedCreep = null;
     var role = creep.memory.role;

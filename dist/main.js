@@ -2,6 +2,7 @@
 var HelperFunctions = require('HelperFunctions');
 var Room = require('Room');
 var RoomHandler = require('RoomHandler');
+var CpuAverager = require('CpuAverager');
 require('globalStructure');
 
 //Game.spawns.Spawn1.createCreep([CARRY,CARRY,MOVE,MOVE],null,{role:'CreepCarrier'})
@@ -10,6 +11,7 @@ require('globalStructure');
 module.exports.loop = function() {
     //console.log('loop start');
     // Init rooms
+
     for(var n in Game.rooms) {
         var roomHandler = new Room(Game.rooms[n], RoomHandler);
         RoomHandler.set(Game.rooms[n].name, roomHandler);
@@ -17,8 +19,6 @@ module.exports.loop = function() {
 
     // Load rooms
     var rooms = RoomHandler.getRoomHandlers();
-    var safeToClearMem = true;
-
     for (var name in Memory.creeps) {
         //console.log(Memory.creeps[name]);
         if (!Game.creeps[name]) {
@@ -33,8 +33,5 @@ module.exports.loop = function() {
         room.populate();
     }
     //console.log('loop end');
+    CpuAverager();
 };
-//
-//RoomPosition.prototype.hasPathTo = function(target, opts){
-//    return this.isNearTo(target) || this.findClosest([target], opts);
-//};

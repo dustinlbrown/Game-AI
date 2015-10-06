@@ -1,7 +1,6 @@
 function CreepShooter(creep) {
     this.creep = creep;
-};
-
+}
 CreepShooter.prototype.init = function() {
     this.creep.memory.role = 'CreepShooter';
     if(!this.creep.memory.srcRoom) {
@@ -42,7 +41,7 @@ CreepShooter.prototype.attackHostiles = function() {
         this.creep.moveTo(targets[0]);
         return true;
     }
-}
+};
 
 CreepShooter.prototype.attackSpawns = function() {
     var targets = this.creep.room.find(FIND_HOSTILE_SPAWNS);
@@ -56,7 +55,7 @@ CreepShooter.prototype.attackSpawns = function() {
         this.creep.moveTo(targets[0]);
         return true;
     }
-}
+};
 
 
 

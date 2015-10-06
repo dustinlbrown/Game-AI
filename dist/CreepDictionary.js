@@ -1,10 +1,9 @@
-function defineUnit(unitType, targetCount, body, options)
-{
-    if(Memory.unitDictionary === undefined){
+function defineUnit(unitType, targetCount, body, options) {
+    if (Memory.unitDictionary === undefined) {
         Memory.unitDictionary = {};
     }
 
-    if(options === undefined){
+    if (options === undefined) {
         console.log('YOU FORGOT TO DEFINE OPTIONS FOR ' + unitType);
         return;
     }
@@ -18,6 +17,11 @@ function defineUnit(unitType, targetCount, body, options)
     };
 }
 
+var CREEP_TYPE = {
+    SUPPORT:0,
+    DEFENSE:1,
+    ATTACK:2
+};
 
 ////***HOME UNITS***////
 defineUnit("CreepMiner", 2,
@@ -34,7 +38,8 @@ defineUnit("CreepMiner", 2,
     ],
     {
         role: 'CreepMiner',
-        priority: 1
+        priority: 1,
+        purpose: CREEP_TYPE.SUPPORT
     }
 );
 
@@ -53,7 +58,8 @@ defineUnit("CreepCarrier", 4,
     ],
     {
         role: 'CreepCarrier',
-        priority: 1
+        priority: 1,
+        purpose: CREEP_TYPE.SUPPORT
     }
 );
 
@@ -70,7 +76,8 @@ defineUnit("CreepRemoteMiner", 3,
     ],
     {
         role: 'CreepRemoteMiner',
-        priority: 5
+        priority: 5,
+        purpose: CREEP_TYPE.SUPPORT
     }
 );
 
@@ -88,7 +95,8 @@ defineUnit("CreepRemoteCarrier", 6,
     ],
     {
         role: 'CreepRemoteCarrier',
-        priority: 6
+        priority: 6,
+        purpose: CREEP_TYPE.SUPPORT
     }
 );
 
@@ -108,7 +116,8 @@ defineUnit("CreepBuilder", 3,
     ],
     {
         role: 'CreepBuilder',
-        priority: 3
+        priority: 3,
+        purpose: CREEP_TYPE.SUPPORT
     }
 );
 
@@ -128,7 +137,8 @@ defineUnit("CreepRoadMaintainer", 1,
     ],
     {
         role: 'CreepRoadMaintainer',
-        priority: 7
+        priority: 7,
+        purpose: CREEP_TYPE.SUPPORT
     }
 );
 
@@ -147,8 +157,33 @@ defineUnit("CreepCourier", 1,
     ],
     {
         role: 'CreepCourier',
-        priority: 4
+        priority: 4,
+        purpose: CREEP_TYPE.SUPPORT
     }
 );
 
+defineUnit("CreepRampartDefender", 0,
+    [
+        [MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK], //400
+        [MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK], //550
+        [MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE], //600
+        [MOVE, MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE], //800
+        [MOVE, MOVE, MOVE, MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE], //1050
+
+    ],
+    {
+        role: 'CreepRampartDefender',
+        priority: 4,
+        purpose: CREEP_TYPE.DEFENSE
+    }
+);
+/* BODY PART SIZES
+ TOUGH: 10
+ MOVE: 50
+ CARRY: 50
+ ATTACK: 80
+ WORK: 100
+ RANGED_ATTACK: 150
+ HEAL: 250
+*/
 console.log('unitDictionary defined (length): ' + Memory.unitDictionary.length);

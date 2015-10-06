@@ -98,7 +98,7 @@ Creep.prototype.getSourceOccupants = function(sourceId, room, role){
     for (var i in room.memory.sources){
         if (room.memory.sources[i].id != sourceId) {
             //console.log('no source');
-            continue;
+
         } else {
             if (!room.memory.sources[i][role + 'Id']){
                 room.memory.sources[i][role + 'Id'] = [];
@@ -311,52 +311,51 @@ Creep.prototype.findEnergy = function(isTargetStorage, room){
 
     //console.log(this.name);
     var energy = room.find(FIND_DROPPED_ENERGY);
+    var target = undefined;
     // collect
 
     if (energy !== undefined) {
-        energy.sort(function (a, b) {
-            return b.energy - a.energy
-        });
-
-        //Check if the first 3 energy objects are close (within 8)
         var targetEnergyIndex = false;
-        for (var i = 0; i < 2; i++) {
-            if (!energy[i]){continue};
-            if (this.pos.inRangeTo(energy[i], 8)) {
-                targetEnergyIndex = i;
-                break;
-            }
-        }
 
-        var target = undefined;
+        if(energy.length > 1){
+            energy.sort(function (a, b) {
+                return b.energy - a.energy
+            });
+            for (var i = 0; i < 2; i++) {
+                if (!energy[i]) {
+                    continue
+                }
+                if (this.pos.inRangeTo(energy[i], 8)) {
+                    targetEnergyIndex = i;
+                    break;
+                }
+            }
+
+        }
 
         if (targetEnergyIndex === true) {
             target = energy[targetEnergyIndex]
         }else{
             target = energy[0];
         }
-
         //var closestEnergy = this.pos.findClosestByRange(FIND_DROPPED_ENERGY);
 
         this.moveTo(target);
         this.pickup(target);
-        return target;
 
     } else{
         isTargetStorage = isTargetStorage || false;
         if(isTargetStorage === false){
-            var target = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_STORAGE}});
-            if (target.length && target[0].store.energy > 0){
-                this.moveTo(target[0]);
-                target[0].transferEnergy(this);
-                return target[0];
-            }else{
-                //Storage has not yet  been built, or is empty.
+            target = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_STORAGE}})[0];
+            if (target.store.energy > 0){
+                this.moveTo(target);
+                target.transferEnergy(this);
             }
         }else{
             console.log(this.name + ': Target is storage');
         }
     }
+    return target;
     //}
 };
 
@@ -376,7 +375,11 @@ Creep.prototype.getStructureAssignedToCreep = function (structureClass) {
     //console.log(structureClass);
     for (var i in Memory.assignedStructures[structureClass]) {
         if (Memory.assignedStructures[structureClass][i] === this.getRoleId()){
-            return Game.getObjectById(i);
+            var structObj = Game.getObjectById(i);
+            if (structObj === null){
+                structObj = undefined;
+            }
+            return structObj;
         }
     }
     return undefined;

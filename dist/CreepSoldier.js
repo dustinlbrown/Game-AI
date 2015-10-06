@@ -1,7 +1,6 @@
 function CreepSoldier(creep) {
     this.creep = creep;
-};
-
+}
 CreepSoldier.prototype.init = function() {
     this.creep.memory.role = 'CreepSoldier';
     if(!this.creep.memory.srcRoom) {
@@ -22,7 +21,7 @@ CreepSoldier.prototype.act = function() {
 
 
     this.creep.moveTo(18,33);
-}
+};
 CreepSoldier.prototype.attackHostiles = function() {
     var targets = this.creep.room.find(FIND_HOSTILE_CREEPS);
     if(targets.length) {
@@ -30,7 +29,7 @@ CreepSoldier.prototype.attackHostiles = function() {
         this.creep.attack(targets[1]);
         return true;
     }
-}
+};
 CreepSoldier.prototype.attackSpawns = function() {
     var targets = this.creep.room.find(FIND_HOSTILE_SPAWNS);
     if(targets.length) {
@@ -42,8 +41,8 @@ CreepSoldier.prototype.attackSpawns = function() {
         this.creep.moveTo(targets[0]);
         this.creep.attack(targets[0]);
         return true;
-    };
-}
+    }
+};
 
 CreepSoldier.prototype.moveToNewRoom = function() {
     var targetRoom = this.creep.memory.targetRoom;
@@ -64,6 +63,6 @@ CreepSoldier.prototype.moveToNewRoom = function() {
         return false;
     }
 
-}
+};
 
 module.exports = CreepSoldier;

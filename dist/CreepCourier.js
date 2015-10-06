@@ -79,7 +79,7 @@ CreepCourier.prototype.collectEnergy = function(target) {
 };
 
 CreepCourier.prototype.findExistingBuilder = function() {
-    var builder = this.creep.room.find(FIND_MY_CREEPS, {
+    return this.creep.room.find(FIND_MY_CREEPS, {
         filter: function (object) {
 
             if (object.carry.energy === object.carryCapacity) {
@@ -91,7 +91,6 @@ CreepCourier.prototype.findExistingBuilder = function() {
             }
         }
     });
-    return builder;
 };
 
 module.exports = CreepCourier;
