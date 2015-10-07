@@ -8,7 +8,7 @@ Structure.prototype.needsRepair = function () {
 
 Structure.prototype.structureIsAssigned = function (structureClass) {
     global.initStructureAssignments(structureClass);
-    return Memory.assignedStructures[structureClass][this.id] != undefined;
+    return Memory.assignedStructures[structureClass][this.id] !== undefined;
 };
 
 Structure.prototype.unassignStructure = function (structureClass) {

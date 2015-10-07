@@ -9,9 +9,8 @@ var ACTIONS = {
 };
 
 
-var CreepRoadMaintainer = function (creep, depositManager) {
+var CreepRoadMaintainer = function (creep) {
     this.creep = creep;
-    this.depositManager = depositManager;
 };
 
 CreepRoadMaintainer.prototype.init = function () {

@@ -2,18 +2,25 @@
  * Created by Dustin on 8/24/2015.
  */
 "use strict";
-
+var CreepDictionary = require('CreepDictionary');
 var CreepFactory = require('CreepFactory');
 var Resources = require('Resources');
 var Deposits = require('Deposits');
 var CreepManager = require('CreepManager');
 var global = require('global');
 
+var ROOM_MODE = {
+    NORMAL: 0,
+    UNDER_ATTACK: 1
+};
+
+
 function Room(room, roomHandler) {
     this.room = room;
     this.roomHandler = roomHandler;
     this.creeps = [];
-
+    this.mode = ROOM_MODE.NORMAL;
+    this.creepDictionary = new CreepDictionary(this.room.name);
     this.depositManager = new Deposits(this.room);
     this.resourceManager = new Resources(this.room, this.populationManager);
     this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.roomHandler);
@@ -21,22 +28,35 @@ function Room(room, roomHandler) {
 
 }
 
+Room.prototype.isUnderAttack = function(){
+    var enemyArray = this.room.find(FIND_HOSTILE_CREEPS);
+    return enemyArray.length > 0;
+};
+
+
 Room.prototype.populate = function() {
     //if(this.depositManager.spawns.length == 0 && this.populationManager.getTotalPopulation() < 10) {
     //    this.askForReinforcements()
     //}
+    if(this.isUnderAttack()) {
+        this.mode = ROOM_MODE.UNDER_ATTACK;
+    }else{
+        this.mode = ROOM_MODE.NORMAL;
+    }
+
     for(var i = 0; i < this.depositManager.spawns.length; i++) {
         var spawn = this.depositManager.spawns[i];
-        if(spawn.spawning) {
-            continue;
-        }
+        if(spawn.spawning) {continue;}
+
         var unitRoles = spawn.getUnitRoles();
+
         for(var i in unitRoles){
             var neededCreeps = this.creepManager.getNumOfNeededCreep(this.room,unitRoles[i]);
 
+
+
             if(unitRoles[i] === 'CreepRemoteMiner' || unitRoles[i] === 'CreepRemoteCarrier'){
-                //TODO make this work better for more remote mining rooms
-                var remoteMiningCreepCount = 0;
+                                var remoteMiningCreepCount = 0;
                 var flags = global.getRemoteMiningFlags();
                 for(var j = 0; j < flags.length; j++){
                     //console.log('There are '+ this.creepManager.getCreepCount(flags[j].pos.roomName,unitRoles[i]) +' mining creeps in ' + flags[j].pos.roomName);

@@ -17,25 +17,51 @@
 //    this.cost = calculateCost(body);
 //}
 
-function initDefinitions() {
-    if (typeof Memory.unitDictionary === 'undefined') {
-        require('CreepDictionary'); //Hopefully this works
+//
+// TODO  FIX THIS WHOLE THING...maybe merge it into room, move the spawn functions out, make it moar better
+//
+
+
+function initDefinitions(roomName) {
+    if (typeof Memory.rooms[roomName].unitDictionary === 'undefined') {
+         //Hopefully this works
+        creepDictionary = new CreepDictionary(roomName);
+
     }
 
 }
 
 Spawn.prototype.getCreepDefinition = function (role) {
-    if (typeof Memory.unitDictionary === 'undefined') {
-        initDefinitions();
-    }
-    return Memory.unitDictionary[role];
+    return Memory.rooms[this.room.name].unitDictionary[role];
 };
 
 Spawn.prototype.getUnitRoles = function () {
-    if (typeof Memory.unitDictionary === 'undefined') {
-        initDefinitions();
+    return Object.keys(Memory.rooms[this.room.name].unitDictionary);
+};
+
+
+Spawn.prototype.spawnCreep = function (spawner, role) {
+    //TODO Add Emergency handling: build best body w/ available energy.
+    var definition = Memory[this.room.name].unitDictionary[role];
+
+    var body = getBestBody(this.room, definition.body);
+    if (this.room.energyAvailable < calculateCost(body) || this.spawning) {
+        return;
     }
-    return Object.keys(Memory.unitDictionary);
+
+    console.log('SPAWNING ' + definition.options.role + ' in ' + this.room.name);
+
+    var nameCount = 0;
+    var name = null;
+    while (name === null){
+        nameCount++;
+        var tryName = definition.options.role + nameCount;
+        if (typeof Game.creeps[tryName] === 'undefined'){
+            name = tryName;
+        }
+    }
+
+    this.createCreep(body, name, {roleId: nameCount});
 };
 
 function getCreepCount(workingRoomName, creepRole) {
@@ -48,20 +74,48 @@ function getCreepCount(workingRoomName, creepRole) {
     return myCreepArray.length;
 }
 
-exports.getNumOfNeededCreep = function (workingRoom, creepRole) {
+exports.getNumOfNeededCreep = function(workingRoom, creepRole) {
     var creepCount = getCreepCount(workingRoom.name, creepRole);
-    var creepTarget = Memory.unitDictionary[creepRole].targetCount;
+    var creepTarget = creepDictionary.getTargetCount(creepRole);
 
     return Math.max(creepTarget - creepCount, 0);
 };
 
+
 exports.getCreepCount = getCreepCount;
+/*
+PRIVATE FUNCTIONS
+*/
+
+function getBestBody(workingRoom, bodiesArray) {
+
+    var energyCapacity = workingRoom.energyCapacityAvailable;
+    for (var i in bodiesArray) {
+        var cost = calculateCost(bodiesArray[i]);
+        //console.log(energyCapacity);
+        if (cost === energyCapacity) {
+            //console.log(bodiesArray[i]);
+            return bodiesArray[i];
+        }
+        if (cost > energyCapacity) {
+            return bodiesArray[i - 1];
+        }
+        if (cost < energyCapacity) {
+            //console.log(typeof (bodiesArray.length - 1) + '  ' + i);
+            if (i == bodiesArray.length - 1) { //if the max body is affordable we select that one
+                return bodiesArray[i];
+            }
+
+        }
+
+    }
+}
 
 function calculateCost(partArray) {
     var cost = 0;
 
-    for (var i = 0; i < partArray.length; i++) {
-        var workingPart = partArray[i];
+    for (var part in partArray) {
+        var workingPart = partArray[part];
 
         if (workingPart === MOVE) cost += 50;
         if (workingPart === WORK) cost += 100;
@@ -75,53 +129,3 @@ function calculateCost(partArray) {
     return cost;
 }
 
-Spawn.prototype.spawnCreep = function (spawner, role) {
-    //TODO Add Emergency handling: build best body w/ available energy.
-    var definition = Memory.unitDictionary[role];
-
-    var body = getBestBody(spawner.room, definition.body);
-    if (spawner.room.energyAvailable < calculateCost(body) || this.spawning) {
-        return;
-    }
-
-    console.log('SPAWNING ' + definition.options.role + ' in ' + spawner.room.name);
-
-    var nameCount = 0;
-    var name = null;
-    while (name == null)
-    {
-        nameCount++;
-        var tryName = definition.options.role + nameCount;
-        if (Game.creeps[tryName] == undefined)
-            name = tryName;
-    }
-
-    spawner.createCreep(body, name, {role: definition.options.role, roleId: nameCount, homeRoom: spawner.room.name});
-};
-
-
-function getBestBody(workingRoom, bodiesArray) {
-
-    var energyCapacity = workingRoom.energyCapacityAvailable;
-    for (var i in bodiesArray) {
-
-
-        var cost = calculateCost(bodiesArray[i]);
-
-
-        if (cost == energyCapacity) {
-            return bodiesArray[i]
-        }
-        if (cost > energyCapacity) {
-            return bodiesArray[i - 1];
-        }
-
-        if (cost < energyCapacity) {
-            if (i == bodiesArray.length - 1) { //if the max body is affordable we select that one
-                return bodiesArray[i];
-            }
-
-        }
-
-    }
-}

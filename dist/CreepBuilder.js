@@ -9,13 +9,12 @@ var ACTIONS = {
 };
 
 var CONST = {
-    RAMPART_MAX: 40000,
-    WALL_MAX: 200000
+    RAMPART_MAX: 250000,
+    WALL_MAX: 250000
 };
 
-var CreepBuilder = function (creep, depositManager) {
+var CreepBuilder = function (creep) {
     this.creep = creep;
-    this.depositManager = depositManager;
 };
 
 CreepBuilder.prototype.init = function () {
@@ -143,7 +142,7 @@ function buildStructures(creep) {
         var site = Game.getObjectById(creep.memory.buildSite);
 
         // Wipe the assigned site when complete
-        if (site == null || site.progress >= site.progressTotal) {
+        if (site === null || site.progress >= site.progressTotal) {
             console.log("wiping build site for creep " + creep.name + " because null site " + site + " " + creep.memory.buildSite);
             delete creep.memory.buildSite;
             return buildStructures(creep); // Just finished. Recurse.
@@ -159,7 +158,7 @@ function buildStructures(creep) {
 }
 function reinforceWalls(creep) {
     var spawn = creep.getNearestSpawn();
-    if (spawn === undefined){
+    if (typeof spawn === 'undefined'){
         console.log('reinforceWalls: spawn is undefined');
         return false;
     }
@@ -172,39 +171,41 @@ function reinforceWalls(creep) {
         var reinforce = spawn.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: function (s) {
                 if (s.pos.x === 0 || s.pos.x === 49 || s.pos.y === 0 || s.pos.y === 49) return false; // Ignore starter walls
-                return ( (s.structureType === STRUCTURE_RAMPART && (s.hits < Number(CONST.RAMPART_MAX)) )
+                return (s.structureType === STRUCTURE_RAMPART && s.hits < Number(CONST.RAMPART_MAX))
                     || ( s.structureType === STRUCTURE_WALL && s.hits < Number(CONST.WALL_MAX))
-                    && !s.structureIsAssigned('reinforce'));
-                //return ( s.structureType == STRUCTURE_RAMPART && (s.hits < s.hitsMax - 25000) ) || ( s.structureType == STRUCTURE_WALL && s.hits < 975000);
+                    && !s.structureIsAssigned('reinforce');
             }
         });
-        //console.log('reinforce '+reinforce);
-        if (!reinforce) return false;
+        //console.log(reinforce instanceof Structure);
+        if (reinforce === null) {
+            //findClosestByPath returns null if nothing is found
+            return false;
+        }
+
+        //console.log(typeof reinforce);
         //console.log(reinforce);
+        //console.log("CreepBuilder:reinforce :  " + reinforce);
         creep.assignStructure('reinforce', reinforce);
         assignedWall = reinforce;
         //console.log("assigned " + creep.name + " to reinforce " + reinforce);
     }
 
-    if (assignedWall !== undefined) {
-        if (assignedWall === null) return false;
+    if (typeof assignedWall !== 'undefined') {
+        //TODO find out if this is necessary:  if (assignedWall === null) return false;
         //console.log(creep.name + " reinforcing " + assignedWall);
         if (creep.pos.getRangeTo(assignedWall) > 1) {
             creep.moveMeTo(assignedWall);
         }
-
         creep.repair(assignedWall);
 
         // If the structure is built up, deassign the builder
         if (
             (assignedWall.structureType === STRUCTURE_RAMPART && assignedWall.hits >= Number(CONST.RAMPART_MAX))
-            ||
-            (assignedWall.structureType === STRUCTURE_WALL && assignedWall.hits >= Number(CONST.WALL_MAX))
+            || (assignedWall.structureType === STRUCTURE_WALL && assignedWall.hits >= Number(CONST.WALL_MAX))
         ) {
             assignedWall.unassignStructure('reinforce');
             console.log("unassigned reinforce " + reinforce);
         }
-
         return true;
     }
 

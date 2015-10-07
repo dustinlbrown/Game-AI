@@ -375,11 +375,7 @@ Creep.prototype.getStructureAssignedToCreep = function (structureClass) {
     //console.log(structureClass);
     for (var i in Memory.assignedStructures[structureClass]) {
         if (Memory.assignedStructures[structureClass][i] === this.getRoleId()){
-            var structObj = Game.getObjectById(i);
-            if (structObj === null){
-                structObj = undefined;
-            }
-            return structObj;
+            Game.getObjectById(i);
         }
     }
     return undefined;

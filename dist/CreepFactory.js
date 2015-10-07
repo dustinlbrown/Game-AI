@@ -11,13 +11,15 @@ var CreepCourier = require('CreepCourier');
 var CreepRemoteMiner = require('CreepRemoteMiner');
 var CreepRemoteCarrier = require('CreepRemoteCarrier');
 var CreepRoadMaintainer = require('CreepRoadMaintainer');
+var CreepRampartDefender = require('CreepRampartDefender');
+
 var CreepBase = require('CreepBase');
 var globalStructure = require('globalStructure');
 
 function CreepFactory(depositManager,  resourceManager, roomManager){
     this.resourceManager = resourceManager;
     this.room = roomManager;
-    this.depositManager = depositManager;
+    //this.depositManager = depositManager;
 }
 CreepFactory.prototype.load = function(creep){
     var loadedCreep = null;
@@ -35,7 +37,7 @@ CreepFactory.prototype.load = function(creep){
             loadedCreep = new CreepCarrier(creep);
             break;
         case 'CreepBuilder':
-            loadedCreep = new CreepBuilder(creep, this.depositManager);
+            loadedCreep = new CreepBuilder(creep);
             break;
         case 'CreepCourier':
             loadedCreep = new CreepCourier(creep);
@@ -53,7 +55,10 @@ CreepFactory.prototype.load = function(creep){
             loadedCreep = new CreepRemoteCarrier(creep, this.resourceManager);
             break;
         case 'CreepRoadMaintainer':
-            loadedCreep = new CreepRoadMaintainer(creep, this.depositManager);
+            loadedCreep = new CreepRoadMaintainer(creep);
+            break;
+        case 'CreepRampartDefender':
+            loadedCreep = new CreepRampartDefender(creep);
             break;
     }
 
