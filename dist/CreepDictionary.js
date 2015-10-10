@@ -4,16 +4,37 @@ var CREEP_TYPE = {
     ATTACK:2
 };
 
-function CreepDictionary(roomName){
-    console.log("this shouldn't happen more than once " + roomName);
-    this.roomName = roomName;
-    this.init();
- }
+module.exports= {
+    setTargetCount: function(roomName,role,count){
+        if (!isRoomInitiated(roomName)){
+            init(roomName);
+        }
+        if(typeof Memory.rooms[roomName].unitDictionary[role] === 'undefined'){
+            console.log('Role (' + role + ') does not exist.  Unable to set count');
+            return;
+        }
+        Memory.rooms[roomName].unitDictionary[role].targetCount = count;
+    },
+    getTargetCount: function(roomName,role){
+        if (!isRoomInitiated(roomName)){
+            init(roomName);
+        }
+        return Memory.rooms[roomName].unitDictionary[role].targetCount;
+    },
+    getUnitRoles: function(roomName){
+        //console.log('test');
+        if (!isRoomInitiated(roomName)){
+            init(roomName);
+        }
+
+        return Object.keys(Memory.rooms[roomName].unitDictionary);
+    }
+};
 
 
-CreepDictionary.prototype.init = function(){
+function init(roomName){
 
-    console.log(this.roomName);
+    console.log(roomName);
     ////***HOME UNITS***////
     defineUnit("CreepMiner", 2,
         [
@@ -31,7 +52,7 @@ CreepDictionary.prototype.init = function(){
             priority: 1,
             purpose: CREEP_TYPE.SUPPORT
         },
-        this.roomName
+        roomName
     );
 
     defineUnit("CreepCarrier", 4,
@@ -51,7 +72,7 @@ CreepDictionary.prototype.init = function(){
             priority: 1,
             purpose: CREEP_TYPE.SUPPORT
         },
-        this.roomName
+        roomName
     );
 
     defineUnit("CreepRemoteMiner", 3,
@@ -69,7 +90,7 @@ CreepDictionary.prototype.init = function(){
             priority: 5,
             purpose: CREEP_TYPE.SUPPORT
         },
-        this.roomName
+        roomName
     );
 
     defineUnit("CreepRemoteCarrier", 6,
@@ -88,10 +109,10 @@ CreepDictionary.prototype.init = function(){
             priority: 6,
             purpose: CREEP_TYPE.SUPPORT
         },
-        this.roomName
+        roomName
     );
 
-    defineUnit("CreepBuilder", 3,
+    defineUnit("CreepBuilder", 5,
         [ //TODO define body arrays for Builder
             [WORK, CARRY, MOVE], //200 (startup creep)
             [WORK, WORK, CARRY, MOVE], //300
@@ -109,10 +130,10 @@ CreepDictionary.prototype.init = function(){
             priority: 3,
             purpose: CREEP_TYPE.SUPPORT
         },
-        this.roomName
+        roomName
     );
 
-    defineUnit("CreepRoadMaintainer", 1,
+    defineUnit("CreepRoadMaintainer", 0,
         [
             [WORK, CARRY, MOVE], //200 (startup creep)
             [WORK, WORK, CARRY, MOVE], //300
@@ -130,7 +151,7 @@ CreepDictionary.prototype.init = function(){
             priority: 7,
             purpose: CREEP_TYPE.SUPPORT
         },
-        this.roomName
+        roomName
     );
 
 
@@ -150,7 +171,7 @@ CreepDictionary.prototype.init = function(){
             priority: 4,
             purpose: CREEP_TYPE.SUPPORT
         },
-        this.roomName
+        roomName
     );
 
     defineUnit("CreepRampartDefender", 0,
@@ -165,22 +186,13 @@ CreepDictionary.prototype.init = function(){
             priority: 4,
             purpose: CREEP_TYPE.DEFENSE
         },
-        this.roomName
+        roomName
     );
-};
+}
 
-CreepDictionary.prototype.setTargetCount = function(role,count){
-    if(typeof Memory.rooms[this.roomName].unitDictionary[role] === 'undefined'){
-        console.log('Role (' + role + ') does not exist.  Unable to set count');
-    }
-    Memory.rooms[this.roomName].unitDictionary[role].targetCount = count;
-};
-
-CreepDictionary.prototype.getTargetCount = function(role){
-    return Memory.rooms[this.roomName].unitDictionary[role].targetCount;
-};
-
-
+function isRoomInitiated(room){
+    return typeof Memory.rooms[room].unitDictionary !== 'undefined';
+}
 
 function defineUnit(unitType, targetCount, body, options, room) {
     console.log(room);
@@ -204,7 +216,9 @@ function defineUnit(unitType, targetCount, body, options, room) {
     };
 }
 
-module.exports = CreepDictionary;
+
+
+//module.exports = CreepDictionary;
 
 /* BODY PART SIZES
  TOUGH: 10

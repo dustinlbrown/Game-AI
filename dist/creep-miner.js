@@ -29,6 +29,17 @@ CreepMiner.prototype.act = function(){
 
     //console.log(this.creep.memory.targetSourceId);
     this.creep.moveTo(Game.getObjectById(this.creep.memory.targetSourceId));
+    if(this.creep.carry.energy === this.creep.carryCapacity){
+        var link = this.creep.getNearToLink();
+        if(typeof link !== 'undefined'){
+            if(link.energy < link.energyCapacity){
+                this.creep.transferEnergy(link);
+            }
+            if (link.energy === link.energyCapacity){
+                this.creep.transferToControllerLink(link);
+            }
+        }
+    }
     this.creep.harvest(Game.getObjectById(this.creep.memory.targetSourceId));
 
 };

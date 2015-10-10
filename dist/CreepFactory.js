@@ -2,21 +2,21 @@
  * Created by Dustin on 8/25/2015.
  */
 
-var CreepBuilder = require('CreepBuilder');
-var CreepCarrier = require('CreepCarrier');
-var CreepMiner = require('CreepMiner');
-var CreepSoldier = require('CreepSoldier');
-var CreepShooter = require('CreepShooter');
-var CreepCourier = require('CreepCourier');
-var CreepRemoteMiner = require('CreepRemoteMiner');
-var CreepRemoteCarrier = require('CreepRemoteCarrier');
-var CreepRoadMaintainer = require('CreepRoadMaintainer');
-var CreepRampartDefender = require('CreepRampartDefender');
+var CreepBuilder = require('creep-builder');
+var CreepCarrier = require('creep-carrier');
+var CreepMiner = require('creep-miner');
+var CreepSoldier = require('creep-soldier');
+var CreepShooter = require('creep-shooter');
+var CreepCourier = require('creep-courier');
+var CreepRemoteMiner = require('creep-remote_miner');
+var CreepRemoteCarrier = require('creep-remote_carrier');
+var CreepRoadMaintainer = require('creep-road_maintainer');
+var CreepRampartDefender = require('creep-rampart_defender');
 
-var CreepBase = require('CreepBase');
-var globalStructure = require('globalStructure');
+var CreepBase = require('proto-creep');
+var globalStructure = require('proto-structure');
 
-function CreepFactory(depositManager,  resourceManager, roomManager){
+function CreepFactory(resourceManager, roomManager){
     this.resourceManager = resourceManager;
     this.room = roomManager;
     //this.depositManager = depositManager;

@@ -20,10 +20,10 @@ function Room(room, roomHandler) {
     this.roomHandler = roomHandler;
     this.creeps = [];
     this.mode = ROOM_MODE.NORMAL;
-    this.creepDictionary = new CreepDictionary(this.room.name);
+    //this.creepDictionary = new CreepDictionary(this.room.name);
     this.depositManager = new Deposits(this.room);
     this.resourceManager = new Resources(this.room, this.populationManager);
-    this.creepFactory = new CreepFactory(this.depositManager, this.resourceManager, this.roomHandler);
+    this.creepFactory = new CreepFactory(this.resourceManager, this.roomHandler);
     this.creepManager = CreepManager;
 
 }
@@ -53,8 +53,6 @@ Room.prototype.populate = function() {
         for(var i in unitRoles){
             var neededCreeps = this.creepManager.getNumOfNeededCreep(this.room,unitRoles[i]);
 
-
-
             if(unitRoles[i] === 'CreepRemoteMiner' || unitRoles[i] === 'CreepRemoteCarrier'){
                                 var remoteMiningCreepCount = 0;
                 var flags = global.getRemoteMiningFlags();
@@ -71,8 +69,8 @@ Room.prototype.populate = function() {
 
             if (neededCreeps > 0) {
                 if( //Safety switch!
-                    (unitRoles[i] === 'CreepCarrier' && neededCreeps === Memory.unitDictionary[unitRoles[i]].targetCount - 1)
-                    || (unitRoles[i]=== 'CreepMiner' && neededCreeps === Memory.unitDictionary[unitRoles[i]].targetCount)
+                    (unitRoles[i] === 'CreepCarrier' && neededCreeps === Memory.rooms[this.room.name].unitDictionary[unitRoles[i]].targetCount - 1)
+                    || (unitRoles[i]=== 'CreepMiner' && neededCreeps === Memory.rooms[this.room.name].unitDictionary[unitRoles[i]].targetCount)
                 ){
                     console.log('EMERGENCY: room about to die...killing energy consumers');
                     //TODO: find a way to pause energy consumers... for now...kill them all!
@@ -85,7 +83,7 @@ Room.prototype.populate = function() {
                     }
                 }
 
-                spawn.spawnCreep(spawn,unitRoles[i]);
+                spawn.spawnCreep(unitRoles[i]);
                 break;
             }
 

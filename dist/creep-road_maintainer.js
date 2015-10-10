@@ -1,7 +1,7 @@
 // Wander around maintaining roads.
 
-var profiler = require('profiler');
-require('globalStructure');
+var profiler = require('util-profiler');
+require('proto-structure');
 
 var ACTIONS = {
     WITHDRAW: 1,

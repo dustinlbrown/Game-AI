@@ -86,10 +86,4 @@ function setTargetRoom(creep, resourcemgr){
     //find least occupied source.
     creep.setTargetRoom(bestRoomName);
 }
-
-function setTargetSource(){
-
-
-}
-
 module.exports = CreepRemoteMiner;
