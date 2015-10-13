@@ -10,15 +10,16 @@ CreepRampartDefender.prototype.init = function () {
     if (this.moveToNewRoom() == true) {
         return;
     }
-
+    this.enemyArray = this.creep.room.find(FIND_HOSTILE_CREEPS);
     this.act();
 };
 
 CreepRampartDefender.prototype.act = function () {
 
+
     if (this.creep.memory.assignedRampartId === undefined) {
         // find unassigned rampart
-        this.creep.memory.assignedRampartId = chooseRampart(creep, enemyArray);
+        this.creep.memory.assignedRampartId = chooseRampart(creep, this.enemyArray);
     }
 
     var assignedRampart = Game.getObjectById(this.creep.memory.assignedRampartId);
@@ -64,7 +65,7 @@ function chooseRampart(creep, enemyArray) {
 function getUnassignedRamparts(room) {
     var defenders = room.find(FIND_MY_CREEPS, {
         filter: function (c) {
-            return c.memory.role == 'rampartDefender' && c.memory.assignedRampartId !== undefined;
+            return c.memory.role == 'CreepRampartDefender' && c.memory.assignedRampartId !== undefined;
         }
     });
 

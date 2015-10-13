@@ -10,5 +10,10 @@ module.exports = {
     },
     getRemoteMiningFlags: function(){
     return _.filter(Game.flags, {color: COLOR_BLUE});
+    },
+    initSpawn: function (spawn) {
+        Memory.spawns[spawn] = {};
+        Memory.spawns[spawn].spawnPriorityQueue = [];
+        Memory.spawns[spawn].spawnQueue = [];
     }
 };

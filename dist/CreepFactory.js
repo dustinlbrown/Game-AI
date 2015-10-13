@@ -2,22 +2,24 @@
  * Created by Dustin on 8/25/2015.
  */
 
-var CreepBuilder = require('CreepBuilder');
-var CreepCarrier = require('CreepCarrier');
-var CreepMiner = require('CreepMiner');
-var CreepSoldier = require('CreepSoldier');
-var CreepShooter = require('CreepShooter');
-var CreepCourier = require('CreepCourier');
-var CreepRemoteMiner = require('CreepRemoteMiner');
-var CreepRemoteCarrier = require('CreepRemoteCarrier');
-var CreepRoadMaintainer = require('CreepRoadMaintainer');
-var CreepBase = require('CreepBase');
-var globalStructure = require('globalStructure');
+var CreepBuilder = require('creep-builder');
+var CreepCarrier = require('creep-carrier');
+var CreepMiner = require('creep-miner');
+var CreepSoldier = require('creep-soldier');
+var CreepShooter = require('creep-shooter');
+var CreepCourier = require('creep-courier');
+var CreepRemoteMiner = require('creep-remote_miner');
+var CreepRemoteCarrier = require('creep-remote_carrier');
+var CreepRoadMaintainer = require('creep-road_maintainer');
+var CreepRampartDefender = require('creep-rampart_defender');
 
-function CreepFactory(depositManager,  resourceManager, roomManager){
+var CreepBase = require('proto-creep');
+var globalStructure = require('proto-structure');
+
+function CreepFactory(resourceManager, roomManager){
     this.resourceManager = resourceManager;
     this.room = roomManager;
-    this.depositManager = depositManager;
+    //this.depositManager = depositManager;
 }
 CreepFactory.prototype.load = function(creep){
     var loadedCreep = null;
@@ -35,7 +37,7 @@ CreepFactory.prototype.load = function(creep){
             loadedCreep = new CreepCarrier(creep);
             break;
         case 'CreepBuilder':
-            loadedCreep = new CreepBuilder(creep, this.depositManager);
+            loadedCreep = new CreepBuilder(creep);
             break;
         case 'CreepCourier':
             loadedCreep = new CreepCourier(creep);
@@ -53,7 +55,10 @@ CreepFactory.prototype.load = function(creep){
             loadedCreep = new CreepRemoteCarrier(creep, this.resourceManager);
             break;
         case 'CreepRoadMaintainer':
-            loadedCreep = new CreepRoadMaintainer(creep, this.depositManager);
+            loadedCreep = new CreepRoadMaintainer(creep);
+            break;
+        case 'CreepRampartDefender':
+            loadedCreep = new CreepRampartDefender(creep);
             break;
     }
 

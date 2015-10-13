@@ -33,7 +33,7 @@ function logAverageCpu() {
     }
     Memory.utils.usedCpuHistory.unshift(currentCpu);
 
-    if (Memory.utils.usedCpuHistory.length > 100) {
+    if (Memory.utils.usedCpuHistory.length > 50) {
         Memory.utils.usedCpuHistory.pop();
     }
 
@@ -43,9 +43,9 @@ function logAverageCpu() {
 
     averageCpu = Math.round(totalCpu / Memory.utils.usedCpuHistory.length);
 
-    if(Game.time % 60 === 0){
-        console.log(Game.getUsedCpu());
-        console.log("Current CPU: " + currentCpu + "/" + Game.cpuLimit + "  |  Average CPU (60 ticks): " + averageCpu + "  |  Change: " + (averageCpu - parseFloat(Memory.utils.averageCpu)) );
+    if(Game.time % 50 === 0){
+        //console.log(Game.getUsedCpu());
+        console.log("Current CPU: " + currentCpu + "/" + Game.cpuLimit + "  |  Average CPU (50 ticks): " + averageCpu + "  |  Change: " + (averageCpu - parseFloat(Memory.utils.averageCpu)) );
         Memory.utils.averageCpu = averageCpu;
     }
 }

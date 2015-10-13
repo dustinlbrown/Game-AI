@@ -1,5 +1,5 @@
-var profiler = require('profiler');
-require('globalStructure');
+var profiler = require('util-profiler');
+require('proto-structure');
 
 // @TODO : Change this, doesn't scale
 
@@ -9,13 +9,12 @@ var ACTIONS = {
 };
 
 var CONST = {
-    RAMPART_MAX: 40000,
-    WALL_MAX: 200000
+    RAMPART_MAX: 4000000,
+    WALL_MAX: 4000000
 };
 
-var CreepBuilder = function (creep, depositManager) {
+var CreepBuilder = function (creep) {
     this.creep = creep;
-    this.depositManager = depositManager;
 };
 
 CreepBuilder.prototype.init = function () {
@@ -75,8 +74,8 @@ CreepBuilder.prototype.act = function () {
         this.creep.memory.action = ACTIONS.CONSTRUCTION;
         if (!(repairStructures(this.creep) ||
             buildStructures(this.creep) ||
-            reinforceWalls(this.creep)||
-            upgradeController(this.creep) )) {
+            upgradeController(this.creep) ||
+            reinforceWalls(this.creep) )) {
             console.log("Builder " + this.creep.name + " has nothing to do");
         }
 
@@ -143,7 +142,7 @@ function buildStructures(creep) {
         var site = Game.getObjectById(creep.memory.buildSite);
 
         // Wipe the assigned site when complete
-        if (site == null || site.progress >= site.progressTotal) {
+        if (site === null || site.progress >= site.progressTotal) {
             console.log("wiping build site for creep " + creep.name + " because null site " + site + " " + creep.memory.buildSite);
             delete creep.memory.buildSite;
             return buildStructures(creep); // Just finished. Recurse.
@@ -159,52 +158,55 @@ function buildStructures(creep) {
 }
 function reinforceWalls(creep) {
     var spawn = creep.getNearestSpawn();
-    if (spawn === undefined){
+    if (typeof spawn === 'undefined'){
         console.log('reinforceWalls: spawn is undefined');
         return false;
     }
-
+    //console.log("what's happening");
     var assignedWall = creep.getStructureAssignedToCreep('reinforce');
     // If no wall assigned, assign a wall
-    //console.log('Assigned Wall: ' + assignedWall);
+    //console.log('Creep ('+ creep.name +') Assigned Wall: ' + assignedWall);
     if (typeof assignedWall === 'undefined') {
         // If there is nothing left to do, and the creep isn't designated to upgrade, build up walls
         var reinforce = spawn.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: function (s) {
                 if (s.pos.x === 0 || s.pos.x === 49 || s.pos.y === 0 || s.pos.y === 49) return false; // Ignore starter walls
-                return ( (s.structureType === STRUCTURE_RAMPART && (s.hits < Number(CONST.RAMPART_MAX)) )
+                //if(s.structureType === STRUCTURE_RAMPART && s.hits < Number(CONST.RAMPART_MAX)) console.log("yup");
+                return (s.structureType === STRUCTURE_RAMPART && s.hits < Number(CONST.RAMPART_MAX))
                     || ( s.structureType === STRUCTURE_WALL && s.hits < Number(CONST.WALL_MAX))
-                    && !s.structureIsAssigned('reinforce'));
-                //return ( s.structureType == STRUCTURE_RAMPART && (s.hits < s.hitsMax - 25000) ) || ( s.structureType == STRUCTURE_WALL && s.hits < 975000);
+                    && !s.structureIsAssigned('reinforce');
             }
         });
-        //console.log('reinforce '+reinforce);
-        if (!reinforce) return false;
+        //console.log(reinforce instanceof Structure);
+        if (reinforce === null) {
+            //findClosestByPath returns null if nothing is found
+
+            return false;
+        }
+        //console.log(typeof reinforce);
         //console.log(reinforce);
+        //console.log("CreepBuilder("+ creep.name +"):reinforce :  " + reinforce);
         creep.assignStructure('reinforce', reinforce);
         assignedWall = reinforce;
         //console.log("assigned " + creep.name + " to reinforce " + reinforce);
     }
 
-    if (assignedWall !== undefined) {
-        if (assignedWall === null) return false;
+    if (typeof assignedWall !== 'undefined') {
+        //TODO find out if this is necessary:  if (assignedWall === null) return false;
         //console.log(creep.name + " reinforcing " + assignedWall);
         if (creep.pos.getRangeTo(assignedWall) > 1) {
             creep.moveMeTo(assignedWall);
         }
-
         creep.repair(assignedWall);
 
         // If the structure is built up, deassign the builder
         if (
             (assignedWall.structureType === STRUCTURE_RAMPART && assignedWall.hits >= Number(CONST.RAMPART_MAX))
-            ||
-            (assignedWall.structureType === STRUCTURE_WALL && assignedWall.hits >= Number(CONST.WALL_MAX))
+            || (assignedWall.structureType === STRUCTURE_WALL && assignedWall.hits >= Number(CONST.WALL_MAX))
         ) {
             assignedWall.unassignStructure('reinforce');
             console.log("unassigned reinforce " + reinforce);
         }
-
         return true;
     }
 
@@ -213,21 +215,19 @@ function reinforceWalls(creep) {
 
 
 function upgradeController(creep) {
-    //if (creep.getRoleId() % 3 == 2) {
+    if (creep.getRoleId() % 3 == 2) {
         // If there are no constructions, upgrade the controller
-        var controller = creep.room.find(FIND_MY_STRUCTURES, {
-            filter: {structureType: STRUCTURE_CONTROLLER}
-        });
+        var controller = creep.room.controller;
 
-        if (controller[0].level <= 7) {
-            creep.moveMeTo(controller[0]);
-            creep.upgradeController(controller[0]);
+        if (controller.level <= 7) {
+            creep.moveMeTo(controller);
+            creep.upgradeController(controller);
             return true;
         } else {
             return false;
         }
-    //}
-    //return false;
+    }
+    return false;
 }
 
 
