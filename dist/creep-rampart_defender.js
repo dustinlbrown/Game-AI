@@ -65,7 +65,7 @@ function chooseRampart(creep, enemyArray) {
 function getUnassignedRamparts(room) {
     var defenders = room.find(FIND_MY_CREEPS, {
         filter: function (c) {
-            return c.memory.role == 'rampartDefender' && c.memory.assignedRampartId !== undefined;
+            return c.memory.role == 'CreepRampartDefender' && c.memory.assignedRampartId !== undefined;
         }
     });
 

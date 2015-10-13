@@ -38,8 +38,10 @@ Room.prototype.populate = function() {
     //if(this.depositManager.spawns.length == 0 && this.populationManager.getTotalPopulation() < 10) {
     //    this.askForReinforcements()
     //}
+
     if(this.isUnderAttack()) {
         this.mode = ROOM_MODE.UNDER_ATTACK;
+
     }else{
         this.mode = ROOM_MODE.NORMAL;
     }
@@ -47,6 +49,11 @@ Room.prototype.populate = function() {
     for(var i = 0; i < this.depositManager.spawns.length; i++) {
         var spawn = this.depositManager.spawns[i];
         if(spawn.spawning) {continue;}
+
+        if(this.mode === ROOM_MODE.UNDER_ATTACK){
+            spawn.spawnCreep('CreepRampartDefender');
+            continue;
+        }
 
         var unitRoles = spawn.getUnitRoles();
 
@@ -69,14 +76,14 @@ Room.prototype.populate = function() {
 
             if (neededCreeps > 0) {
                 if( //Safety switch!
-                    (unitRoles[i] === 'CreepCarrier' && neededCreeps === Memory.rooms[this.room.name].unitDictionary[unitRoles[i]].targetCount - 1)
+                    (unitRoles[i] === 'CreepCarrier' && neededCreeps === Memory.rooms[this.room.name].unitDictionary[unitRoles[i]].targetCount)
                     || (unitRoles[i]=== 'CreepMiner' && neededCreeps === Memory.rooms[this.room.name].unitDictionary[unitRoles[i]].targetCount)
                 ){
                     console.log('EMERGENCY: room about to die...killing energy consumers');
                     //TODO: find a way to pause energy consumers... for now...kill them all!
                     var energyConsumers = ['CreepBuilder','CreepCourier','CreepRoadMaintainer'];
-                    for(var name in Memory.creeps){
-                        if(name.homeRoom === this.room && _.includes(energyConsumers,name)){
+                    for(var name in Game.creeps){
+                        if(name.memory.homeRoom === this.room && _.includes(energyConsumers,name)){
                             Game.creeps[name].suicide();
                         }
 

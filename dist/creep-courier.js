@@ -26,6 +26,10 @@ CreepCourier.prototype.init = function() {
 };
 
 CreepCourier.prototype.act = function() {
+    var energyUnderfoot = this.creep.pos.findInRange(FIND_DROPPED_ENERGY, 1);
+    if (this.creep.carry.energy < this.creep.carryCapacity && energyUnderfoot.length > 0) {
+        this.creep.pickup(energyUnderfoot[0]);
+    }
     if(this.creep.carry.energy === 0){
         this.creep.memory.action = ACTIONS.WITHDRAW;
     }else if (this.creep.carry.energy == this.creep.carryCapacity){

@@ -1,5 +1,5 @@
 var global = require('global');
-
+var profiler = require('util-profiler');
 //Energy Related Functions
 
 //TODO 
@@ -117,10 +117,8 @@ Creep.prototype.getNearToLink = function() {
     })[0];
 }
 
-Creep.prototype.getNearestController = function() {
-    return this.room.find(FIND_STRUCTURES, {
-        filter: { structureType: STRUCTURE_CONTROLLER }
-    })[0];
+Creep.prototype.getController = function() {
+    return this.room.controller;
 };
 
 Creep.prototype.getNearestStorage = function() {
@@ -190,10 +188,11 @@ Creep.prototype.hasCarryCapacity = function() {
 Creep.prototype.withdrawEnergy = function() {
     var structures = this.room.find(FIND_MY_STRUCTURES);
     var target; //undefined
+    var hasStorage = false;
     var link = _.filter(structures,{structureType: STRUCTURE_LINK});
     if (link.length){
         for (var i in link){
-            if (this.pos.inRangeTo(link[i],2)){
+            if (this.pos.isNearTo(link[i])){
                 if(link[i].energy > 0){
                     target = link[i];
                 }
@@ -206,14 +205,17 @@ Creep.prototype.withdrawEnergy = function() {
         //var storage = _.filter(structures,{structureType: STRUCTURE_STORAGE});
         var storage = this.room.storage;
 
-        if (typeof storage !== 'undefined' && storage.store.energy > 0) {
-            target = storage;
+        if (typeof storage !== 'undefined' ){
+            hasStorage = true;
+            if (storage.store.energy > 0) {
+                target = storage;
+            }
         }
 
     }
 
     //We don't have storage, or it's empty.
-    if (typeof target === 'undefined') {
+    if (typeof target === 'undefined' && !hasStorage) {
         var extensions = _.filter(structures, {structureType: STRUCTURE_EXTENSION});
 
         var filledExtensions = _.filter(extensions, function (r) {
@@ -224,7 +226,7 @@ Creep.prototype.withdrawEnergy = function() {
         }
     }
     //if we still don't have a target and we don't have too many extensions, we'll borrow from the spawn
-    if (typeof target === 'undefined' && extensions.length < 1) {
+    if (typeof target === 'undefined' && extensions.length < 1 && !hasStorage) {
         var spawns = _.filter(structures, {structureType: STRUCTURE_SPAWN});
         if (spawns.length){
             target = spawns[0];
@@ -285,16 +287,12 @@ Creep.prototype.depositEnergy = function() {
     if (typeof target === 'undefined'){
         //Check Storage Energy
         if (this.memory.withdrawalSource !== STRUCTURE_STORAGE){
-            var storage = _.filter(structures,{structureType: STRUCTURE_STORAGE});
-            if (storage.length) {
 
-                storage = _.filter(storage, function (r) {
-                    return r.store.energy < r.storeCapacity;
-                });
-            }
-
-            if (storage.length){
-                target = storage[0];
+            //var storage = _.filter(structures,{structureType: STRUCTURE_STORAGE});
+            var storage = this.room.storage;
+            //console.log(storage);
+            if (typeof storage !== 'undefined' && storage.store.energy < storage.storeCapacity) {
+                target = storage;
             }
         }
     }
@@ -307,13 +305,48 @@ Creep.prototype.depositEnergy = function() {
     }
 };
 
+Creep.prototype.assignedCreep = function(creepId){
+    //TODO Finish this!!!!
+    var assignedCreep = this.memory.assignedCreep;
+    if(typeof assignedCreep === 'undefined' || !Game.getObjectById(assignedCreep)){
+        //find a creep to assign
+        var miners =[];
+        for(var creep in Game.creeps){
+            if (Game.creeps[creep].memory.homeRoom === this.room.name && Game.creeps[creep].memory.role === 'CreepMiner'){
+                miners.push(Game.creeps[creep])
+            }
+        }
+    }
+
+    return assignedCreep;
+};
+
+Creep.prototype.energyTarget = function(target){
+    //if (typeof this.memory.energyTarget === 'undefined'){
+    //    this.memory.energyTarget = {};
+    //}
+    if(typeof target === 'undefined'){
+        return this.memory.energyTarget;
+    }
+
+    this.memory.energyTarget = target;
+    return this.memory.energyTarget;
+};
+
 Creep.prototype.findEnergy = function(isTargetStorage, room){
+   //profiler.openProfile('Creep.prototype.findEnergy');
     //console.log(room);
-    if(room === undefined){
+    if(typeof room === 'undefined'){
         room = this.room;
     }
 
+    //TODO finish this part
+    //if(this.getRole === 'CreepCarrier'){
+    //    this.getAssignedCreepId
+    //}
+
     //console.log(this.name);
+
     var energy = room.find(FIND_DROPPED_ENERGY);
     var target = undefined;
     // collect
@@ -350,7 +383,7 @@ Creep.prototype.findEnergy = function(isTargetStorage, room){
     } else{
         isTargetStorage = isTargetStorage || false;
         if(isTargetStorage === false){
-            target = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_STORAGE}})[0];
+            target = this.room.storage;
             if (target.store.energy > 0){
                 this.moveTo(target);
                 target.transferEnergy(this);
@@ -359,6 +392,8 @@ Creep.prototype.findEnergy = function(isTargetStorage, room){
             console.log(this.name + ': Target is storage');
         }
     }
+   // profiler.closeProfile('Creep.prototype.findEnergy');
+    //profiler.showProfiles();
     return target;
     //}
 };
@@ -402,68 +437,8 @@ Creep.prototype.unassignCreep = function (structureClass) {
 *
  */
 
-//var rolesMeta = require('roles-meta');
-
-//require('mixin-job-target')(Creep.prototype);
-
 Creep.prototype.isCreep = true;
 
-Creep.prototype.act = function() {
-    var mem = this.memory;
-    var role = this.role();
-    var job = this.job();
-
-    if(this.hurtLastTick()){
-        this.say('owch');
-    }
-
-    if (mem.pending_creation) {
-        if (job && job.sourcePendingCreation()){
-            job.source(this);
-            job.sourcePendingCreation(false);
-            job.sourcePendingCreationBody(false);
-            job.start();
-        }
-        mem.pending_creation = undefined;
-    }
-
-    if (job) {
-        mem.ticks_without_job = 0;
-        job.act();
-    }
-    else {
-        if(mem.ticks_without_job === undefined){
-            mem.ticks_without_job = 0;
-        }
-        mem.ticks_without_job++;
-    }
-
-    if(mem.ticks_without_job > 2){
-        var idleFlag = this.pos.findClosestIdleFlag(this);
-        if(idleFlag){
-            this.room.jobList().add({
-                type: 'idle',
-                role: role,
-                source: this,
-                target: idleFlag
-            })
-                .start();
-        }
-    }
-
-    mem.prev_hits = this.hits;
-
-    // if(mem.tics_without_energy === undefined){
-    //     mem.tics_without_energy = 0;
-    // }
-
-    // if(this.energy === 0){
-    //     mem.tics_without_energy++;
-    // } else {
-    //     mem.tics_without_energy = 0;
-    // }
-
-};
 
 Creep.prototype.role = function(role) {
     if (role !== void 0) {

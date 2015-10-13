@@ -55,7 +55,7 @@ function init(roomName){
         roomName
     );
 
-    defineUnit("CreepCarrier", 4,
+    defineUnit("CreepCarrier", 3,
         [
             [CARRY, CARRY, MOVE, MOVE], //200 (startup creep)
             [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], //300
@@ -133,7 +133,7 @@ function init(roomName){
         roomName
     );
 
-    defineUnit("CreepRoadMaintainer", 0,
+    defineUnit("CreepRoadMaintainer", 1,
         [
             [WORK, CARRY, MOVE], //200 (startup creep)
             [WORK, WORK, CARRY, MOVE], //300
@@ -174,7 +174,7 @@ function init(roomName){
         roomName
     );
 
-    defineUnit("CreepRampartDefender", 0,
+    defineUnit("CreepRampartDefender", 1,
         [
             [MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK], //400
             [MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK], //550
