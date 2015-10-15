@@ -15,10 +15,15 @@ function CreepMiner(creep,resources){
 
 CreepMiner.prototype.init = function() {
     this.creep.memory.role = 'CreepMiner';
-    if(!this.creep.memory.hasOwnProperty('targetSourceId')){
-        this.creep.memory.targetSourceId = this.creep.assignSourceOccupant();
+    if(!this.creep.memory.hasOwnProperty('targetFlag')){
+        this.creep.assignFlag();
         console.log(this.creep.name + ' ' + Game.getObjectById(this.creep.memory.targetSourceId));
     }
+
+    if(!this.creep.memory.hasOwnProperty('targetSource') && this.creep.room.name === this.creep.getTargetRoom()){
+        this.creep.memory.targetSource = Game.getObjectById(this.creep.memory.targetFlag).sourceId(); //TODO is this the right place for this?
+    }
+
 
     this.act();
 
@@ -27,9 +32,15 @@ CreepMiner.prototype.init = function() {
 
 CreepMiner.prototype.act = function(){
 
+    if (this.creep.room.name !== this.creep.getTargetRoom()){
+        this.creep.moveToTargetRoomIfSet({reusePath:20});
+        return;
+    }
+
+
     //console.log(this.creep.memory.targetSourceId);
-    this.creep.moveTo(Game.getObjectById(this.creep.memory.targetSourceId));
-    if(this.creep.carry.energy === this.creep.carryCapacity){
+    this.creep.moveTo(Game.getObjectById(this.creep.memory.targetSource));
+    if(this.creep.getHomeRoom() === this.creep.getTargetRoom() && this.creep.carry.energy === this.creep.carryCapacity){
         //TODO store neartolink in creep memory
         var link = this.creep.getNearToLink();
         if(typeof link !== 'undefined'){
@@ -41,7 +52,7 @@ CreepMiner.prototype.act = function(){
             }
         }
     }
-    this.creep.harvest(Game.getObjectById(this.creep.memory.targetSourceId));
+    this.creep.harvest(Game.getObjectById(this.creep.memory.targetSource));
 
 };
 

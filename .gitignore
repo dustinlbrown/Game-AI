@@ -7,3 +7,4 @@ dist/.idea/workspace.xml
 dist - interesting version/
 Gruntfile.js
 Gruntfile.js
+*.xml

@@ -419,40 +419,19 @@ Creep.prototype.findEnergy = function(isTargetStorage, room){
     //}
 };
 
-Creep.prototype.assignSourceOccupant = function(room){
-    if (typeof room === 'undefined'){
-        room = this.room;
-    }else{
-        room = Game.rooms[room]; //@TODO when we pass in the room, its actually the roomName (TODO clean that up)
-    }
+Creep.prototype.assignFlag = function(){
+
     //console.log(room);
     var sourceFlags = global.getSourceFlags();
     for (flag in sourceFlags){
-        if(sourceFlags[flag].creepsByRole(this.getRole()) === 0){
-            sourceFlags[flag].assignCreep(this);
+        //TODO TEMPORARY FIX
+        if(sourceFlags[flag].creepsByRole('CreepMiner') === 0  && sourceFlags[flag].creepsByRole('CreepRemoteMiner') === 0){
+            this.memory.targetFlag = sourceFlags[flag].assignCreep(this);
+            this.memory.targetRoom = sourceFlags[flag].pos.roomName;
             break;
         }
     }
 
-
-    var sources = this.getSources(room);
-    var bestSourceIndex = 0;
-    var bestSourceOccupancy = 99;
-
-
-    if (sources.length > 0){
-        for (var i in sources){
-            var sourceOccupants = this.getSourceOccupants(sources[i].id);
-            console.log('sourceOccupants.length: ' + sourceOccupants.length);
-            if(sourceOccupants && sourceOccupants.length < bestSourceOccupancy){
-                bestSourceIndex = i;
-                bestSourceOccupancy = sourceOccupants.length;
-            }
-        }
-        return this.setSourceOccupant(sources[bestSourceIndex].id, this)
-    }else{
-        return ERR_NOT_FOUND;
-    }
 };
 
 

@@ -13,13 +13,11 @@ Flag.prototype.role = function(role) {
 };
 
 Flag.prototype.sourceId = function(id) {
-    if(this.memory.role !== 'source'){
-        return false;
-    }
+
     if (id !== void 0) {
         this.memory.source_id = id;
     } else if(this.memory.source_id === undefined){
-        var sources = this.pos.findInRange(FIND_SOURCES, 2);
+        var sources = this.pos.lookFor('source');
         if(sources.length){
             this.memory.source_id = sources[0].id;
         }
@@ -28,9 +26,7 @@ Flag.prototype.sourceId = function(id) {
 };
 
 Flag.prototype.source = function(source) {
-    if(this.memory.role !== 'source'){
-        return false;
-    }
+
     if (source !== undefined) {
         this.sourceId(source.id);
     }
@@ -39,9 +35,7 @@ Flag.prototype.source = function(source) {
 
 // the max number of harvesters that can be assigned to this source
 Flag.prototype.minerCountMax = function(value) {
-    if(this.memory.role !== 'source'){
-        return false;
-    }
+
     if(this.memory.harvester_count_max === undefined){
         this.memory.harvester_count_max = 1;
     }
@@ -52,9 +46,7 @@ Flag.prototype.minerCountMax = function(value) {
 };
 
 Flag.prototype.carrierCountMax = function(value) {
-    if(this.memory.role !== 'source'){
-        return false;
-    }
+
     if(this.memory.carrier_count_max === undefined){
         this.memory.carrier_count_max = 3;
     }
@@ -65,27 +57,50 @@ Flag.prototype.carrierCountMax = function(value) {
 };
 
 Flag.prototype.creepsByRole = function(role){
+    if(typeof this.memory.occupants === 'undefined'){
+        this.memory.occupants = {};
+        this.memory.occupants[role] = [];
+        return 0;
+    }
+    if(typeof this.memory.occupants[role] === 'undefined'){
+        this.memory.occupants[role] = [];
+        return 0;
+    }
+
     this.unassignDeadCreeps();
+
     return this.memory.occupants[role].length
 };
 
 Flag.prototype.assignCreep = function(creep){
     if(typeof this.memory.occupants === 'undefined'){
-        this.memory.occupants = [];
+        this.memory.occupants = {};
+        this.memory.occupants[creep.getRole()] = [];
     }
     if(typeof this.memory.occupants[creep.getRole()] === 'undefined'){
         this.memory.occupants[creep.getRole()] = [];
     }
+
     this.memory.occupants[creep.getRole()].push(creep.id);
+    return this.id;
 };
 
 Flag.prototype.unassignDeadCreeps = function(){
-    for(var role in this.memory.occupants){
-        for(var id in this.memory.occupants[role]) {
+    if(typeof this.memory.occupants === 'undefined'){
+        this.memory.occupants = {};
+    }
 
-            if (Game.getObjectById(this.room.memory.occupants[role][id]) == null) {
-                console.log('deleting: ' + this.room.memory.sources[i][this.getRole()][id]);
-                this.room.memory.occupants[role].splice(id, 1);
+    for(var role in this.memory.occupants){
+        if(!this.memory.occupants[role].length){
+            this.memory.occupants[role] = [];
+        }
+        //console.log('---- Name ' + this.name );
+        for(var id in this.memory.occupants[role]) {
+            //console.log('deleting: ' + Game.getObjectById(this.memory.occupants[role][id]));
+            if (Game.getObjectById(this.memory.occupants[role][id]) == null) {
+                console.log('deleting: ' + this.memory.occupants[role][id]);
+                //console.log('deleting: ' + this.pos.roomName);
+                this.memory.occupants[role].splice(id, 1);
             }
         }
     }

@@ -14,13 +14,11 @@ function CreepRemoteMiner(creep, room){
 CreepRemoteMiner.prototype.init = function() {
     this.creep.memory.role = 'CreepRemoteMiner';
     if (this.creep.getTargetRoom() === undefined){
-        setTargetRoom(this.creep);
+        this.creep.assignFlag();
     }
 
-    if(!this.creep.memory.hasOwnProperty('targetSourceId') && this.creep.room.name === this.creep.getTargetRoom()){
-        console.log(this.creep.name);
-        this.creep.memory.targetSourceId = this.creep.assignSourceOccupant(this.creep,this.creep.getTargetRoom()); //TODO is this the right place for this?
-        console.log(this.creep.name + ' ' + Game.getObjectById(this.creep.memory.targetSourceId));
+    if(!this.creep.memory.hasOwnProperty('targetSource') && this.creep.room.name === this.creep.getTargetRoom()){
+        this.creep.memory.targetSource = Game.getObjectById(this.creep.memory.targetFlag).sourceId(); //TODO is this the right place for this?
     }
 
     this.act();
@@ -34,8 +32,8 @@ CreepRemoteMiner.prototype.act = function(){
         return;
     }
 
-    this.creep.moveTo(Game.getObjectById(this.creep.memory.targetSourceId));
-    this.creep.harvest(Game.getObjectById(this.creep.memory.targetSourceId));
+    this.creep.moveTo(Game.getObjectById(this.creep.memory.targetSource));
+    this.creep.harvest(Game.getObjectById(this.creep.memory.targetSource));
 
 };
 
