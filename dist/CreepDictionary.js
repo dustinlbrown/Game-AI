@@ -123,7 +123,8 @@ function init(roomName){
             [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],//800
             [WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],//1050
             [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],//1500
-            [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]//1800 + 25 parts
+            [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],//1800 + 25 parts
+            [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]//1800 + 25 parts
 
         ],
         {
@@ -155,7 +156,7 @@ function init(roomName){
     );
 
 
-    defineUnit("CreepCourier", 1,
+    defineUnit("CreepCourier", 0,
         [
             [CARRY, CARRY, MOVE, MOVE], //200 (startup creep)
             [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], //300
@@ -174,7 +175,7 @@ function init(roomName){
         roomName
     );
 
-    defineUnit("CreepRampartDefender", 1,
+    defineUnit("CreepRampartDefender", 0,
         [
             [MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK], //400
             [MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK], //550

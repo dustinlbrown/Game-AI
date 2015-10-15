@@ -4,10 +4,6 @@
 		"selected_items":
 		[
 			[
-				"resou",
-				"resourceMgr"
-			],
-			[
 				"resource",
 				"resourceManager"
 			]
@@ -16,63 +12,21 @@
 	"buffers":
 	[
 		{
+			"contents": "",
 			"file": "dist/CreepRemoteMiner.js",
+			"file_size": -1,
+			"file_write_time": -1,
 			"settings":
 			{
-				"buffer_size": 3100,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "dist/CreepRemoteCarrier.js",
-			"settings":
-			{
-				"buffer_size": 2690,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "dist/main.js",
-			"settings":
-			{
-				"buffer_size": 1067,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "dist/Resources.js",
-			"settings":
-			{
-				"buffer_size": 1853,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "dist/CreepBase.js",
-			"settings":
-			{
-				"buffer_size": 11899,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "dist/CreepFactory.js",
-			"settings":
-			{
-				"buffer_size": 2107,
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		}
 	],
 	"build_system": "",
-	"build_system_choices":
-	[
-	],
-	"build_varint": "",
 	"command_palette":
 	{
 		"height": 334.0,
-		"last_filter": "",
 		"selected_items":
 		[
 		],
@@ -80,10 +34,7 @@
 	},
 	"console":
 	{
-		"height": 0.0,
-		"history":
-		[
-		]
+		"height": 0.0
 	},
 	"distraction_free":
 	{
@@ -94,23 +45,19 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/G/Documents/GitHub/Screeps/dist"
-	],
 	"file_history":
 	[
 		"/G/Documents/GitHub/Screeps/dist/Resources.js",
-		"/G/Documents/GitHub/Screeps/dist/CreepDictionary.js",
 		"/G/Documents/GitHub/Screeps/dist/CreepBase.js",
+		"/G/Documents/GitHub/Screeps/dist/Room.js",
 		"/G/Documents/GitHub/Screeps/dist/main.js",
 		"/G/Documents/GitHub/Screeps/dist/CreepRemoteCarrier.js",
-		"/G/Documents/GitHub/Screeps/dist/Room.js",
 		"/G/Documents/GitHub/Screeps/dist/population.js",
 		"/G/Documents/GitHub/Screeps/dist/CreepRemoteHarvester.js",
 		"/G/Documents/GitHub/Screeps/dist/CreepMiner.js",
 		"/G/Documents/GitHub/Screeps/dist/CreepManager.js",
 		"/G/Documents/GitHub/Screeps/dist/CreepFactory.js",
+		"/G/Documents/GitHub/Screeps/dist/CreepDictionary.js",
 		"/G/Documents/GitHub/Screeps/dist/.idea/workspace.xml",
 		"/G/Documents/GitHub/Screeps/dist/CreepHarvester.js",
 		"/C/Users/Dustin/AppData/Roaming/Sublime Text 2/Packages/User/JavaScript.sublime-settings",
@@ -120,11 +67,11 @@
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"G:\\Documents\\GitHub\\Screeps\\dist",
@@ -137,7 +84,6 @@
 		"case_sensitive": true,
 		"find_history":
 		[
-			"Harvester",
 			"harvester",
 			"Harvester",
 			"Harveseter",
@@ -174,76 +120,15 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
 					"file": "dist/CreepRemoteMiner.js",
-					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3100,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 495.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "dist/CreepRemoteCarrier.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2690,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 135.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "dist/main.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1067,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
@@ -264,97 +149,6 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "dist/Resources.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1853,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 932.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "dist/CreepBase.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11899,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8497,
-								8497
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3420.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "dist/CreepFactory.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2107,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 225.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -399,8 +193,6 @@
 	{
 		"height": 25.0
 	},
-	"pinned_build_system": "",
-	"project": "Screeps.sublime-project",
 	"replace":
 	{
 		"height": 42.0
@@ -409,7 +201,6 @@
 	"select_file":
 	{
 		"height": 0.0,
-		"last_filter": "",
 		"selected_items":
 		[
 		],
@@ -418,32 +209,15 @@
 	"select_project":
 	{
 		"height": 0.0,
-		"last_filter": "",
 		"selected_items":
 		[
 		],
 		"width": 0.0
-	},
-	"select_symbol":
-	{
-		"height": 0.0,
-		"last_filter": "",
-		"selected_items":
-		[
-		],
-		"width": 0.0
-	},
-	"selected_group": 0,
-	"settings":
-	{
 	},
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 190.0,
-	"status_bar_visible": true,
-	"template_settings":
-	{
-	}
+	"status_bar_visible": true
 }

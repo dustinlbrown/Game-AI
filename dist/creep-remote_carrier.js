@@ -13,10 +13,8 @@ var DEPOSIT_FOR = {
     CONSTRUCTION: 1,
     POPULATION: 2
 };
-function CreepRemoteCarrier(creep, resourceMgr) {
+function CreepRemoteCarrier(creep) {
     this.creep = creep;
-    this.resourceMgr = resourceMgr
-
 }
 
 CreepRemoteCarrier.prototype.init = function () {
@@ -36,7 +34,7 @@ CreepRemoteCarrier.prototype.act = function () {
     if (this.creep.carry.energy === this.creep.carryCapacity || this.creep.memory.action === ACTIONS.DEPOSIT) {
         this.creep.memory.action = ACTIONS.DEPOSIT;
         this.creep.setTargetRoom(undefined); //set it to undefined so it picks a new one!
-        this.creep.moveToHomeRoomIfSet();
+        this.creep.moveToHomeRoomIfSet({reusePath:20});
         if (this.creep.room.name === this.creep.getHomeRoom() && this.creep.memory.action === ACTIONS.DEPOSIT) {
             this.creep.depositEnergy();
         }
@@ -45,9 +43,9 @@ CreepRemoteCarrier.prototype.act = function () {
     if (this.creep.carry.energy < 50 || this.creep.memory.action === ACTIONS.HARVEST) {
         this.creep.memory.action = ACTIONS.HARVEST;
         if (this.creep.getTargetRoom() === undefined) {
-            setTargetRoom(this.creep, this.resourceMgr);
+            setTargetRoom(this.creep);
         }
-        this.creep.moveToTargetRoomIfSet();
+        this.creep.moveToTargetRoomIfSet({reusePath:20});
 
         if (this.creep.room.name === this.creep.getTargetRoom()) {
             this.creep.findEnergy();
@@ -59,7 +57,7 @@ CreepRemoteCarrier.prototype.act = function () {
 
 //TODO clean this up so it'll work for multiple rooms
 function setTargetRoom(creep) {
-    var miningFlags = creep.getRemoteMiningFlags();
+    var miningFlags = creep.getSourceFlags();
     //for each flag
     var bestRoomEnergy = 0;
     var bestRoomName = undefined;

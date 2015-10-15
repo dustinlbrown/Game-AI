@@ -128,7 +128,7 @@ Room.prototype.sources = function(filter){
 
 Room.prototype.availableSpawns = function() {
     return this.spawns(function(spawn) {
-        return !spawn.isBusy();
+        return !spawn.spawning;
     });
 };
 

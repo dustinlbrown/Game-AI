@@ -1,20 +1,14 @@
-function CreepSoldier(creep) {
+function CreepAttackSoldier(creep) {
     this.creep = creep;
+    this.maxApproachRange = 7;
 }
-CreepSoldier.prototype.init = function() {
-    this.creep.memory.role = 'CreepSoldier';
-    if(!this.creep.memory.srcRoom) {
-        this.creep.memory.srcRoom = this.creep.room.name;
-    }
-    this.creep.memory.targetRoom = false;
-    if(this.moveToNewRoom() == true) {
-        return;
-    }
+CreepAttackSoldier.prototype.init = function() {
+    this.creep.memory.role = 'CreepAttackSoldier';
 
     this.act();
 };
 
-CreepSoldier.prototype.act = function() {
+CreepAttackSoldier.prototype.act = function() {
 
     if(this.attackHostiles()) { return; }
     if(this.attackSpawns()) { return; }
@@ -22,7 +16,7 @@ CreepSoldier.prototype.act = function() {
 
     this.creep.moveTo(18,33);
 };
-CreepSoldier.prototype.attackHostiles = function() {
+CreepAttackSoldier.prototype.attackHostiles = function() {
     var targets = this.creep.room.find(FIND_HOSTILE_CREEPS);
     if(targets.length) {
         this.creep.moveTo(targets[1]);
@@ -30,7 +24,7 @@ CreepSoldier.prototype.attackHostiles = function() {
         return true;
     }
 };
-CreepSoldier.prototype.attackSpawns = function() {
+CreepAttackSoldier.prototype.attackSpawns = function() {
     var targets = this.creep.room.find(FIND_HOSTILE_SPAWNS);
     if(targets.length) {
         var rangedTargets = this.creep.pos.findInRange(FIND_HOSTILE_SPAWNS, 3);
@@ -44,9 +38,9 @@ CreepSoldier.prototype.attackSpawns = function() {
     }
 };
 
-CreepSoldier.prototype.moveToNewRoom = function() {
+CreepAttackSoldier.prototype.moveToNewRoom = function() {
     var targetRoom = this.creep.memory.targetRoom;
-    var srcRoom = this.creep.memory.srcRoom;
+    var homeRoom = this.creep.memory.homeRoom;
 
     if(targetRoom) {
         if(targetRoom != this.creep.room.name) {
@@ -56,8 +50,7 @@ CreepSoldier.prototype.moveToNewRoom = function() {
             return true;
         } else {
             this.creep.moveTo(30,30);
-            var targetRoom = false;
-            var srcRoom = this.creep.room.name;
+            targetRoom = false;
         }
     } else {
         return false;
@@ -65,4 +58,5 @@ CreepSoldier.prototype.moveToNewRoom = function() {
 
 };
 
-module.exports = CreepSoldier;
+
+module.exports = CreepAttackSoldier;

@@ -4,8 +4,7 @@
 "use strict";
 var CreepDictionary = require('CreepDictionary');
 var CreepFactory = require('CreepFactory');
-var Resources = require('Resources');
-var Deposits = require('Deposits');
+//var Deposits = require('Deposits');
 var CreepManager = require('CreepManager');
 var global = require('global');
 
@@ -15,26 +14,25 @@ var ROOM_MODE = {
 };
 
 
-function Room(room, roomHandler) {
+function SpawnManager(room, roomHandler) {
     this.room = room;
     this.roomHandler = roomHandler;
     this.creeps = [];
     this.mode = ROOM_MODE.NORMAL;
     //this.creepDictionary = new CreepDictionary(this.room.name);
-    this.depositManager = new Deposits(this.room);
-    this.resourceManager = new Resources(this.room, this.populationManager);
+    //this.depositManager = new Deposits(this.room);
     this.creepFactory = new CreepFactory(this.resourceManager, this.roomHandler);
     this.creepManager = CreepManager;
 
 }
 
-Room.prototype.isUnderAttack = function(){
+SpawnManager.prototype.isUnderAttack = function(){
     var enemyArray = this.room.find(FIND_HOSTILE_CREEPS);
     return enemyArray.length > 0;
 };
 
 
-Room.prototype.populate = function() {
+SpawnManager.prototype.populate = function() {
     //if(this.depositManager.spawns.length == 0 && this.populationManager.getTotalPopulation() < 10) {
     //    this.askForReinforcements()
     //}
@@ -46,8 +44,8 @@ Room.prototype.populate = function() {
         this.mode = ROOM_MODE.NORMAL;
     }
 
-    for(var i = 0; i < this.depositManager.spawns.length; i++) {
-        var spawn = this.depositManager.spawns[i];
+    for(var i = 0; i < this.room.availableSpawns().length; i++) {
+        var spawn = this.room.availableSpawns()[i];
         if(spawn.spawning) {continue;}
 
         if(this.mode === ROOM_MODE.UNDER_ATTACK){
@@ -62,7 +60,7 @@ Room.prototype.populate = function() {
 
             if(unitRoles[i] === 'CreepRemoteMiner' || unitRoles[i] === 'CreepRemoteCarrier'){
                                 var remoteMiningCreepCount = 0;
-                var flags = global.getRemoteMiningFlags();
+                var flags = global.getSourceFlags();
                 for(var j = 0; j < flags.length; j++){
                     //console.log('There are '+ this.creepManager.getCreepCount(flags[j].pos.roomName,unitRoles[i]) +' mining creeps in ' + flags[j].pos.roomName);
                     remoteMiningCreepCount += this.creepManager.getCreepCount(flags[j].pos.roomName,unitRoles[i]);
@@ -83,7 +81,7 @@ Room.prototype.populate = function() {
                     //TODO: find a way to pause energy consumers... for now...kill them all!
                     var energyConsumers = ['CreepBuilder','CreepCourier','CreepRoadMaintainer'];
                     for(var name in Game.creeps){
-                        if(name.memory.homeRoom === this.room && _.includes(energyConsumers,name)){
+                        if(Game.creeps[name].getHomeRoom() === this.room && _.includes(energyConsumers,name)){
                             Game.creeps[name].suicide();
                         }
 
@@ -102,7 +100,7 @@ Room.prototype.populate = function() {
 };
 
 
-Room.prototype.loadCreeps = function() {
+SpawnManager.prototype.loadCreeps = function() {
     var creeps = this.room.find(FIND_MY_CREEPS);
     for(var n in creeps) {
         var c = this.creepFactory.load(creeps[n]);
@@ -112,4 +110,4 @@ Room.prototype.loadCreeps = function() {
     }
 };
 
-module.exports = Room;
+module.exports = SpawnManager;

@@ -3,13 +3,13 @@ function CreepRampartDefender(creep) {
 }
 CreepRampartDefender.prototype.init = function () {
     this.creep.memory.role = 'CreepRampartDefender';
-    if (!this.creep.memory.srcRoom) {
-        this.creep.memory.srcRoom = this.creep.room.name;
+    if (!this.creep.memory.homeRoom) {
+        this.creep.memory.homeRoom = this.creep.room.name;
     }
     this.creep.memory.targetRoom = false;
-    if (this.moveToNewRoom() == true) {
-        return;
-    }
+    //if (this.moveToNewRoom() == true) {
+    //    return;
+    //}
     this.enemyArray = this.creep.room.find(FIND_HOSTILE_CREEPS);
     this.act();
 };
@@ -19,7 +19,7 @@ CreepRampartDefender.prototype.act = function () {
 
     if (this.creep.memory.assignedRampartId === undefined) {
         // find unassigned rampart
-        this.creep.memory.assignedRampartId = chooseRampart(creep, this.enemyArray);
+        this.creep.memory.assignedRampartId = chooseRampart(this.creep, this.enemyArray);
     }
 
     var assignedRampart = Game.getObjectById(this.creep.memory.assignedRampartId);

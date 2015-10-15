@@ -37,6 +37,9 @@ Creep.prototype.setHomeRoom = function(room) {
 };
 
 Creep.prototype.getHomeRoom = function() {
+    if(typeof this.memory.homeRoom === 'undefined'){
+        this.memory.homeRoom = this.room.name;
+    }
     return this.memory.homeRoom;
 };
 
@@ -50,8 +53,22 @@ Creep.prototype.getSpawn = function() {
 };
 
 
-Creep.prototype.getSources = function() {
-    return this.room.find(FIND_SOURCES);
+Creep.prototype.getSources = function(room) {
+    if (typeof room === 'undefined'){
+        room = this.room;
+        //console.log('getSources: room ' + room);
+    }
+
+    if(typeof room.memory.sources === 'undefined'){
+        room.memory.sources = [];
+        var roomSources = room.find(FIND_SOURCES);
+        for(var i in roomSources){
+            room.memory.sources.push(roomSources[i])
+        }
+
+    }
+
+    return room.memory.sources;
 };
 
 Creep.prototype.setSourceOccupant = function(sourceId){
@@ -70,8 +87,8 @@ Creep.prototype.setSourceOccupant = function(sourceId){
     return sourceId;
 };
 
-Creep.prototype.getRemoteMiningFlags = function(){
-    return global.getRemoteMiningFlags();
+Creep.prototype.getSourceFlags = function(){
+    return global.getSourceFlags();
 };
 
 Creep.prototype.transferToControllerLink = function (link) {
@@ -142,21 +159,21 @@ Creep.prototype.clearDeadCreeps = function(){
     }
 };
 
-Creep.prototype.moveToTargetRoomIfSet = function() {
+Creep.prototype.moveToTargetRoomIfSet = function(opts) {
     if (this.memory.targetRoom != undefined && this.memory.targetRoom != this.room.name && !this.spawning) {
         var exitDir = this.room.findExitTo(this.memory.targetRoom);
-        var exit = this.room.find(exitDir);
-        if (exit.length > 0) {
-            this.moveMeTo(exit[0]);
+        var exit = this.pos.findClosestByPath(exitDir);
+        if (exit) {
+            this.moveMeTo(exit,opts);
         }
     }
 };
-Creep.prototype.moveToHomeRoomIfSet = function() {
+Creep.prototype.moveToHomeRoomIfSet = function(opts) {
     if (this.memory.homeRoom != undefined && this.memory.homeRoom != this.room.name && !this.spawning) {
         var exitDir = this.room.findExitTo(this.memory.homeRoom);
-        var exit = this.room.find(exitDir);
-        if (exit.length > 0) {
-            this.moveMeTo(exit[0]);
+        var exit = this.pos.findClosestByPath(exitDir);
+        if (exit) {
+            this.moveMeTo(exit,opts);
         }
     }
 };
@@ -226,7 +243,7 @@ Creep.prototype.withdrawEnergy = function() {
         }
     }
     //if we still don't have a target and we don't have too many extensions, we'll borrow from the spawn
-    if (typeof target === 'undefined' && extensions.length < 1 && !hasStorage) {
+    if (typeof target === 'undefined' && _.filter(structures, {structureType: STRUCTURE_EXTENSION}).length < 1 && !hasStorage) {
         var spawns = _.filter(structures, {structureType: STRUCTURE_SPAWN});
         if (spawns.length){
             target = spawns[0];
@@ -241,6 +258,8 @@ Creep.prototype.withdrawEnergy = function() {
         this.memory.withdrawalSource = target.structureType;
         if(this.carry.energy === this.carryCapacity){this.memory.action = ACTION.CONSTRUCTION;}
     }
+
+    return target;
 };
 
 Creep.prototype.depositEnergy = function() {
@@ -381,7 +400,9 @@ Creep.prototype.findEnergy = function(isTargetStorage, room){
         this.pickup(target);
 
     } else{
-        isTargetStorage = isTargetStorage || false;
+        if (typeof isTargetStorage === 'undefined'){
+            isTargetStorage = false;
+        }
         if(isTargetStorage === false){
             target = this.room.storage;
             if (target.store.energy > 0){
@@ -396,6 +417,42 @@ Creep.prototype.findEnergy = function(isTargetStorage, room){
     //profiler.showProfiles();
     return target;
     //}
+};
+
+Creep.prototype.assignSourceOccupant = function(room){
+    if (typeof room === 'undefined'){
+        room = this.room;
+    }else{
+        room = Game.rooms[room]; //@TODO when we pass in the room, its actually the roomName (TODO clean that up)
+    }
+    //console.log(room);
+    var sourceFlags = global.getSourceFlags();
+    for (flag in sourceFlags){
+        if(sourceFlags[flag].creepsByRole(this.getRole()) === 0){
+            sourceFlags[flag].assignCreep(this);
+            break;
+        }
+    }
+
+
+    var sources = this.getSources(room);
+    var bestSourceIndex = 0;
+    var bestSourceOccupancy = 99;
+
+
+    if (sources.length > 0){
+        for (var i in sources){
+            var sourceOccupants = this.getSourceOccupants(sources[i].id);
+            console.log('sourceOccupants.length: ' + sourceOccupants.length);
+            if(sourceOccupants && sourceOccupants.length < bestSourceOccupancy){
+                bestSourceIndex = i;
+                bestSourceOccupancy = sourceOccupants.length;
+            }
+        }
+        return this.setSourceOccupant(sources[bestSourceIndex].id, this)
+    }else{
+        return ERR_NOT_FOUND;
+    }
 };
 
 

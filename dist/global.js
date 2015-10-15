@@ -8,8 +8,10 @@ module.exports = {
         if (Memory.assignedMines === undefined) Memory.assignedMines = {};
         if (Memory.assignedMines[room] === undefined) Memory.assignedMines[room] = {};
     },
-    getRemoteMiningFlags: function(){
-    return _.filter(Game.flags, {color: COLOR_BLUE});
+    getSourceFlags: function(){
+    return _.filter(Game.flags, function(flag){
+        return flag.name.substring(0,3) === 'src';
+    });
     },
     initSpawn: function (spawn) {
         Memory.spawns[spawn] = {};

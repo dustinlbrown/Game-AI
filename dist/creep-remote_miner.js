@@ -6,21 +6,20 @@
  * var mod = require('miner'); // -> 'a thing'
  */
 
-function CreepRemoteMiner(creep,resources, room){
+function CreepRemoteMiner(creep, room){
     this.creep = creep;
-    this.resourceManager = resources;
     this.room = room;
 }
 
 CreepRemoteMiner.prototype.init = function() {
     this.creep.memory.role = 'CreepRemoteMiner';
     if (this.creep.getTargetRoom() === undefined){
-        setTargetRoom(this.creep, this.resourceManager);
+        setTargetRoom(this.creep);
     }
 
     if(!this.creep.memory.hasOwnProperty('targetSourceId') && this.creep.room.name === this.creep.getTargetRoom()){
         console.log(this.creep.name);
-        this.creep.memory.targetSourceId = this.resourceManager.assignSourceOccupant(this.creep,this.creep.getTargetRoom()); //TODO is this the right place for this?
+        this.creep.memory.targetSourceId = this.creep.assignSourceOccupant(this.creep,this.creep.getTargetRoom()); //TODO is this the right place for this?
         console.log(this.creep.name + ' ' + Game.getObjectById(this.creep.memory.targetSourceId));
     }
 
@@ -31,7 +30,7 @@ CreepRemoteMiner.prototype.init = function() {
 
 CreepRemoteMiner.prototype.act = function(){
     if (this.creep.room.name !== this.creep.getTargetRoom()){
-        this.creep.moveToTargetRoomIfSet();
+        this.creep.moveToTargetRoomIfSet({reusePath:20});
         return;
     }
 
@@ -41,7 +40,7 @@ CreepRemoteMiner.prototype.act = function(){
 };
 
 //TODO clean this up so it'll work for multiple rooms
-function setTargetRoom(creep, resourcemgr){
+function setTargetRoom(creep){
 
     var miningFlags = _.filter(Game.flags, {color: COLOR_BLUE});
     //for each flag
@@ -56,7 +55,7 @@ function setTargetRoom(creep, resourcemgr){
             break;
         }
 
-        var sources = resourcemgr.getRemoteSources(room);
+        var sources = creep.getSources(room);
 
         for (var i in sources){
             if(sources[i].CreepRemoteMinerId === undefined){
