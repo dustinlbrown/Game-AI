@@ -48,12 +48,28 @@ Flag.prototype.minerCountMax = function(value) {
 Flag.prototype.carrierCountMax = function(value) {
 
     if(this.memory.carrier_count_max === undefined){
-        this.memory.carrier_count_max = 3;
+        this.memory.carrier_count_max = 2;
     }
     if (value !== undefined) {
         this.memory.carrier_count_max = value;
     }
     return this.memory.carrier_count_max;
+};
+
+Flag.prototype.creepIdsByRole = function(role){
+    if(typeof this.memory.occupants === 'undefined'){
+        this.memory.occupants = {};
+        this.memory.occupants[role] = [];
+        return undefined;
+    }
+    if(typeof this.memory.occupants[role] === 'undefined'){
+        this.memory.occupants[role] = [];
+        return undefined;
+    }
+
+    this.unassignDeadCreeps();
+
+    return this.memory.occupants[role]
 };
 
 Flag.prototype.creepsByRole = function(role){

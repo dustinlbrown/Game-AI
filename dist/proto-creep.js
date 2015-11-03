@@ -1,3 +1,4 @@
+"use strict";
 var global = require('global');
 var profiler = require('util-profiler');
 //Energy Related Functions
@@ -183,7 +184,7 @@ Creep.prototype.moveMeTo = function(object, opts) {
 
     if (ret == ERR_NO_PATH) {
         var builders = this.pos.findInRange(FIND_MY_CREEPS, 1, {
-            filter: function (c) { return ( c.memory.role=='CreepBuilder' || c.memory.role=='CreepCourier'); }
+            filter: function (c) { return ( c.memory.role=='CreepCarrier' || c.memory.role=='CreepBuilder'); }
         });
         if (builders.length > 0) {
             var builder = Math.floor(Math.random()*builders.length);
@@ -423,14 +424,52 @@ Creep.prototype.assignFlag = function(){
 
     //console.log(room);
     var sourceFlags = global.getSourceFlags();
-    for (flag in sourceFlags){
-        //TODO TEMPORARY FIX
-        if(sourceFlags[flag].creepsByRole('CreepMiner') === 0  && sourceFlags[flag].creepsByRole('CreepRemoteMiner') === 0){
-            this.memory.targetFlag = sourceFlags[flag].assignCreep(this);
-            this.memory.targetRoom = sourceFlags[flag].pos.roomName;
-            break;
+    var minerRoles = ['CreepMiner','CreepRemoteMiner'];
+    var carrierRoles = ['CreepCarrier', 'CreepRemoteCarrier'];
+//TODO Make this repeating loop more efficient
+    if(_.includes(minerRoles,this.getRole())) {
+        for (let flag in sourceFlags) {
+            //TODO TEMPORARY FIX
+            if (sourceFlags[flag].creepsByRole('CreepMiner') === 0 && sourceFlags[flag].creepsByRole('CreepRemoteMiner') === 0) {
+                this.memory.targetFlag = sourceFlags[flag].assignCreep(this);
+                this.memory.targetRoom = sourceFlags[flag].pos.roomName;
+                return sourceFlags[flag];
+            }
         }
     }
+    if(_.includes(carrierRoles,this.getRole())){
+        //TODO find a way to base this count of distance
+        //TODO ADD THIS...just think about it more!
+        //TODO    && sourceFlags[flag].maxCarrierCount <= carrierCount
+
+        for (let flag in sourceFlags) {
+            let carrierCount = sourceFlags[flag].creepsByRole('CreepCarrier') + sourceFlags[flag].creepsByRole('CreepRemoteCarrier');
+            if(carrierCount < 1 && carrierCount <= sourceFlags[flag].maxCarrierCount){
+                this.memory.targetFlag = sourceFlags[flag].assignCreep(this);
+                this.memory.targetRoom = sourceFlags[flag].pos.roomName;
+                return sourceFlags[flag];
+            }
+        }
+        for (let flag in sourceFlags) {
+            let carrierCount = sourceFlags[flag].creepsByRole('CreepCarrier') + sourceFlags[flag].creepsByRole('CreepRemoteCarrier');
+            //TODO find a way to base this count of distance
+            if(carrierCount < 2){
+                this.memory.targetFlag = sourceFlags[flag].assignCreep(this);
+                this.memory.targetRoom = sourceFlags[flag].pos.roomName;
+                return sourceFlags[flag];
+            }
+        }
+        for (let flag in sourceFlags) {
+            let carrierCount = sourceFlags[flag].creepsByRole('CreepCarrier') + sourceFlags[flag].creepsByRole('CreepRemoteCarrier');
+            //TODO find a way to base this count of distance
+            if(carrierCount < 3){
+                this.memory.targetFlag = sourceFlags[flag].assignCreep(this);
+                this.memory.targetRoom = sourceFlags[flag].pos.roomName;
+                return sourceFlags[flag];
+            }
+        }
+    }
+
 
 };
 

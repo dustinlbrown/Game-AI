@@ -17,7 +17,7 @@ CreepMiner.prototype.init = function() {
     this.creep.memory.role = 'CreepMiner';
     if(!this.creep.memory.hasOwnProperty('targetFlag')){
         this.creep.assignFlag();
-        console.log(this.creep.name + ' ' + Game.getObjectById(this.creep.memory.targetSourceId));
+        //console.log(this.creep.name + ' ' + Game.getObjectById(this.creep.memory.targetSourceId));
     }
 
     if(!this.creep.memory.hasOwnProperty('targetSource') && this.creep.room.name === this.creep.getTargetRoom()){
@@ -39,7 +39,7 @@ CreepMiner.prototype.act = function(){
 
 
     //console.log(this.creep.memory.targetSourceId);
-    this.creep.moveTo(Game.getObjectById(this.creep.memory.targetSource));
+    this.creep.moveMeTo(Game.getObjectById(this.creep.memory.targetSource));
     if(this.creep.getHomeRoom() === this.creep.getTargetRoom() && this.creep.carry.energy === this.creep.carryCapacity){
         //TODO store neartolink in creep memory
         var link = this.creep.getNearToLink();

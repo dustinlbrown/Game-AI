@@ -45,7 +45,7 @@ function logAverageCpu() {
 
     if(Game.time % 100 === 0){
         //console.log(Game.getUsedCpu());
-        console.log("Current CPU: " + currentCpu + "/" + Game.cpuLimit + "  |  Average CPU (50 ticks): " + averageCpu + "  |  Change: " + (averageCpu - parseFloat(Memory.utils.averageCpu)) );
+        console.log("Current CPU: " + currentCpu + "/" + Game.cpuLimit + "  |  Average CPU (100 ticks): " + averageCpu + "  |  Change: " + (averageCpu - parseFloat(Memory.utils.averageCpu)) );
         Memory.utils.averageCpu = averageCpu;
     }
 }

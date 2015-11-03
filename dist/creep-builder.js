@@ -9,8 +9,8 @@ var ACTIONS = {
 };
 
 var CONST = {
-    RAMPART_MAX: 5000000,
-    WALL_MAX: 5000000
+    RAMPART_MAX: 10000000,
+    WALL_MAX: 20000000
 };
 
 var CreepBuilder = function (creep) {

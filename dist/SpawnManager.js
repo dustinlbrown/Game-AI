@@ -57,15 +57,44 @@ SpawnManager.prototype.populate = function() {
 
         for(var i in unitRoles){
             var neededCreeps = this.creepManager.getNumOfNeededCreep(this.room,unitRoles[i]);
-
-            if(unitRoles[i] === 'CreepRemoteMiner' || unitRoles[i] === 'CreepRemoteCarrier'){
-                                var remoteMiningCreepCount = 0;
+//TODO refactor this to use Game.creeps object.  If we're managing the memory we shouldn't need to search like this.
+            var remoteCreepTypes = ['CreepRemoteMiner','CreepRemoteCarrier','CreepCarrier','CreepMiner'];
+            var miningTypes = ['CreepRemoteMiner','CreepMiner'];
+            var carryingTypes = ['CreepRemoteCarrier','CreepCarrier'];
+            if(_.includes(remoteCreepTypes,unitRoles[i])){
+                var totalRequiredCreeps = 0;
+                var remoteMiningCreepCount = 0;
                 var flags = global.getSourceFlags();
                 for(var j = 0; j < flags.length; j++){
                     //console.log('There are '+ this.creepManager.getCreepCount(flags[j].pos.roomName,unitRoles[i]) +' mining creeps in ' + flags[j].pos.roomName);
-                    remoteMiningCreepCount += this.creepManager.getCreepCount(flags[j].pos.roomName,unitRoles[i]);
+                    //remoteMiningCreepCount += this.creepManager.getCreepCount(flags[j].pos.roomName,unitRoles[i]);
+                   if(_.includes(miningTypes,unitRoles[i])) {
+                       for (let type in miningTypes) {
+                           remoteMiningCreepCount += flags[j].creepsByRole(miningTypes[type]);
+                       }
+                   }else if(_.includes(carryingTypes,unitRoles[i])) {
+                       for (let type in carryingTypes) {
+                           remoteMiningCreepCount += flags[j].creepsByRole(carryingTypes[type]);
+                       }
+                   }
                 }
-                neededCreeps = this.creepManager.getNumOfNeededCreep(this.room,unitRoles[i]) - remoteMiningCreepCount;
+
+                if(_.includes(miningTypes,unitRoles[i])) {
+                    for (let type in miningTypes) {
+                        totalRequiredCreeps += CreepDictionary.getTargetCount(this.room.name,miningTypes[type])
+                    }
+                }
+                if(_.includes(carryingTypes,unitRoles[i])) {
+                    for (let type in carryingTypes) {
+                        totalRequiredCreeps += CreepDictionary.getTargetCount(this.room.name,carryingTypes[type])
+                    }
+                }
+
+                //console.log('unitRoles ' + unitRoles[i]);
+                //console.log('total required ' + totalRequiredCreeps );
+                //console.log('remote creeps found ' + remoteMiningCreepCount);
+
+                neededCreeps = totalRequiredCreeps - remoteMiningCreepCount;
 
                 if(this.room.controller.level < 3){
                     neededCreeps = 0;
@@ -73,20 +102,20 @@ SpawnManager.prototype.populate = function() {
             }
 
             if (neededCreeps > 0) {
-                if( //Safety switch!
-                    (unitRoles[i] === 'CreepCarrier' && neededCreeps === Memory.rooms[this.room.name].unitDictionary[unitRoles[i]].targetCount)
-                    || (unitRoles[i]=== 'CreepMiner' && neededCreeps === Memory.rooms[this.room.name].unitDictionary[unitRoles[i]].targetCount)
-                ){
-                    console.log('EMERGENCY: room about to die...killing energy consumers');
-                    //TODO: find a way to pause energy consumers... for now...kill them all!
-                    var energyConsumers = ['CreepBuilder','CreepCourier','CreepRoadMaintainer'];
-                    for(var name in Game.creeps){
-                        if(Game.creeps[name].getHomeRoom() === this.room && _.includes(energyConsumers,name)){
-                            Game.creeps[name].suicide();
-                        }
-
-                    }
-                }
+                //if( //Safety switch!
+                //    (unitRoles[i] === 'CreepCarrier' && neededCreeps === Memory.rooms[this.room.name].unitDictionary[unitRoles[i]].targetCount)
+                //    || (unitRoles[i]=== 'CreepMiner' && neededCreeps === Memory.rooms[this.room.name].unitDictionary[unitRoles[i]].targetCount)
+                //){
+                //    console.log('EMERGENCY: room about to die...killing energy consumers');
+                //    //TODO: find a way to pause energy consumers... for now...kill them all!
+                //    var energyConsumers = ['CreepBuilder','CreepCourier','CreepRoadMaintainer'];
+                //    for(var name in Game.creeps){
+                //        if(Game.creeps[name].getHomeRoom() === this.room && _.includes(energyConsumers,name)){
+                //            Game.creeps[name].suicide();
+                //        }
+                //
+                //    }
+                //}
 
                 spawn.spawnCreep(unitRoles[i]);
                 break;
